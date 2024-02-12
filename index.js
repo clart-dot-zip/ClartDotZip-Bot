@@ -12,10 +12,10 @@ let status = [
 			type: ActivityType.Game,
 			name: 'Gnomeregan',
 			state: 'Killing Mekgineer Thermaplugg',
-			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations. Recently, a hostile race of mutant troggs infested several regions of Dun Morogh - including the great gnome city.',
+			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
 			createdTimestamp: Date.now(),
 			assets: [{
-				largeImage: 'discord-icon',
+				largeImage: '1206429935611150356',
 				largeText: 'Gnomeregan',
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
