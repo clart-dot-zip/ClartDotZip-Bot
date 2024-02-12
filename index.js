@@ -8,7 +8,7 @@ const client = new Client({
 	presence: {
 		status: 'dnd',
 		activities: [{
-			type: 1,
+			type: 2,
 			name: 'Gnomeregan',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
 			state: 'Killing Mekgineer Thermaplugg',
