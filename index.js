@@ -29,5 +29,5 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	client.user.setPresence(status[0]);
+	client.user.setPresence("Fighting For", status[0]);
 })
