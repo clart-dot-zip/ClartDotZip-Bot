@@ -14,7 +14,7 @@ const client = new Client({
 			state: 'Killing Mekgineer Thermaplugg',
 			createdTimestamp: Date.now(),
 			assets: [{
-				largeImage: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
+				largeImage: '1206441092895998013',
 				largeText: 'Gnomeregan',
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
