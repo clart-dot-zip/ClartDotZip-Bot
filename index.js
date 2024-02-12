@@ -15,7 +15,8 @@ const client = new Client({
 			state: 'Killing Mekgineer Thermaplugg',
 			createdTimestamp: Date.now(),
 			timestamps: {
-				start: Date.now()
+				start: Date.now(),
+				end: Date.now() + 5184000
 			},
 			assets: {
 				large_image: 'https://media.discordapp.net/1206441092895998013.png',
