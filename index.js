@@ -15,7 +15,7 @@ let status = [
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
 			createdTimestamp: Date.now(),
 			assets: [{
-				largeImage: '1206429935611150356',
+				largeImage: 'https://cdn.discordapp.com/attachments/426766656174555147/1206429935611150356/81140-gnomeregan.jpg?ex=65dbfa6f&is=65c9856f&hm=def8012ae2d575dd0624d5e3297c37158cf96bff7234c3b05e00831801465051&',
 				largeText: 'Gnomeregan',
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
