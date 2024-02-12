@@ -42,3 +42,13 @@ client.login(token);
 client.on('ready', async () => {
 	console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 })
+
+client.on("messageCreate", (message) => {
+    if (message.author.bot) return false;
+
+    if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "REPLY") return false;
+
+    if (message.mentions.has(client.user.id)) {
+        message.channel.send("Hello there!");
+    }
+});
