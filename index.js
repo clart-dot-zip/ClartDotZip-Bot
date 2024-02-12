@@ -33,5 +33,5 @@ client.login(token);
 
 client.on('ready', async () => {
 	client.user.setActivity(activity[0]);
-	console.log(`Activity ${client.user.activity}`)
+	console.log(`Activity ${client.user.activity.details}`)
 })
