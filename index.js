@@ -13,7 +13,7 @@ let status = [
 			name: 'Gnomeregan',
 			state: 'Killing Mekgineer Thermaplugg',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations. Recently, a hostile race of mutant troggs infested several regions of Dun Morogh - including the great gnome city.',
-			timestamps: {start: Date.now()}
+			timestamps: [{start: Date.now()}]
 		}],
 	}
 ]
