@@ -36,4 +36,5 @@ client.login(token);
 
 client.on('ready', async () => {
 	client.user.setPresence(status[0]);
+	console.log(`Activity ${client.user.activity}`)
 })
