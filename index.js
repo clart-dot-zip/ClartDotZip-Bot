@@ -8,7 +8,7 @@ const client = new Client({
 	presence: {
 		status: 'dnd',
 		activities: [{
-			applicationId: '356875762940379136',
+			application: '356875762940379136',
 			type: 0,
 			name: 'Gnomeregan',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
