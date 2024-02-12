@@ -8,14 +8,14 @@ const client = new Client({
 	presence: {
 		status: 'dnd',
 		activities: [{
-			//applicationID: '1206385637603938314',
+			applicationId: '1206385637603938314',
 			type: 0,
 			name: 'Gnomeregan',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
 			state: 'Killing Mekgineer Thermaplugg',
 			createdTimestamp: Date.now(),
 			assets: [{
-				largeImage: '1206441092895998013',
+				largeImage: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
 				largeText: 'Gnomeregan',
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
