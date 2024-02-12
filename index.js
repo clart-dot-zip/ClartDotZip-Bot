@@ -16,7 +16,7 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	client.user.setPrsence({
+	client.user.setPresence({
 		status: 'away',
 		activity: {
 			name: 'Testing',
