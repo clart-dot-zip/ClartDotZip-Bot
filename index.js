@@ -7,20 +7,20 @@ const client = new Client({
 	intents: [GatewayIntentBits.Guilds],
 	presence: {
 		status: 'dnd',
-		activities: [{
+		activities: {
 			applicationID: '1206385637603938314',
 			type: 0,
 			name: 'Gnomeregan',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
 			state: 'Killing Mekgineer Thermaplugg',
 			createdTimestamp: Date.now(),
-			assets: [{
+			assets: {
 				largeImage: '1206441092895998013',
 				largeText: 'Gnomeregan',
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
-			}]
-		}],
+			}
+		},
 	}
 });
 
