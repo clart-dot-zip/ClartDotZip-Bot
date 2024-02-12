@@ -10,7 +10,7 @@ let status = [
 		activities: [{
 			type: ActivityType.Custom,
 			name: 'custom',
-			state: ':robot:'
+			state: '🤖 Fighting For Gnomeregan'
 		}],
 		name: 'Gnomeregan',
 		details: 'Testing',
