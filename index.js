@@ -8,7 +8,7 @@ const client = new Client({
 	presence: [{
 		status: 'dnd',
 		activities: [{
-			applicationID: '1206385637603938314',
+			//applicationID: '1206385637603938314',
 			type: 0,
 			name: 'Gnomeregan',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
@@ -35,5 +35,5 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	console.log(`Activity ${client.user.presence}`)
+	console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 })
