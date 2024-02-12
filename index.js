@@ -1,9 +1,22 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+let status = [
+	{
+		activities: [{
+			type: ActivityType.Custom,
+			name: 'custom',
+			state: '🤖'
+		}],
+		name: 'Gnomeregan',
+		details: 'Testing',
+		startTimestamp: Date.now(),
+	}
+]
 
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
@@ -16,24 +29,5 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	client.user.setPresence({
-		status: 'away',
-		activity: {
-			name: 'Testing',
-			details: 'Testing',
-			state: 'beep boop uwu',
-			startTimestamp: Date.now(),
-			largeImageKey: 'discord-icon',
-			largeImageText: 'test',
-			smallImageKey: 'discord-icon',
-			smallImageText: 'test',
-			instance: false,
-			buttons: [
-				{
-					label: 'hahaha',
-					url: 'https://clart.zip'
-				}
-			]
-		}
-	});
+	client.user.setPresence(status[1]);
 })
