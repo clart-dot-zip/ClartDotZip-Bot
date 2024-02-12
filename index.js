@@ -3,23 +3,24 @@ const { Client, Events, GatewayIntentBits, ActivityType } = require('discord.js'
 const { token } = require('./config.json');
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-let activity = [
-	{
-		type: ActivityType.Game,
-		name: 'Gnomeregan',
-		details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
-		state: 'Killing Mekgineer Thermaplugg',
-		createdTimestamp: Date.now(),
-		assets: [{
-			largeImage: 'https://cdn.discordapp.com/attachments/426766656174555147/1206429935611150356/81140-gnomeregan.jpg?ex=65dbfa6f&is=65c9856f&hm=def8012ae2d575dd0624d5e3297c37158cf96bff7234c3b05e00831801465051&',
-			largeText: 'Gnomeregan',
-			smallImage: 'discord-icon',
-			smallText: 'Gnomeregan'
-		}]
+const client = new Client({ 
+	intents: [GatewayIntentBits.Guilds],
+	presence: {
+		activities: [{
+			type: 0,
+			name: 'Gnomeregan',
+			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
+			state: 'Killing Mekgineer Thermaplugg',
+			createdTimestamp: Date.now(),
+			assets: [{
+				largeImage: 'https://cdn.discordapp.com/attachments/426766656174555147/1206429935611150356/81140-gnomeregan.jpg?ex=65dbfa6f&is=65c9856f&hm=def8012ae2d575dd0624d5e3297c37158cf96bff7234c3b05e00831801465051&',
+				largeText: 'Gnomeregan',
+				smallImage: 'discord-icon',
+				smallText: 'Gnomeregan'
+			}]
+		}],
 	}
-]
+});
 
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
@@ -32,6 +33,5 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	client.user.setActivity(activity[0]);
 	console.log(`Activity ${JSON.stringify(client.user.Activity)}`)
 })
