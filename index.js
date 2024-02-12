@@ -16,9 +16,9 @@ const client = new Client({
 			createdTimestamp: Date.now(),
 			assets: {
 				large_image: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
-				largeText: 'Gnomeregan',
+				large_text: 'Gnomeregan',
 				small_image: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
-				smallText: 'Gnomeregan'
+				small_text: 'Gnomeregan'
 			}
 		}],
 	}
