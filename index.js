@@ -6,6 +6,7 @@ const { token } = require('./config.json');
 const client = new Client({ 
 	intents: [GatewayIntentBits.Guilds],
 	presence: {
+		status: 'dnd',
 		activities: [{
 			type: 0,
 			name: 'Gnomeregan',
@@ -13,7 +14,7 @@ const client = new Client({
 			state: 'Killing Mekgineer Thermaplugg',
 			createdTimestamp: Date.now(),
 			assets: [{
-				largeImage: 'https://cdn.discordapp.com/attachments/426766656174555147/1206429935611150356/81140-gnomeregan.jpg?ex=65dbfa6f&is=65c9856f&hm=def8012ae2d575dd0624d5e3297c37158cf96bff7234c3b05e00831801465051&',
+				largeImage: 'https://cdn.discordapp.com/attachments/426766656174555147/1206429935611150356/81140-gnomeregan.jpg?ex=65dbfa6f&is=65c9856f&hm=def8012ae2d575dd0624d5e3297c37158cf96bff7234c3b05e00831801465051',
 				largeText: 'Gnomeregan',
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
