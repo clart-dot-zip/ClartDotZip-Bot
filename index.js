@@ -16,21 +16,24 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	client.user.setActivity({
-		name: 'Testing',
-		details: 'Testing',
-		state: 'beep boop uwu',
-		startTimestamp: Date.now(),
-		largeImageKey: 'discord-icon',
-		largeImageText: 'test',
-		smallImageKey: 'discord-icon',
-		smallImageText: 'test',
-		instance: false,
-		buttons: [
-			{
-				label: 'hahaha',
-				url: 'https://clart.zip'
-			}
-		]
+	client.user.setPrsence({
+		status: 'away',
+		activity: {
+			name: 'Testing',
+			details: 'Testing',
+			state: 'beep boop uwu',
+			startTimestamp: Date.now(),
+			largeImageKey: 'discord-icon',
+			largeImageText: 'test',
+			smallImageKey: 'discord-icon',
+			smallImageText: 'test',
+			instance: false,
+			buttons: [
+				{
+					label: 'hahaha',
+					url: 'https://clart.zip'
+				}
+			]
+		}
 	});
 })
