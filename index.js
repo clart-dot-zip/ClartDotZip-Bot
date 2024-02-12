@@ -17,7 +17,7 @@ const client = new Client({
 			assets: {
 				large_image: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
 				largeText: 'Gnomeregan',
-				smallImage: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
+				small_image: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
 				smallText: 'Gnomeregan'
 			}
 		}],
