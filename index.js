@@ -23,7 +23,8 @@ const client = new Client({
 				large_text: 'Gnomeregan',
 				small_image: 'https://cdn.discordapp.com/app-assets/1206385637603938314/1206441092895998013.png',
 				small_text: 'Gnomeregan'
-			}
+			},
+			emoji: '🤖'
 		}],
 	}
 });
