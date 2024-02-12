@@ -14,3 +14,22 @@ client.once(Events.ClientReady, readyClient => {
 
 // Log in to Discord with your client's token
 client.login(token);
+
+client.on('ready', async () => {
+	client.setActivity({
+		details: 'Testing',
+		state: 'beep boop uwu',
+		startTimestamp: Date.now(),
+		largeImageKey: 'discord-icon',
+		largeImageText: 'test',
+		smallImageKey: 'discord-icon',
+		smallImageText: 'test',
+		instance: false,
+		buttons: [
+			{
+				label: 'hahaha',
+				url: 'https://clart.zip'
+			}
+		]
+	});
+})
