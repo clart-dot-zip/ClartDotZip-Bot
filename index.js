@@ -7,13 +7,14 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 let status = [
 	{
+		status: 'idle',
 		activities: [{
 			type: ActivityType.Custom,
 			name: 'custom',
-			state: '🤖 Fighting For Gnomeregan'
+			state: '🤖 Fighting For Gnomeregan',
+			details: 'Testing',
 		}],
 		name: 'Gnomeregan',
-		details: 'Testing',
 		startTimestamp: Date.now(),
 	}
 ]
