@@ -14,12 +14,12 @@ const client = new Client({
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
 			state: 'Killing Mekgineer Thermaplugg',
 			createdTimestamp: Date.now(),
-			assets: [{
+			assets: {
 				large_image: '1206441092895998013',
 				largeText: 'Gnomeregan',
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
-			}]
+			}
 		}],
 	}
 });
