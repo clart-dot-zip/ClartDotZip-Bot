@@ -5,9 +5,9 @@ const { token } = require('./config.json');
 // Create a new client instance
 const client = new Client({ 
 	intents: [GatewayIntentBits.Guilds],
-	presence: {
+	presence: [{
 		status: 'dnd',
-		activities: {
+		activities: [{
 			applicationID: '1206385637603938314',
 			type: 0,
 			name: 'Gnomeregan',
@@ -20,8 +20,8 @@ const client = new Client({
 				smallImage: 'discord-icon',
 				smallText: 'Gnomeregan'
 			}
-		},
-	}
+		}],
+	}]
 });
 
 // When the client is ready, run this code (only once).
