@@ -17,6 +17,7 @@ client.login(token);
 
 client.on('ready', async () => {
 	client.user.setActivity({
+		name: 'Testing',
 		details: 'Testing',
 		state: 'beep boop uwu',
 		startTimestamp: Date.now(),
