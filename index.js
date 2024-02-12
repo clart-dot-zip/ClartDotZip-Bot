@@ -9,7 +9,7 @@ let status = [
 	{
 		status: 'idle',
 		activities: [{
-			type: ActivityType.Playing,
+			type: ActivityType.Game,
 			name: 'custom',
 			state: '🤖 Fighting For Gnomeregan',
 			details: 'Testing',
