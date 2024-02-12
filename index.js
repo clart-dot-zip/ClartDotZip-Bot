@@ -35,5 +35,5 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	console.log(`Activity ${client.user.Activity.activityID}`)
+	console.log(`Activity ${client.user.presence}`)
 })
