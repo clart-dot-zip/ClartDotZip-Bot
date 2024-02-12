@@ -7,15 +7,14 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 let status = [
 	{
-		status: 'idle',
+		status: 'dnd',
 		activities: [{
 			type: ActivityType.Game,
-			name: 'custom',
-			state: '🤖 Fighting For Gnomeregan',
-			details: 'Testing',
+			name: 'Gnomeregan',
+			state: 'Killing Mekgineer Thermaplugg',
+			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations. Recently, a hostile race of mutant troggs infested several regions of Dun Morogh - including the great gnome city.',
+			timestamps: {start: Date.now()}
 		}],
-		name: 'Gnomeregan',
-		startTimestamp: Date.now(),
 	}
 ]
 
