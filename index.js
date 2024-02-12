@@ -9,7 +9,7 @@ let status = [
 	{
 		status: 'dnd',
 		activities: [{
-			type: ActivityType.Game,
+			type: ActivityType.Playing,
 			name: 'Gnomeregan',
 			state: 'Killing Mekgineer Thermaplugg',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
