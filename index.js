@@ -16,7 +16,7 @@ client.once(Events.ClientReady, readyClient => {
 client.login(token);
 
 client.on('ready', async () => {
-	client.setActivity({
+	client.user.setActivity({
 		details: 'Testing',
 		state: 'beep boop uwu',
 		startTimestamp: Date.now(),
