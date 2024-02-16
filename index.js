@@ -4,9 +4,20 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const blizzard = require('blizzard.js');
 const { token, wowClientId, wowSecret } = require('./config.json');
-//const BnetStrategy = require('passport-bnet').Strategy;
-//const BNET_ID = wowClientId;
-//const BNET_SECRET = wowSecret;
+const BnetStrategy = require('passport-bnet').Strategy;
+const BNET_ID = wowClientId;
+const BNET_SECRET = wowSecret;
+const pogtoken = '';
+
+passport.use(new BnetStrategy({
+    clientID: BNET_ID,
+    clientSecret: BNET_SECRET,
+    callbackURL: "https://localhost:3000/oauth/battlenet/callback",
+    region: "eu"
+}, function(accessToken, refreshToken, profile, done) {
+	pogtoken = accessToken;
+    return done(null, profile);
+}));
 
 // Create a new client instance
 const client = new Client({ 
@@ -67,15 +78,16 @@ client.login(token);
 
 client.on('ready', async () => {
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
-	const wowClient = await blizzard.wow.createInstance(
+	/*const wowClient = await blizzard.wow.createInstance(
 		{
 			key: wowClientId,
 			secret: wowSecret,
 			origin: 'eu', // optional
 			locale: 'en_GB', // optional
 		}
-	)
-	console.log(`CUM ${wowClient.accountCharacterProfile(23, 1000)}`)
+	)*/
+	//console.log(`CUM ${wowClient.accountCharacterProfile(23, 1000)}`)
+	console.log(`[TOKEN] = ${pogtoken}`);
 })
 
 client.on(Events.InteractionCreate, async interaction => {
