@@ -8,7 +8,7 @@ module.exports = {
 		.setDescription('Lists information regarding a WoW character.'),
 	async execute(interaction) {
 
-        const api = new BlizzAPI(
+        /*const api = new BlizzAPI(
             {
                 region: "eu",
                 clientId: wowClientId,
@@ -16,7 +16,8 @@ module.exports = {
             }
         )
         const data = await api.query("path/to/endpoint");
-        console.log(data);
+        console.log(data);*/
+        console.log(BlizzAPI);
 		await interaction.reply(`uh oh`);
 	},
 };
