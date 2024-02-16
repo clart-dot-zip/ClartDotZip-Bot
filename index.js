@@ -4,6 +4,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const blizzard = require('blizzard.js');
 const { token, wowClientId, wowSecret } = require('./config.json');
+const passport = require('passport-bnet.js');
 const BnetStrategy = require('passport-bnet').Strategy;
 const BNET_ID = wowClientId;
 const BNET_SECRET = wowSecret;
