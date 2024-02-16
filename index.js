@@ -4,6 +4,9 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const blizzard = require('blizzard.js');
 const { token, wowClientId, wowSecret } = require('./config.json');
+//const BnetStrategy = require('passport-bnet').Strategy;
+//const BNET_ID = wowClientId;
+//const BNET_SECRET = wowSecret;
 
 // Create a new client instance
 const client = new Client({ 
@@ -70,10 +73,9 @@ client.on('ready', async () => {
 			secret: wowSecret,
 			origin: 'eu', // optional
 			locale: 'en_GB', // optional
-			token: '', // optional
 		}
 	)
-	console.log(`CUM ${wowClient.accountCharacterProfile(23, 1)}`)
+	console.log(`CUM ${wowClient.accountCharacterProfile(23, 1000)}`)
 })
 
 client.on(Events.InteractionCreate, async interaction => {
