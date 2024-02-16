@@ -2,8 +2,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
-const blizzard = require('blizzard.js');
-const { token, wowClientId, wowSecret } = require('./config.json');
+const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({ 
@@ -64,15 +63,6 @@ client.login(token);
 
 client.on('ready', async () => {
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
-	const wowClient = await blizzard.wow.createInstance(
-		{
-			key: wowClientId,
-			secret: wowSecret,
-			origin: 'eu', // optional
-			locale: 'en_GB', // optional
-		}
-	)
-	console.log(`CUM ${wowClient.accountCharacterProfile(536, 178097174)}`)
 })
 
 client.on(Events.InteractionCreate, async interaction => {
