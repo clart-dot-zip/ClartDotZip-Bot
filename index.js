@@ -2,7 +2,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
-const { blizzard } = require('blizzard.js');
+const blizzard = require('blizzard.js');
 const { token, wowClientId, wowSecret } = require('./config.json');
 
 // Create a new client instance
@@ -71,8 +71,7 @@ client.on('ready', async () => {
 			origin: 'eu', // optional
 			locale: 'en_GB', // optional
 			token: '', // optional
-		},
-		false,
+		}
 	)
 	console.log(`CUM ${wowClient.accountCharacterProfile(23, 1)}`)
 })
