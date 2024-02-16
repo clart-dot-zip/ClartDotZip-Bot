@@ -66,8 +66,8 @@ client.on('ready', async () => {
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 	const wowClient = await blizzard.wow.createInstance(
 		{
-			key: '4fc1be8f21644382b90c13c7a4a8faf0',
-			secret: 'KDyZDznIVL41GbQnGnr325w2TbZRht15',
+			key: wowClientId,
+			secret: wowSecret,
 			origin: 'eu', // optional
 			locale: 'en_GB', // optional
 		}
