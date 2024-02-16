@@ -14,7 +14,7 @@ module.exports = {
             clientSecret: wowSecret,
         })
 
-        const data = await api.query("/profile/wow/character/argent-dawn/broccocoli");
+        const data = await api.query("/profile/wow/character/argent-dawn/broccocoli?namespace=profile-eu");
         console.log(data);
 		await interaction.reply(`uh oh`);
 	},
