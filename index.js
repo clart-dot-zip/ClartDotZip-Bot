@@ -64,12 +64,7 @@ client.login(token);
 
 client.on('ready', async () => {
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
-	const wowClient = await wow.createInstance(
-		{
-			key: wowClientId,
-			secret: wowSecret
-		}
-	)
+	const wowClient = await wow.createInstance();
 	console.log(`CUM ${wowClient.accountCharacterProfile(23, 1)}`)
 })
 
