@@ -12,6 +12,7 @@
   "author": "saftey1122@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "blizzard.js": "^4.5.0",
     "discord.js": "^14.14.1"
   }
 }
