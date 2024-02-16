@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { client } = require('discord.js');
+
 let totalSeconds = (client.uptime / 1000);
 let days = Math.floor(totalSeconds / 86400);
 totalSeconds %= 86400;
