@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const blizzard = require('blizzard.js');
+const BlizzAPI = require('blizzapi');
 const { wowClientId, wowSecret } = require('../../config.json');
 
 module.exports = {
@@ -8,16 +8,15 @@ module.exports = {
 		.setDescription('Lists information regarding a WoW character.'),
 	async execute(interaction) {
 
-        const wowClient = await blizzard.wow.createInstance(
+        const api = new BlizzAPI(
             {
-                key: wowClientId,
-                secret: wowSecret,
-                origin: 'eu', // optional
-                locale: 'en_GB', // optional
-                token: '', // optional
+                region: "eu",
+                clientId: wowClientId,
+                clientSecret: wowSecret,
             }
         )
-        console.log(`${wowClient.accountCharacterProfile(536, 178097174)}`)
+        const data = await api.query("path/to/endpoint");
+        console.log(data);
 		await interaction.reply(`uh oh`);
 	},
 };
