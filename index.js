@@ -32,13 +32,6 @@ const client = new Client({
 	}
 });
 
-const wowClient = await wow.createInstance(
-	{
-		key: wowClientId,
-		secret: wowSecret
-	}
-)
-
 client.commands = new Collection();
 
 const foldersPath = path.join(__dirname, 'commands');
@@ -71,6 +64,12 @@ client.login(token);
 
 client.on('ready', async () => {
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
+	const wowClient = await wow.createInstance(
+		{
+			key: wowClientId,
+			secret: wowSecret
+		}
+	)
 	console.log(`CUM ${wowClient.accountProfile()}`)
 })
 
