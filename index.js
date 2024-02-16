@@ -70,7 +70,7 @@ client.on('ready', async () => {
 			secret: wowSecret
 		}
 	)
-	console.log(`CUM ${wowClient.accountProfile()}`)
+	console.log(`CUM ${wowClient.accountCharacterProfile(23, 1)}`)
 })
 
 client.on(Events.InteractionCreate, async interaction => {
