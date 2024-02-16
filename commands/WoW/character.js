@@ -13,8 +13,8 @@ module.exports = {
             clientId: wowClientId,
             clientSecret: wowSecret,
         })
-        
-        const data = await api.query("path/to/endpoint");
+
+        const data = await api.query("/profile/wow/character/argentdawn/broccocoli");
         console.log(data);
 		await interaction.reply(`uh oh`);
 	},
