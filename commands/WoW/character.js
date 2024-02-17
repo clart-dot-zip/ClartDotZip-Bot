@@ -17,8 +17,9 @@ module.exports = {
 
     async execute(interaction) {
 
-        let charName = interaction.options.getString('charactername');
-        let realmName = interaction.options.getString('realm');
+        var charName = interaction.options.getString('charactername');
+        var realmName = interaction.options.getString('realm');
+        var response;
 
         const api = new BlizzAPI({
             region: "eu",
@@ -52,11 +53,16 @@ module.exports = {
         });
 
         api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
-            console.log(value);
+            response = value;
+            //console.log(value);
         }).catch(error => {
-            console.log("oopsies !");
+            response = 0;
         });
 
-        await interaction.reply(`uh oh`);
+        if (response == 0) {
+            await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
+        } else {
+            console.log(response);
+        }
     },
 };
