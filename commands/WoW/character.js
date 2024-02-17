@@ -20,6 +20,7 @@ module.exports = {
         var charName = interaction.options.getString('charactername');
         var realmName = interaction.options.getString('realm');
         var response;
+        var media;
 
         const api = new BlizzAPI({
             region: "eu",
@@ -52,20 +53,70 @@ module.exports = {
             }
         });
 
-        api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
+        api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then(value => {
             response = value;
         }).catch(error => {
             console.log("Error finding character.")
         });
 
-        setTimeout(async() => {
+        api.query(`/profile/wow/character/${realmName}/${charName}/character-media?namespace=profile-eu`).then(value => {
+            media = value;
+        }).catch(error => {
+            console.log("Error finding character media.")
+        });
+
+        setTimeout(async () => {
             if (response != null) {
+                const embed = new EmbedBuilder()
+                    .setAuthor({
+                        name: "Character Info",
+                        iconURL: "https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-avatar.jpg",
+                    })
+                    .setTitle(response.name)
+                    .addFields(
+                        {
+                            name: "Level",
+                            value: response.level,
+                            inline: true
+                        },
+                        {
+                            name: "Race",
+                            value: response.race.name.en_GB,
+                            inline: true
+                        },
+                        {
+                            name: "Class",
+                            value: response.character_cass.name.en_GB,
+                            inline: true
+                        },
+                        {
+                            name: "Faction",
+                            value: response.faction.name.en_GB,
+                            inline: true
+                        },
+                        {
+                            name: "Realm",
+                            value: response.realm.name.en_GB,
+                            inline: true
+                        },
+                    )
+                    .setImage("https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-main-raw.png")
+                    .setThumbnail("https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-inset.jpg")
+                    .setColor("#9300f5")
+                    .setFooter({
+                        text: "High Tinker Mekkatorque",
+                        iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
+                    })
+                    .setTimestamp();
+
                 console.log(response);
-                await interaction.reply(`Character ${charName} on ${realmName} exists!`);
+                await interaction.reply({ embeds: [embed] });
             } else {
                 await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
             }
         }, 1000);
+
+
 
     },
 };
