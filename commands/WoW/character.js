@@ -21,6 +21,11 @@ module.exports = {
         var realmName = interaction.options.getString('realm');
         var response;
         var media;
+        var charLevel;
+        var charRace;
+        var charClass;
+        var charFaction;
+        var charRealm;
 
         const api = new BlizzAPI({
             region: "eu",
@@ -55,6 +60,11 @@ module.exports = {
 
         api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then(value => {
             response = value;
+            charLevel = response.level;
+            charRace = response.race.name.en_GB;
+            charClass = response.character_class.name.en_GB;
+            charFaction = response.faction.name.en_GB;
+            charRealm = response.realm.name.en_GB;
         }).catch(error => {
             console.log("Error finding character.")
         });
@@ -76,27 +86,27 @@ module.exports = {
                     .addFields(
                         {
                             name: "Level",
-                            value: response.level,
+                            value: charLevel,
                             inline: true
                         },
                         {
                             name: "Race",
-                            value: response.race.name.en_GB,
+                            value: charRace,
                             inline: true
                         },
                         {
                             name: "Class",
-                            value: response.character_class.name.en_GB,
+                            value: charClass,
                             inline: true
                         },
                         {
                             name: "Faction",
-                            value: response.faction.name.en_GB,
+                            value: charFaction,
                             inline: true
                         },
                         {
                             name: "Realm",
-                            value: response.realm.name.en_GB,
+                            value: charRealm,
                             inline: true
                         },
                     )
