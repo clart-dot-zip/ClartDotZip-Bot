@@ -53,7 +53,7 @@ module.exports = {
             }
         });
 
-        responseTime = Date.now() + 4000;
+        responseTime = Date.now() + 10000;
 
         api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
             response = value;
