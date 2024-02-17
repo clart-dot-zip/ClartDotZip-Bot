@@ -114,7 +114,7 @@ module.exports = {
             } else {
                 await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
             }
-        }, 1000);
+        }, 1500);
 
 
 
