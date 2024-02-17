@@ -19,7 +19,7 @@ module.exports = {
 
         var charName = interaction.options.getString('charactername');
         var realmName = interaction.options.getString('realm');
-        var response;
+        var response = 0;
 
         const api = new BlizzAPI({
             region: "eu",
