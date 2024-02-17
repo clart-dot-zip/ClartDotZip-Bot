@@ -57,12 +57,11 @@ module.exports = {
 
         api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
             response = value;
-            console.log(response);
         }).catch(error => {
             console.log("Error finding character.")
         });
 
-        while(Date.now() >= responseTime){
+        while(Date.now() <= responseTime){
             if (response != null && Date.now() == responseTime) {
                 console.log(response);
                 await interaction.reply({ content: 'Character exists!', ephemeral: true });
