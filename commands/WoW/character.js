@@ -61,11 +61,11 @@ module.exports = {
         setTimeout(async() => {
             if (response != null) {
                 console.log(response);
-                await interaction.reply({ content: 'Character exists!', ephemeral: true });
+                await interaction.reply(`Character ${charName} on ${realmName} exists!`);
             } else {
                 await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
             }
-        }, 2000);
+        }, 1000);
 
     },
 };
