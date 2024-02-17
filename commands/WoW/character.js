@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { BlizzAPI } = require('blizzapi');
 const { wowClientId, wowSecret } = require('../../config/config.json');
 const realmTable = require('../../config/realms.json');
