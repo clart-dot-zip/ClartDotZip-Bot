@@ -35,7 +35,7 @@ module.exports = {
               
                 try {
                   // Parse JSON data
-                  const jsonData = JSON.stringify(data);
+                  var jsonData = JSON.stringify(data);
                   jsonData = JSON.parse(jsonData);
               
                   // Iterate over the parsed JSON object using forEach
