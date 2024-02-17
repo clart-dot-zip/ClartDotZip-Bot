@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { SlashCommandBuilder } = require('discord.js');
 const { BlizzAPI } = require('blizzapi');
 const { wowClientId, wowSecret } = require('../../config/config.json');
@@ -26,9 +27,25 @@ module.exports = {
         })
 
         try {
-            realmTable.forEach(element => {
-                console.log(element);
-            });
+            fs.readFile('../../config/realms.json', 'utf8', (err, data) => {
+                if (err) {
+                  console.error('Error reading file:', err);
+                  return;
+                }
+              
+                try {
+                  // Parse JSON data
+                  const jsonData = JSON.parse(data);
+              
+                  // Iterate over the parsed JSON object using forEach
+                  jsonData.forEach(item => {
+                    // Do something with each item
+                    console.log(item);
+                  });
+                } catch (error) {
+                  console.error('Error parsing JSON:', error);
+                }
+              });
             const data = await api.query("/profile/wow/character/argent-dawn/broccocoli?namespace=profile-eu");
           } catch (error) {
             console.error(error);
