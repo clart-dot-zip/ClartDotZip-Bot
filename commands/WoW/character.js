@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { BlizzAPI } = require('blizzapi');
 const { wowClientId, wowSecret } = require('../../config/config.json');
+const realmTable = require('../../config/realms.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -15,12 +16,19 @@ module.exports = {
 
 	async execute(interaction) {
 
+        let charName = '';
+        let realmName = '';
+
         const api = new BlizzAPI({
             region: "eu",
             clientId: wowClientId,
             clientSecret: wowSecret,
         })
+
         try {
+            realmTable.forEach(element => {
+                console.log(element);
+            });
             const data = await api.query("/profile/wow/character/argent-dawn/broccocoli?namespace=profile-eu");
           } catch (error) {
             console.error(error);
