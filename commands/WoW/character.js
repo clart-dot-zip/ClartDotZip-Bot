@@ -86,7 +86,7 @@ module.exports = {
                     .addFields(
                         {
                             name: "Level",
-                            value: charLevel,
+                            value: "50",
                             inline: true
                         },
                         /*{
