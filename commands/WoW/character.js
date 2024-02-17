@@ -107,7 +107,7 @@ module.exports = {
                     )
                     .setImage(media.assets[2].value)
                     .setThumbnail(media.assets[1].value)
-                    .setColor("#9300f5")
+                    .setColor("#6495ed")
                     .setFooter({
                         text: "High Tinker Mekkatorque",
                         iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
