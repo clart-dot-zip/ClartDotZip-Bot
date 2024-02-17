@@ -62,6 +62,7 @@ module.exports = {
         });
 
         while(Date.now() <= responseTime){
+            console.log(responseTime);
             if (response != null) {
                 console.log(response);
                 await interaction.reply({ content: 'Character exists!', ephemeral: true });
