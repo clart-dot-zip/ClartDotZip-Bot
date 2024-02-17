@@ -86,7 +86,7 @@ module.exports = {
                     .addFields(
                         {
                             name: "Level",
-                            value: "50",
+                            value: response.level,
                             inline: true
                         },
                         /*{
@@ -120,6 +120,7 @@ module.exports = {
                     .setTimestamp();
 
                 console.log(response);
+                console.log(media);
                 await interaction.reply({ embeds: [embed] });
             } else {
                 await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
