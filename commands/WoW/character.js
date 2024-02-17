@@ -21,11 +21,6 @@ module.exports = {
         var realmName = interaction.options.getString('realm');
         var response;
         var media;
-        var charLevel;
-        var charRace;
-        var charClass;
-        var charFaction;
-        var charRealm;
 
         const api = new BlizzAPI({
             region: "eu",
@@ -60,11 +55,6 @@ module.exports = {
 
         api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then(value => {
             response = value;
-            charLevel = response.level;
-            charRace = response.race.name.en_GB;
-            charClass = response.character_class.name.en_GB;
-            charFaction = response.faction.name.en_GB;
-            charRealm = response.realm.name.en_GB;
         }).catch(error => {
             console.log("Error finding character.")
         });
@@ -80,38 +70,38 @@ module.exports = {
                 const embed = new EmbedBuilder()
                     .setAuthor({
                         name: "Character Info",
-                        iconURL: "https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-avatar.jpg",
+                        iconURL: media.assets[0].value,
                     })
                     .setTitle(response.name)
                     .addFields(
                         {
                             name: "Level",
-                            value: "70",
+                            value: '' + response.level,
                             inline: true
                         },
                         {
                             name: "Race",
-                            value: charRace,
+                            value: response.race.name.en_GB,
                             inline: true
                         },
-                        /*{
+                        {
                             name: "Class",
-                            value: charClass,
+                            value: response.character_class.name.en_GB,
                             inline: true
                         },
                         {
                             name: "Faction",
-                            value: charFaction,
+                            value: response.faction.name.en_GB,
                             inline: true
                         },
                         {
                             name: "Realm",
-                            value: charRealm,
+                            value: response.realm.name.en_GB,
                             inline: true
-                        },*/
+                        },
                     )
-                    .setImage("https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-main-raw.png")
-                    .setThumbnail("https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-inset.jpg")
+                    .setImage(media.assets[2].value)
+                    .setThumbnail(media.assets[1].value)
                     .setColor("#9300f5")
                     .setFooter({
                         text: "High Tinker Mekkatorque",
