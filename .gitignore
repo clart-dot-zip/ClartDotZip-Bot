@@ -130,4 +130,4 @@ dist
 .pnp.*
 
 # Extra
-config.json
+config/config.json

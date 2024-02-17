@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { BlizzAPI } = require('blizzapi');
-const { wowClientId, wowSecret } = require('../../config.json');
+const { wowClientId, wowSecret } = require('../../config/config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
