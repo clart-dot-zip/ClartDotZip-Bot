@@ -86,7 +86,7 @@ module.exports = {
                         },
                         {
                             name: "Class",
-                            value: response.character_cass.name.en_GB,
+                            value: response.character_class.name.en_GB,
                             inline: true
                         },
                         {
