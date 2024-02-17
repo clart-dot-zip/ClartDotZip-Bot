@@ -53,9 +53,10 @@ module.exports = {
               });
 
             const data = await api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`);
-            if (data.code == 'ERR_BAD_REQUEST'){
+
+            if (data.code == "ERR_BAD_REQUEST"){
                 console.log("oopsies !");
-            } else{
+            } else {
                 console.log(data);
             }
 
