@@ -29,22 +29,22 @@ module.exports = {
         try {
             fs.readFile('config/realms.json', 'utf8', (err, data) => {
                 if (err) {
-                  console.error('Error reading file:', err);
-                  return;
+                    console.error('Error reading file:', err);
+                    return;
                 }
-              
+            
                 try {
-                  // Parse JSON data
-                  var jsonData = JSON.stringify(data[0]);
-                  jsonData = JSON.parse(jsonData);
-              
-                  // Iterate over the parsed JSON object using forEach
-                  //jsonData.forEach(item => {
-                    // Do something with each item
-                    console.log(jsonData);
-                  //});
+                    // Parse JSON data
+                    var jsonData = JSON.parse(data);
+                  
+                    // Iterate over the parsed JSON array
+                    jsonData.eu.forEach(item => {
+                        // Access name and slug properties of each item
+                        console.log('Name:', item.name);
+                        console.log('Slug:', item.slug);
+                    });
                 } catch (error) {
-                  console.error('Error parsing JSON:', error);
+                    console.error('Error parsing JSON:', error);
                 }
               });
             const data = await api.query("/profile/wow/character/argent-dawn/broccocoli?namespace=profile-eu");
