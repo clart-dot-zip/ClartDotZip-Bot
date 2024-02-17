@@ -39,10 +39,10 @@ module.exports = {
                   jsonData = JSON.parse(jsonData);
               
                   // Iterate over the parsed JSON object using forEach
-                  jsonData.forEach(item => {
+                  //jsonData.forEach(item => {
                     // Do something with each item
-                    console.log(item);
-                  });
+                    console.log(jsonData);
+                  //});
                 } catch (error) {
                   console.error('Error parsing JSON:', error);
                 }
