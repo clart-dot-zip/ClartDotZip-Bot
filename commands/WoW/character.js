@@ -51,9 +51,13 @@ module.exports = {
                     console.error('Error parsing JSON:', error);
                 }
               });
-              
+
             const data = await api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`);
-            console.log(data);
+            if (data.code == 'ERR_BAD_REQUEST'){
+                console.log("oopsies !");
+            } else{
+                console.log(data);
+            }
 
           } catch (error) {
             console.error(error);
