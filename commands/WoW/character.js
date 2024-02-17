@@ -72,7 +72,7 @@ module.exports = {
                         name: "Character Info",
                         iconURL: media.assets[0].value,
                     })
-                    .setTitle(response.name)
+                    .setTitle(response.active_title.name.en_GB + ' ' + response.name)
                     .addFields(
                         {
                             name: "Level",
@@ -86,7 +86,7 @@ module.exports = {
                         },
                         {
                             name: "Class",
-                            value: response.character_class.name.en_GB,
+                            value: response.active_spec.name.en_GB + ' ' + response.character_class.name.en_GB,
                             inline: true
                         },
                         {
@@ -97,6 +97,11 @@ module.exports = {
                         {
                             name: "Realm",
                             value: response.realm.name.en_GB,
+                            inline: true
+                        },
+                        {
+                            name: "Guild",
+                            value: response.guild.name,
                             inline: true
                         },
                     )
