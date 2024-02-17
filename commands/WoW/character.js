@@ -58,6 +58,7 @@ module.exports = {
                 console.log("oopsies !");
             } else {
                 console.log(data);
+                console.log(data.code);
             }
 
           } catch (error) {
