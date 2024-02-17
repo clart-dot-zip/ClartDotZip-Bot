@@ -52,7 +52,8 @@ module.exports = {
                 }
               });
 
-            const data = await api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`);
+            var data = await api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`);
+            data = JSON.parse(data);
 
             if (data.code == "ERR_BAD_REQUEST"){
                 console.log("oopsies !");
