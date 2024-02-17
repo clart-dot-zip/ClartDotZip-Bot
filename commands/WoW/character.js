@@ -86,7 +86,7 @@ module.exports = {
                     .addFields(
                         {
                             name: "Level",
-                            value: 70,
+                            value: "70",
                             inline: true
                         },
                         {
