@@ -62,7 +62,7 @@ module.exports = {
         if (response.code == 1) {
             await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
         } else {
-            console.log(response[1]);
+            console.log(response);
         }
     },
 };
