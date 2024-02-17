@@ -27,7 +27,7 @@ module.exports = {
         })
 
         try {
-            fs.readFile('../../config/realms.json', 'utf8', (err, data) => {
+            fs.readFile('config/realms.json', 'utf8', (err, data) => {
                 if (err) {
                   console.error('Error reading file:', err);
                   return;
