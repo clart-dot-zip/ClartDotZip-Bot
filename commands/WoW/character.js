@@ -54,17 +54,15 @@ module.exports = {
 
         api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
             response = value;
-            //console.log(value);
+            console.log(response);
         }).catch(error => {
             console.log("Error finding character.")
         });
 
-        console.log(value);
-
-        if (response != null) {
+       /* if (response != null) {
             console.log(response);
         } else {
             await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
-        }
+        }*/
     },
 };
