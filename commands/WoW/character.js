@@ -89,7 +89,7 @@ module.exports = {
                             value: charLevel,
                             inline: true
                         },
-                        {
+                        /*{
                             name: "Race",
                             value: charRace,
                             inline: true
@@ -108,7 +108,7 @@ module.exports = {
                             name: "Realm",
                             value: charRealm,
                             inline: true
-                        },
+                        },*/
                     )
                     .setImage("https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-main-raw.png")
                     .setThumbnail("https://render.worldofwarcraft.com/eu/character/argent-dawn/70/181168966-inset.jpg")
