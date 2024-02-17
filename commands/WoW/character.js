@@ -17,8 +17,8 @@ module.exports = {
 
 	async execute(interaction) {
 
-        let charName = '';
-        let realmName = '';
+        let charName = interaction.options.getString('charactername');
+        let realmName = interaction.options.getString('realm');
 
         const api = new BlizzAPI({
             region: "eu",
@@ -40,14 +40,21 @@ module.exports = {
                     // Iterate over the parsed JSON array
                     jsonData.eu.forEach(item => {
                         // Access name and slug properties of each item
-                        console.log('Name:', item.name);
-                        console.log('Slug:', item.slug);
+                        
+                        if (item.name == realmName || item.slug == realmName) {
+                            realmName = item.slug;
+                            return;
+                        }
+
                     });
                 } catch (error) {
                     console.error('Error parsing JSON:', error);
                 }
               });
-            const data = await api.query("/profile/wow/character/argent-dawn/broccocoli?namespace=profile-eu");
+              
+            const data = await api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`);
+            console.log(data);
+
           } catch (error) {
             console.error(error);
             // Expected output: ReferenceError: nonExistentFunction is not defined
