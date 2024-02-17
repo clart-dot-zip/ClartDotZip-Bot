@@ -63,10 +63,10 @@ module.exports = {
 
         while(Date.now() <= responseTime){
             console.log(responseTime);
-            if (response != null) {
+            if (response != null && Date.now() >= responseTime) {
                 console.log(response);
                 await interaction.reply({ content: 'Character exists!', ephemeral: true });
-            } else if(response == null && Date.now() == responseTime) {
+            } else if(response == null && Date.now() >= responseTime) {
                 await interaction.reply({ content: 'Realm or character not found!', ephemeral: true });
             } else {
                 responseTime = Date.now();
