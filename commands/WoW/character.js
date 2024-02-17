@@ -19,7 +19,7 @@ module.exports = {
 
         var charName = interaction.options.getString('charactername');
         var realmName = interaction.options.getString('realm');
-        var response = {};
+        var response = ({});
 
         const api = new BlizzAPI({
             region: "eu",
@@ -53,10 +53,10 @@ module.exports = {
         });
 
         api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
-            response = {code: 0, value};
+            response = ({code: 0, value});
             //console.log(value);
         }).catch(error => {
-            response = {code: 1};
+            response = ({code: 1});
         });
 
         if (response.code == 1) {
