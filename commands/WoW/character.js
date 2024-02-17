@@ -58,7 +58,8 @@ module.exports = {
         }).catch(error => {
             console.log("Error finding character.")
         });
-        console.log(response);
+
+        console.log(value);
 
         if (response != null) {
             console.log(response);
