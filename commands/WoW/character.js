@@ -86,7 +86,7 @@ module.exports = {
                     .addFields(
                         {
                             name: "Level",
-                            value: response.level,
+                            value: charLevel ?? 0,
                             inline: true
                         },
                         /*{
