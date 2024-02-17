@@ -51,8 +51,8 @@ module.exports = {
             }
         });
 
-        const data = await api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
-            console.log(data);
+        api.query(`/profile/wow/character/${realmName}/${charName}?namespace=profile-eu`).then (value => {
+            console.log(value);
         }).catch(error => {
             console.log("oopsies !");
         });
