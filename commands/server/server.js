@@ -9,7 +9,10 @@ module.exports = {
 		.setDescription('list server'),
 	async execute(interaction) {
         application.getAllServers().then((response) => {
-            console.log(response);
+            for (var i = 0; i < response.meta.pagination.count; i++) {
+                response = response.json();
+                console.log(response.data[i]);
+            }
             interaction.reply('Server list: ' + response);
         }).catch((error) => {  
             console.error(error);
