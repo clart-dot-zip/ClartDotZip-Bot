@@ -8,8 +8,12 @@ module.exports = {
 		.setName('server')
 		.setDescription('list server'),
 	async execute(interaction) {
-        let temp = application.getAllServers();
-        await temp;
-        console.log(temp[1]);
+        application.getAllServers().then((response) => {
+            console.log(response);
+            interaction.reply('Server list: ' + response);
+        }).catch((error) => {  
+            console.error(error);
+            interaction.reply('Error fetching server list.');
+        });
 	},
 };
