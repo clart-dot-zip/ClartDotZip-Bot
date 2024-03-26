@@ -10,6 +10,8 @@ module.exports = {
 	async execute(interaction) {
         let temp = application.getAllServers();
         await temp;
-        console.log(temp.data[1]);
+        temp.data.forEach(item => { 
+            console.log(item);
+        })
 	},
 };
