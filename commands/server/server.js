@@ -10,8 +10,8 @@ module.exports = {
 	async execute(interaction) {
         application.getAllServers().then((response) => {
             for (var i = 0; i < response.meta.pagination.count; i++) {
-                response = response.json();
-                console.log(response.data[i]);
+                server = JSON.parse(response.data[i].attributes);
+                console.log(server);
             }
             interaction.reply('Server list: ' + response);
         }).catch((error) => {  
