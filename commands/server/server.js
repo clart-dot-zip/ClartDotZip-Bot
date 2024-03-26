@@ -14,7 +14,7 @@ module.exports = {
                 server = response.data[i].attributes;
                 console.log(util.inspect(server, {depth: null}));
                 application.getServerDetails(server.id).then((details) => {
-                    server.details = details.data.attributes;
+                    console.log(details);
                 }).catch((error) => {
                     console.error(error);
                 });
