@@ -109,7 +109,7 @@ cron.schedule('*/5 * * * * *', async () => {
             // Array to store server data with status
             const serverDataWithStatus = [];
 
-            const serverMessagesData = await fs.readFile(serverMsgs, 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
+            const serverMessagesData = fs.readFile(serverMsgs, 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
             const serverMessages = JSON.parse(serverMessagesData);
 
 
@@ -160,7 +160,7 @@ cron.schedule('*/5 * * * * *', async () => {
                 } else {
                     console.error('No default allocation found for server:', name);
                 }
-				
+
             }
 
             // Write data to disk
