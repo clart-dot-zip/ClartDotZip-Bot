@@ -97,30 +97,28 @@ const asyncOperation = async (item) => {
 	return new Promise((resolve) => {
 	  setTimeout(() => {
 		// Replace this with your actual async operation code
+		console.log(item)
 		// For example, you might have an API call or database query here
 		console.log(`Async operation for ${item} completed.`);
 		resolve(`Result for ${item}`);
 	  }, 1000); // Simulating a 1000ms (1 second) delay
 	});
-  };
+};
 
 async function queryData(serverResponse) {
 	try {
 		var allServers = {
 			servers: []
 		};
-		for (const server in serverResponse) {
-			//var serverData = server.attributes;
-			console.log(server)
-			const result = await asyncOperation(server);
-			console.log(result);
-			//var	tempStatus = await clientApp.getServerStatus(serverData.identifier)
-			//var tempData = {
-			//	indentifier: server.identifier,
-			//	status: tempStatus
-			//};
-			//console.log(tempData);
-			//allServers.servers.push(tempData);
+		for (const server of serverResponse) { // Note: Use 'of' instead of 'in' for arrays
+			var serverData = server.attributes; // Assuming 'server.attributes' holds the data you need
+			const tempStatus = await clientApp.getServerStatus(serverData.identifier);
+			var tempData = {
+				identifier: serverData.identifier, // Corrected typo: 'indentifier' -> 'identifier'
+				status: tempStatus
+			};
+			console.log(tempData);
+			allServers.servers.push(tempData);
 		}
 	} catch (error) {
 		console.error(error);
@@ -129,16 +127,15 @@ async function queryData(serverResponse) {
 	return allServers;
 }
 
-cron.schedule('*/5 * * * * *', () => {
-	var data;
-	serverApp.getAllServers().then((serverResponse) => {
-		data = queryData(serverResponse)
-	}).catch((error) => {  
+cron.schedule('*/5 * * * * *', async () => { // Making the function async to use 'await'
+	try {
+		const serverResponse = await serverApp.getAllServers(); // Await the server response
+		const data = await queryData(serverResponse); // Await the queryData function
+		fs.writeFile('./data/servers.json', JSON.stringify(data), function (err) {
+			if (err) throw err;
+			console.log('Queried servers written to file.');
+		});
+	} catch (error) {
 		console.error(error);
-	});
-	//console.log(allServers.servers)
-	fs.writeFile('./data/servers.json', JSON.stringify(data), function (err) {
-		if (err) throw err;
-		console.log('Queried servers written to file.');
-	});
-})
+	}
+});
