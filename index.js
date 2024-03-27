@@ -2,8 +2,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
-const { token } = require('./config/config.json');
+const config = require('./config/config.json');
 const cron = require('node-cron');
+const Nodeactyl = require('nodeactyl');
+const serverApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi);
+const clientApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.clientApi);
+const util = require('util');
 
 // Create a new client instance
 const client = new Client({ 
@@ -60,7 +64,7 @@ client.once(Events.ClientReady, readyClient => {
 });
 
 // Log in to Discord with your client's token
-client.login(token);
+client.login(config.token);
 
 client.on('ready', async () => {
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
