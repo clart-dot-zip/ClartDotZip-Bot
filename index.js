@@ -111,6 +111,7 @@ cron.schedule('*/5 * * * * *', async () => {
 
             // Read the server messages file if it exists
             let serverMessages = {};
+
             try {
                 const serverMessagesData = await fs.readFile(serverMsgs, 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
                 serverMessages = JSON.parse(serverMessagesData);
@@ -162,9 +163,6 @@ cron.schedule('*/5 * * * * *', async () => {
                         port: port
                     });
 
-                    // Update or add the message ID for this server
-                    serverMessages[identifier] = serverMessages[identifier] || {};
-                    serverMessages[identifier].messageId = serverMessages[identifier].messageId || null;
                 } else {
                     console.error('No default allocation found for server:', name);
                 }
@@ -172,7 +170,6 @@ cron.schedule('*/5 * * * * *', async () => {
 
             // Write data to disk
             await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), 'utf8', function(err) { if (err) console.error('Error writing server data file:', err); });
-            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), 'utf8', function(err) { if (err) console.error('Error writing server messages file:', err); });
         } else {
             console.error('Invalid server response format.');
         }
