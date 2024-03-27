@@ -1,5 +1,5 @@
 // Require the necessary discord.js classes
-const fs = require('node:fs');
+const fs = require('node:fs').promises;
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder} = require('discord.js');
 const config = require('./config/config.json');
@@ -158,11 +158,11 @@ cron.schedule('*/5 * * * * *', async () => {
 
             }
 
-			const serverMessagesData = fs.readFile('./data/server_messages.json', 'utf8', function(err, data) {	if (err) console.error('Error reading server messages file:', err); });
+			const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
 			console.log(serverMessagesData);
 
             // Write data to disk
-            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), 'utf8', function(err) { if (err) console.error('Error writing server data file:', err); });
+            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), 'utf8');
         } else {
             console.error('Invalid server response format.');
         }
