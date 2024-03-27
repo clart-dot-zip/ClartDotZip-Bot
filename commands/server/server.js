@@ -49,9 +49,6 @@ module.exports = {
                     .setTimestamp();
 
                 await interaction.channel.send({ embeds: [embed] });
-
-                // Add a delay between each message to prevent rate limiting
-                await new Promise(resolve => setTimeout(resolve, 3000)); // Delay for 3 seconds
             }
         } catch (error) {
             console.error('Error reading or parsing file:', error);
