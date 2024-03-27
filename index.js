@@ -112,7 +112,7 @@ async function queryData(serverResponse) {
 		};
 		for (const server of serverResponse) { // Note: Use 'of' instead of 'in' for arrays
 			var serverData = server.attributes; // Assuming 'server.attributes' holds the data you need
-			console.log(serverData);
+			console.log(server);
 			const tempStatus = await clientApp.getServerStatus(serverData.identifier);
 			var tempData = {
 				identifier: serverData.identifier, // Corrected typo: 'indentifier' -> 'identifier'
