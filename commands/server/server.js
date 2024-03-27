@@ -31,11 +31,11 @@ module.exports = {
                             inline: true
                         },
                     )
-                    .setThumbnail("imagehere")
-                    .setColor("#00b0f4")
+                    //.setThumbnail("imagehere")
+                    .setColor("#6495ed")
                     .setFooter({
-                        text: "Example Footer",
-                        iconURL: "https://slate.dan.onl/slate.png",
+                        text: "High Tinker Mekkatorque",
+                        iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
                     })
                     .setTimestamp();
 
