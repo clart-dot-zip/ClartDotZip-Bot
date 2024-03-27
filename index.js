@@ -102,11 +102,11 @@ cron.schedule('*/5 * * * * *', () => {
 			var tempStatus = "";
 			clientApp.getServerStatus(server.identifier).then((status) => {
 				tempStatus = status;
-				console.log(tempStatus);
 				var tempData = {
 					indentifier: server.identifier,
 					status: tempStatus
 				};
+				console.log(tempData.status);
 				allServers.servers.push(tempData);
 			}).catch((error) => {
 				console.error(error);
