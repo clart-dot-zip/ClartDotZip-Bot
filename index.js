@@ -108,24 +108,36 @@ cron.schedule('*/5 * * * * *', async () => {
             const serverDataWithStatus = [];
 
             // Iterate through each server
-            for (const server of serverResponse.data) {
-                const serverData = server.attributes;
-                const identifier = serverData.identifier;
-				const name = serverData.name; // Extract name attribute
+		for (const server of serverResponse.data) {
+			const serverData = server.attributes;
+			const identifier = serverData.identifier;
+			const name = serverData.name; // Extract name attribute
 
-                // Fetch server status asynchronously
-                const status = await getServerStatus(identifier);
-				const details = await getServerDetails(identifier);
+			// Fetch server status asynchronously
+			const status = await getServerStatus(identifier);
+			const details = await getServerDetails(identifier);
 
-				console.log(details.relationships.allocations.data.attributes.ip_alias);
+			// Find the allocation with is_default equal to true
+			const defaultAllocation = details.relationships.allocations.data.find(allocation => allocation.attributes.is_default);
 
-                // Push server data with status to array
-                serverDataWithStatus.push({
-                    identifier: identifier,
+			if (defaultAllocation) {
+				const { ip_alias, port } = defaultAllocation.attributes;
+				
+				console.log('IP Alias:', ip_alias);
+				console.log('Port:', port);
+				
+				// Push server data with status and details to array
+				serverDataWithStatus.push({
+					identifier: identifier,
 					name: name, // Add name attribute
-                    status: status
-                });
-            }
+					status: status,
+					ip_alias: ip_alias,
+					port: port
+				});
+			} else {
+				console.error('No default allocation found for server:', name);
+			}
+		}
 
             // Write data to disk
             fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), function (err) {
