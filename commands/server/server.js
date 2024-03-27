@@ -15,15 +15,11 @@ module.exports = {
             // Parse JSON data
             const jsonData = JSON.parse(data);
 
-            // Limit the loop to output the first three results for debugging
-            const loopLimit = jsonData.length;
-
             // Store the identifiers and message IDs in an object
             const serverMessages = {};
 
             // Iterate over the parsed JSON array
-            for (let i = 0; i < loopLimit; i++) {
-                const item = jsonData[i];
+            for (const item of jsonData) {
                 const status = item.status;
                 const color = status === '🔴 Offline' ? '#dd2e44' :
                               status === '🟠 Starting' ? '#f4900c' :
