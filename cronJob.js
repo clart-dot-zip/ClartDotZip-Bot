@@ -27,6 +27,7 @@ async function updateServerData(client) {
                 const identifier = serverData.identifier;
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
+                var thumbnail =  "https://clart.zip/resources/" + identifier + ".png" || "https://clart.zip/resources/default.png"
 
                 // Fetch server status asynchronously
                 var status = await getServerStatus(identifier);
@@ -63,7 +64,7 @@ async function updateServerData(client) {
                         status: status,
                         ip_alias: ip_alias,
                         port: port,
-                        thumbnail : "https://clart.zip/resources/" + identifier + ".png" || "https://clart.zip/resources/default.png"
+                        thumbnail : thumbnail
                     });
 
                 } else {
