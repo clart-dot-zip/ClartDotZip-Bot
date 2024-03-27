@@ -102,7 +102,7 @@ cron.schedule('*/5 * * * * *', () => {
 			var tempData = {
 				indentifier: server.identifier
 			};
-			allServers[i].push(tempData);
+			allServers.push(tempData);
 			//console.log(util.inspect(server, {depth: null}));
 			//serverApp.getServerDetails(server.id).then((details) => {
 			//	console.log(details);
