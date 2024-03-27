@@ -97,7 +97,6 @@ const asyncOperation = async (item) => {
 	return new Promise((resolve) => {
 	  setTimeout(() => {
 		// Replace this with your actual async operation code
-		console.log(JSON.stringify(item))
 		// For example, you might have an API call or database query here
 		console.log(`Async operation for ${item} completed.`);
 		resolve(`Result for ${item}`);
@@ -112,6 +111,7 @@ async function queryData(serverResponse) {
 		};
 		for (const server in serverResponse) {
 			//var serverData = server.attributes;
+			console.log(server)
 			const result = await asyncOperation(server);
 			console.log(result);
 			//var	tempStatus = await clientApp.getServerStatus(serverData.identifier)
