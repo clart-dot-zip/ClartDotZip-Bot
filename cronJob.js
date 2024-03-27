@@ -67,7 +67,8 @@ const updateServerData = async () => {
                     console.error('No default allocation found for server:', name);
                 }
             }
-
+            const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
+            console.log(serverMessagesData);
             // Write data to disk
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
         } else {
