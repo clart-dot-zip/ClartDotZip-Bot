@@ -88,3 +88,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
+
+cron.schedule('*/5 * * * * *', () => {
+	console.log('running a task every five minutes');
+})
