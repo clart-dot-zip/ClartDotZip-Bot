@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fs = require('fs').promises; // Use fs.promises for async file reading
-const EmbedBuilder = require('discord.js').MessageEmbed; // Assuming you have EmbedBuilder defined somewhere
 
 module.exports = {
 	data: new SlashCommandBuilder()
