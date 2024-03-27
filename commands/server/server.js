@@ -12,11 +12,23 @@ module.exports = {
             // Parse JSON data
             const jsonData = JSON.parse(data);
 
+            // Limit the loop to output the first three results for debugging
+            const loopLimit = Math.min(jsonData.length, 3);
+            
             // Iterate over the parsed JSON array
-            for (const item of jsonData) {
+            for (let i = 0; i < loopLimit; i++) {
+                const item = jsonData[i];
+                var status = item.status;
+                if (status === "offline") {
+                    status = "🔴 Offline";
+                } else if (status == "running") {
+                    status = "🟢 Online";
+                } else {
+                    status = "🟠 Starting";
+                }
                 const embed = new EmbedBuilder()
                     .setTitle(item.name)
-                    .setDescription("🟢 Online")
+                    .setDescription(status)
                     .addFields(
                         {
                             name: "IP Address",
@@ -37,6 +49,9 @@ module.exports = {
                     .setTimestamp();
 
                 await interaction.channel.send({ embeds: [embed] });
+
+                // Add a delay between each message to prevent rate limiting
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Delay for 3 seconds
             }
         } catch (error) {
             console.error('Error reading or parsing file:', error);
