@@ -103,14 +103,8 @@ cron.schedule('*/5 * * * * *', async () => {
         // Fetch all servers
         const serverResponse = await getAllServers();
 
-		let serverMessages = {};
-		
-		try {
-			const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
-			serverMessages = JSON.parse(serverMessagesData);
-		} catch (readError) {
-			console.error('Error reading server messages file:', readError);
-		}
+		const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
+		console.log(serverMessagesData);
 
         // Check if serverResponse has data
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
