@@ -93,17 +93,23 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 cron.schedule('*/5 * * * * *', () => {
+	let allServers = {};
 	serverApp.getAllServers().then((response) => {
 		for (var i = 0; i < 1 /*response.meta.pagination.count*/; i++) {
 			server = response.data[i].attributes;
-			console.log(util.inspect(server, {depth: null}));
-			serverApp.getServerDetails(server.id).then((details) => {
-				console.log(details);
-			}).catch((error) => {
-				console.error(error);
-			});
+			allServers[i] = server.identifier;
+			//console.log(util.inspect(server, {depth: null}));
+			//serverApp.getServerDetails(server.id).then((details) => {
+			//	console.log(details);
+			//}).catch((error) => {
+			//	console.error(error);
+			//});
 		}
 	}).catch((error) => {  
 		console.error(error);
+	});
+	fs.writeFile('./data/servers.json', allServers, function (err) {
+		if (err) throw err;
+		console.log('Queried servers written to file.');
 	});
 })
