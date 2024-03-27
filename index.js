@@ -107,7 +107,7 @@ cron.schedule('*/5 * * * * *', async () => {
             const serverDataWithStatus = [];
 
             // Iterate through each server
-            for (const serverId in serverResponse) {
+            for (const serverId in serverResponse.data) {
                 if (serverResponse.hasOwnProperty(serverId)) {
                     const serverData = serverResponse[serverId].attributes;
                     const identifier = serverData.identifier;
