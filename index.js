@@ -95,7 +95,7 @@ client.on(Events.InteractionCreate, async interaction => {
 cron.schedule('*/5 * * * * *', () => {
 	let allServers = {};
 	serverApp.getAllServers().then((response) => {
-		for (var i = 0; i < 1 /*response.meta.pagination.count*/; i++) {
+		for (var i = 0; i < response.meta.pagination.count; i++) {
 			server = response.data[i].attributes;
 			allServers[i] = server.identifier;
 			//console.log(util.inspect(server, {depth: null}));
@@ -104,6 +104,7 @@ cron.schedule('*/5 * * * * *', () => {
 			//}).catch((error) => {
 			//	console.error(error);
 			//});
+			console.log(allServers)
 		}
 	}).catch((error) => {  
 		console.error(error);
