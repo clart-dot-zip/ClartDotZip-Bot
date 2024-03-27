@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const Nodeactyl = require('nodeactyl');
 const config = require('./config/config.json');
+const EmbedBuilder = require('discord.js');
 
 const serverApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi);
 const clientApp = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi);
