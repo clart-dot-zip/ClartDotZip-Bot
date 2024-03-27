@@ -10,6 +10,8 @@ const getAllServers = () => serverApp.getAllServers();
 const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
+const serverDataWithStatus = [];
+
 async function isImgUrl(url) {
     return fetch(url, {method: 'HEAD'}).then(res => {
       return res.headers.get('Content-Type').startsWith('image')
@@ -24,10 +26,12 @@ async function updateServerData(client) {
         // Check if serverResponse has data
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
-            const serverDataWithStatus = [];
+
+            let counter = 0;
 
             // Iterate through each server
             for (const server of serverResponse.data) {
+                if (server == serverDataWithStatus[counter]){ counter++; break; }
                 const serverData = server.attributes;
                 const identifier = serverData.identifier;
                 const name = serverData.name; // Extract name attribute
@@ -75,6 +79,7 @@ async function updateServerData(client) {
                 } else {
                     console.error('No default allocation found for server:', name);
                 }
+                counter++;
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
             console.log(serverMessagesData);
