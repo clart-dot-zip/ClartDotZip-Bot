@@ -89,6 +89,6 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-cron.schedule('*/5 * * * * *', updateServerData);
+cron.schedule('*/5 * * * * *', updateServerData(client));
 
 

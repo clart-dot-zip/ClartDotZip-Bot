@@ -10,7 +10,7 @@ const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 
-const updateServerData = async () => {
+async function updateServerData(client) {
     try {
         // Fetch all servers
         const serverResponse = await getAllServers();
@@ -74,7 +74,7 @@ const updateServerData = async () => {
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             
             // Update embed messages after writing server data
-            await updateEmbedMessages(JSON.parse(serverMessagesData), serverDataWithStatus);
+            await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
         } else {
             console.error('Invalid server response format.');
         }
@@ -83,7 +83,7 @@ const updateServerData = async () => {
     }
 };
 
-async function updateEmbedMessages(msgData, serverData) {
+async function updateEmbedMessages(client, msgData, serverData) {
     try {
 
         // Iterate through server data
