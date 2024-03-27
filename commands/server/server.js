@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs').promises;
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
 
             // Iterate over the parsed JSON array
             for (const item of jsonData) {
-                const embed = new MessageEmbed()
+                const embed = new discord.MessageEmbed() // Use discord.MessageEmbed directly
                     .setTitle(item.name)
                     .setDescription("🟢 Online")
                     .addFields(
