@@ -96,11 +96,18 @@ cron.schedule('*/5 * * * * *', () => {
 	var allServers = {
 		servers: []
 	};
-	serverApp.getAllServers().then((response) => {
-		for (var i = 0; i < response.meta.pagination.count; i++) {
-			var server = response.data[i].attributes;
+	serverApp.getAllServers().then((serverResponse) => {
+		for (var i = 0; i < serverResponse.meta.pagination.count; i++) {
+			var server = serverResponse.data[i].attributes;
+			var tempStatus = "";
+			clientApp.getServerStatus(server.identifier).then((status) => {
+				tempStatus = status;
+			}).catch((error) => {
+				console.error(error);
+			});
 			var tempData = {
-				indentifier: server.identifier
+				indentifier: server.identifier,
+				status: tempStatus
 			};
 			allServers.servers.push(tempData);
 			//console.log(util.inspect(server, {depth: null}));
