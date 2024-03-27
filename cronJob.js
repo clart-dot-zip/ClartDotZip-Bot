@@ -9,6 +9,7 @@ const getAllServers = () => serverApp.getAllServers();
 const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
+
 const updateServerData = async () => {
     try {
         // Fetch all servers
@@ -71,6 +72,9 @@ const updateServerData = async () => {
             console.log(serverMessagesData);
             // Write data to disk
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
+            
+            // Update embed messages after writing server data
+            await updateEmbedMessages(JSON.parse(serverMessagesData), serverDataWithStatus);
         } else {
             console.error('Invalid server response format.');
         }
@@ -78,5 +82,39 @@ const updateServerData = async () => {
         console.error('Error in cron job:', error);
     }
 };
+
+async function updateEmbedMessages(msgData, serverData) {
+    try {
+
+        // Iterate through server data
+        for (const server of serverData) {
+            const { identifier, name, description, status, ip_alias, port } = server;
+
+            // Check if server ID has a corresponding message ID
+            if (msgData.hasOwnProperty(identifier)) {
+                const messageId = msgData[identifier];
+                const channel = client.channels.cache.get('1206726874886311987'); // Replace with your channel ID
+
+                // Fetch the message
+                const message = await channel.messages.fetch(messageId);
+
+                // Update the embed
+                const embed = new EmbedBuilder()
+                    .setTitle(name)
+                    .setDescription(status)
+                    .addFields(
+                        { name: 'IP', value: `${ip_alias}:${port}`, inline: true },
+                        { name: 'Description', value: description, inline: true }
+                    )
+                    .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00');
+
+                // Edit the message with the updated embed
+                await message.edit({ embeds: [embed] });
+            }
+        }
+    } catch (error) {
+        console.error('Error updating embed messages:', error);
+    }
+}
 
 module.exports = updateServerData;

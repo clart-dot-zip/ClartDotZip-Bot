@@ -5,7 +5,6 @@ const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder} = require('
 const config = require('./config/config.json');
 const cron = require('node-cron');
 const updateServerData = require('./cronJob');
-const updateEmbedMessages = require('./commands/server/server.js');
 
 // Create a new client instance
 const client = new Client({ 
@@ -63,8 +62,6 @@ client.once(Events.ClientReady, readyClient => {
 
 // Log in to Discord with your client's token
 client.login(config.token);
-
-setInterval(updateEmbedMessages, 5 * 60 * 10);
 
 client.on('ready', async () => {
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
