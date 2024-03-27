@@ -120,6 +120,7 @@ cron.schedule('*/5 * * * * *', async () => {
                         identifier: identifier,
                         status: status
                     });
+					console.log(serverDataWithStatus)
                 }
             }
 
