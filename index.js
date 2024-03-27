@@ -101,6 +101,7 @@ cron.schedule('*/5 * * * * *', () => {
 			var server = serverResponse.data[i].attributes;
 			var tempStatus = "";
 			clientApp.getServerStatus(server.identifier).then((status) => {
+				console.log(status);
 				tempStatus = status;
 			}).catch((error) => {
 				console.error(error);
@@ -117,7 +118,7 @@ cron.schedule('*/5 * * * * *', () => {
 			//	console.error(error);
 			//});
 		}
-		console.log(allServers.servers)
+		//console.log(allServers.servers)
 		fs.writeFile('./data/servers.json', JSON.stringify(allServers), function (err) {
 			if (err) throw err;
 			console.log('Queried servers written to file.');
