@@ -92,21 +92,35 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+const asyncOperation = async (item) => {
+	// Simulating an asynchronous operation with a delay using setTimeout
+	return new Promise((resolve) => {
+	  setTimeout(() => {
+		// Replace this with your actual async operation code
+		console.log(item)
+		// For example, you might have an API call or database query here
+		console.log(`Async operation for ${item} completed.`);
+		resolve(`Result for ${item}`);
+	  }, 1000); // Simulating a 1000ms (1 second) delay
+	});
+  };
+
 async function queryData(serverResponse) {
 	try {
 		var allServers = {
 			servers: []
 		};
 		for (const server in serverResponse) {
-			var serverData = server.attributes;
-			console.log(server);
-			var	tempStatus = await clientApp.getServerStatus(serverData.identifier)
-			var tempData = {
-				indentifier: server.identifier,
-				status: tempStatus
-			};
-			console.log(tempData);
-			allServers.servers.push(tempData);
+			//var serverData = server.attributes;
+			const result = await asyncOperation(server);
+			console.log(result);
+			//var	tempStatus = await clientApp.getServerStatus(serverData.identifier)
+			//var tempData = {
+			//	indentifier: server.identifier,
+			//	status: tempStatus
+			//};
+			//console.log(tempData);
+			//allServers.servers.push(tempData);
 		}
 	} catch (error) {
 		console.error(error);
