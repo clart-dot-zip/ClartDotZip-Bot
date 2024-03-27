@@ -56,7 +56,7 @@ module.exports = {
             }
 
             // Write the server messages to a file
-            await fs.writeFile(serversFile, JSON.stringify(serverMessages));
+            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages));
         } catch (error) {
             console.error('Error reading or parsing file:', error);
         }
