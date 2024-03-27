@@ -29,7 +29,7 @@ async function updateServerData(client) {
 
             // Iterate through each server
             for (const server of serverResponse.data) {
-                if (server == serverDataWithStatus[server]){ break; }
+                if (serverDataWithStatus.includes(server)){ break; }
                 const serverData = server.attributes;
                 const identifier = serverData.identifier;
                 const name = serverData.name; // Extract name attribute
