@@ -109,9 +109,9 @@ cron.schedule('*/5 * * * * *', async () => {
 			//console.log(serverResponse.data);
 
             // Iterate through each server
-            for (const serverId in serverResponse.data) {
+            for (const serverId in serverResponse) {
                 if (serverResponse.hasOwnProperty(serverId)) {
-                    const serverData = serverResponse[serverId].attributes;
+                    const serverData = serverResponse[serverId].data.attributes;
                     const identifier = serverData.identifier;
 
                     // Fetch server status asynchronously
