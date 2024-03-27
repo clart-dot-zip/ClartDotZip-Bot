@@ -110,6 +110,7 @@ cron.schedule('*/5 * * * * *', async () => {
             for (const server of serverResponse.data) {
                 const serverData = server.attributes;
                 const identifier = serverData.identifier;
+				const name = serverData.name; // Extract name attribute
 
                 // Fetch server status asynchronously
                 const status = await getServerStatus(identifier);
@@ -117,6 +118,7 @@ cron.schedule('*/5 * * * * *', async () => {
                 // Push server data with status to array
                 serverDataWithStatus.push({
                     identifier: identifier,
+					name: name, // Add name attribute
                     status: status
                 });
             }
