@@ -125,11 +125,18 @@ cron.schedule('*/5 * * * * *', async () => {
 				
 				console.log('IP Alias:', ip_alias);
 				console.log('Port:', port);
+
+				if (description != "") {
+					description = description;
+				} else {
+					description = "N/A";
+				}
 				
 				// Push server data with status and details to array
 				serverDataWithStatus.push({
 					identifier: identifier,
 					name: name, // Add name attribute
+					description: description,
 					status: status,
 					ip_alias: ip_alias,
 					port: port
