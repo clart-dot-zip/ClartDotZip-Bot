@@ -97,7 +97,7 @@ cron.schedule('*/5 * * * * *', () => {
 	serverApp.getAllServers().then((response) => {
 		for (var i = 0; i < response.meta.pagination.count; i++) {
 			server = response.data[i].attributes;
-			allServers[i] = server.identifier;
+			allServers[i].indentifier = server.identifier;
 			//console.log(util.inspect(server, {depth: null}));
 			//serverApp.getServerDetails(server.id).then((details) => {
 			//	console.log(details);
