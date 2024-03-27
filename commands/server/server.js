@@ -22,12 +22,12 @@ module.exports = {
                     .addFields(
                         {
                             name: "IP Address",
-                            value: "", // Assuming identifier holds IP address
+                            value: "yes", // Assuming identifier holds IP address
                             inline: true
                         },
                         {
                             name: "Version",
-                            value: "", // Assuming status holds server version
+                            value: "yes", // Assuming status holds server version
                             inline: true
                         },
                     )
