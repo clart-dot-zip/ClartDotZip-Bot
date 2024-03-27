@@ -101,28 +101,24 @@ cron.schedule('*/5 * * * * *', async () => {
         // Fetch all servers
         const serverResponse = await getAllServers();
 
-        // Check if serverResponse is an object
-        if (typeof serverResponse === 'object' && serverResponse !== null) {
+        // Check if serverResponse has data
+        if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
             const serverDataWithStatus = [];
-			//console.log(serverResponse);
-			console.log(serverResponse.data);
 
             // Iterate through each server
-            for (const serverId in serverResponse) {
-                if (serverResponse.hasOwnProperty(serverId)) {
-                    const serverData = serverResponse[serverId].data.attributes;
-                    const identifier = serverData.identifier;
+            for (const server of serverResponse.data) {
+                const serverData = server.attributes;
+                const identifier = serverData.identifier;
 
-                    // Fetch server status asynchronously
-                    const status = await getServerStatus(identifier);
+                // Fetch server status asynchronously
+                const status = await getServerStatus(identifier);
 
-                    // Push server data with status to array
-                    serverDataWithStatus.push({
-                        identifier: identifier,
-                        status: status
-                    });
-                }
+                // Push server data with status to array
+                serverDataWithStatus.push({
+                    identifier: identifier,
+                    status: status
+                });
             }
 
             // Write data to disk
@@ -131,7 +127,7 @@ cron.schedule('*/5 * * * * *', async () => {
                 console.log('Queried servers written to file.');
             });
         } else {
-            console.error('Server response is not an object or is null.');
+            console.error('Invalid server response format.');
         }
     } catch (error) {
         console.error(error);
