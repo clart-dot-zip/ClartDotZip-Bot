@@ -92,53 +92,39 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-const asyncOperation = async (item) => {
-	// Simulating an asynchronous operation with a delay using setTimeout
-	return new Promise((resolve) => {
-	  setTimeout(() => {
-		// Replace this with your actual async operation code
-		console.log(item)
-		// For example, you might have an API call or database query here
-		console.log(`Async operation for ${item} completed.`);
-		resolve(`Result for ${item}`);
-	  }, 1000); // Simulating a 1000ms (1 second) delay
-	});
-};
+// Assuming these functions return Promises
+const getAllServers = () => serverApp.getAllServers();
+const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 
-async function queryData(serverResponse) {
-	try {
-		var allServers = {
-			servers: []
-		};
-		for (const serverId in serverResponse) { // Iterate over properties of serverResponse
-			if (serverResponse.hasOwnProperty(serverId)) { // Ensure it's a direct property
-				const serverData = serverResponse[serverId].attributes; // Assuming 'server.attributes' holds the data you need
-				console.log(serverResponse[serverId]);
-				const tempStatus = await clientApp.getServerStatus(serverData.identifier);
-				var tempData = {
-					identifier: serverData.identifier, // Corrected typo: 'indentifier' -> 'identifier'
-					status: tempStatus
-				};
-				console.log(tempData);
-				allServers.servers.push(tempData);
-			}
-		}
-	} catch (error) {
-		console.error(error);
-	}
+cron.schedule('*/5 * * * * *', async () => {
+    try {
+        // Fetch all servers
+        const serverResponse = await getAllServers();
 
-	return allServers;
-}
+        // Array to store server data with status
+        const serverDataWithStatus = [];
 
-cron.schedule('*/5 * * * * *', async () => { // Making the function async to use 'await'
-	try {
-		const serverResponse = await serverApp.getAllServers(); // Await the server response
-		const data = await queryData(serverResponse); // Await the queryData function
-		fs.writeFile('./data/servers.json', JSON.stringify(data), function (err) {
-			if (err) throw err;
-			console.log('Queried servers written to file.');
-		});
-	} catch (error) {
-		console.error(error);
-	}
+        // Iterate through each server
+        for (const server of serverResponse) {
+            const serverData = server.attributes;
+            const identifier = serverData.identifier;
+
+            // Fetch server status asynchronously
+            const status = await getServerStatus(identifier);
+
+            // Push server data with status to array
+            serverDataWithStatus.push({
+                identifier: identifier,
+                status: status
+            });
+        }
+
+        // Write data to disk
+        fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), function (err) {
+            if (err) throw err;
+            console.log('Queried servers written to file.');
+        });
+    } catch (error) {
+        console.error(error);
+    }
 });
