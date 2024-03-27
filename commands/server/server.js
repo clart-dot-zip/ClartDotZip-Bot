@@ -16,18 +16,18 @@ module.exports = {
             for (const item of jsonData) {
                 const embed = new EmbedBuilder()
                     .setAuthor({
-                        name: jsonData.name,
+                        name: "" + jsonData.name,
                     })
                     .setTitle("🟢 Online")
                     .addFields(
                         {
                             name: "IP Address",
-                            value: item.identifier, // Assuming identifier holds IP address
+                            value: "", // Assuming identifier holds IP address
                             inline: true
                         },
                         {
                             name: "Version",
-                            value: item.status, // Assuming status holds server version
+                            value: "", // Assuming status holds server version
                             inline: true
                         },
                     )
