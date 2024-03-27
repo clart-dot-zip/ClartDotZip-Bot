@@ -129,7 +129,7 @@ async function queryData(serverResponse) {
 
 cron.schedule('*/5 * * * * *', async () => { // Making the function async to use 'await'
 	try {
-		const serverResponse = await serverApp.getAllServers(); // Await the server response
+		const serverResponse = await JSON.parse(serverApp.getAllServers()); // Await the server response
 		console.log(serverResponse);
 		const data = await queryData(serverResponse); // Await the queryData function
 		fs.writeFile('./data/servers.json', JSON.stringify(data), function (err) {
