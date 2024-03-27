@@ -117,7 +117,7 @@ cron.schedule('*/5 * * * * *', async () => {
                 const status = await getServerStatus(identifier);
 				const details = await getServerDetails(identifier);
 
-				console.log(details);
+				console.log(details.relationships.allocations);
 
                 // Push server data with status to array
                 serverDataWithStatus.push({
