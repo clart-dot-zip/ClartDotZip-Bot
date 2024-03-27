@@ -104,26 +104,33 @@ async function updateEmbedMessages(client, msgData, serverData) {
                 const channel = client.channels.cache.get('1206726874886311987'); // Replace with your channel ID
 
                 // Fetch the message
-                const message = await channel.messages.fetch(messageId);
+                try {
+                    const message = await channel.messages.fetch(messageId);
+                    const color = status === '🔴 Offline' ? '#dd2e44' :
+                                  status === '🟠 Starting' ? '#f4900c' :
+                                  status === '🟢 Online' ? '#78b159' :
+                                  '#000000';
+                    // Update the embed
+                    const embed = new EmbedBuilder()
+                        .setTitle(name)
+                        .setDescription(status)
+                        .addFields(
+                            { name: 'IP Address', value: `${ip_alias}:${port}`, inline: true },
+                            { name: 'Version', value: description, inline: true }
+                        )
+                        .setThumbnail(thumbnail)
+                        .setColor(color)
+                        .setFooter({
+                            text: "High Tinker Mekkatorque",
+                            iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
+                        })
+                        .setTimestamp();
 
-                // Update the embed
-                const embed = new EmbedBuilder()
-                    .setTitle(name)
-                    .setDescription(status)
-                    .addFields(
-                        { name: 'IP Address', value: `${ip_alias}:${port}`, inline: true },
-                        { name: 'Version', value: description, inline: true }
-                    )
-                    .setThumbnail(thumbnail)
-                    .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00')
-                    .setFooter({
-                        text: "High Tinker Mekkatorque",
-                        iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
-                    })
-                    .setTimestamp();
-
-                // Edit the message with the updated embed
-                await message.edit({ embeds: [embed] });
+                    // Edit the message with the updated embed
+                    await message.edit({ embeds: [embed] });
+                } catch (error) {
+                    console.error('Error fetching message:', error);
+                }
             }
         }
     } catch (error) {

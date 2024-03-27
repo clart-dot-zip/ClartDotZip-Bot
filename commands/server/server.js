@@ -6,8 +6,8 @@ const serverData = './data/servers.json';
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('server')
-        .setDescription('list server'),
+        .setName('servers')
+        .setDescription('Lists all current pterodactyl servers.'),
     async execute(interaction) {
         try {
             // Read data from the file
@@ -25,6 +25,10 @@ module.exports = {
             for (let i = 0; i < loopLimit; i++) {
                 const item = jsonData[i];
                 const status = item.status;
+                const color = status === '🔴 Offline' ? '#dd2e44' :
+                              status === '🟠 Starting' ? '#f4900c' :
+                              status === '🟢 Online' ? '#78b159' :
+                              '#000000';
                 
                 const embed = new EmbedBuilder()
                     .setTitle(item.name)
@@ -42,7 +46,7 @@ module.exports = {
                         },
                     )
                     .setThumbnail(item.thumbnail)
-                    .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00')
+                    .setColor(color)
                     .setFooter({
                         text: "High Tinker Mekkatorque",
                         iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
@@ -59,5 +63,6 @@ module.exports = {
         } catch (error) {
             console.error('Error reading or parsing file:', error);
         }
+        await interaction.reply('Server messages have been posted.');
     },
 };
