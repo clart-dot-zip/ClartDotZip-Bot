@@ -94,14 +94,12 @@ client.on(Events.InteractionCreate, async interaction => {
 
 cron.schedule('*/5 * * * * *', () => {
 	var allServers = {};
-	//var key = "Server ID";
-	//allServers[key] = [];
 	serverApp.getAllServers().then((response) => {
 		for (var i = 0; i < response.meta.pagination.count; i++) {
 			var server = response.data[i].attributes;
-			var tempData = {
+			var tempData = [{
 				indentifier: server.identifier
-			};
+			}];
 			allServers.push(tempData);
 			//console.log(util.inspect(server, {depth: null}));
 			//serverApp.getServerDetails(server.id).then((details) => {
