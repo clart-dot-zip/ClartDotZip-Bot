@@ -16,7 +16,7 @@ async function isImgUrl(url) {
     })
   }
 
-async function updateServerData(client) {
+  async function updateServerData(client) {
     try {
         // Fetch all servers
         const serverResponse = await getAllServers();
@@ -76,66 +76,82 @@ async function updateServerData(client) {
                     console.error('No default allocation found for server:', name);
                 }
             }
-            const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
-            console.log(serverMessagesData);
-            // Write data to disk
-            await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
-            
-            // Update embed messages after writing server data
-            await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
+
+            // Read previous server data from file
+            const previousServerData = JSON.parse(await fs.readFile('./data/servers.json', 'utf8'));
+
+            // Compare current and previous server data
+            const hasChanges = JSON.stringify(serverDataWithStatus) !== JSON.stringify(previousServerData);
+
+            if (hasChanges) {
+                // Write current server data to file
+                await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
+                
+                // Update embed messages after writing server data
+                const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
+                await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus, identifier);
+            } else {
+                console.log('No changes detected in server data.');
+            }
         } else {
             console.error('Invalid server response format.');
         }
     } catch (error) {
         console.error('Error in cron job:', error);
     }
-};
+}
 
-async function updateEmbedMessages(client, msgData, serverData) {
+async function updateEmbedMessages(client, msgData, serverData, updatedIdentifier) {
     try {
+        // Find the server data corresponding to the updatedIdentifier
+        const updatedServer = serverData.find(server => server.identifier === updatedIdentifier);
 
-        // Iterate through server data
-        for (const server of serverData) {
-            const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
+        if (!updatedServer) {
+            console.error('Server data not found for the updated identifier:', updatedIdentifier);
+            return;
+        }
 
-            // Check if server ID has a corresponding message ID
-            if (msgData.hasOwnProperty(identifier)) {
-                const messageId = msgData[identifier];
-                const channel = client.channels.cache.get('1222447003280080977'); // Replace with your channel ID
+        const { identifier, name, description, status, ip_alias, port, thumbnail } = updatedServer;
 
-                // Fetch the message
-                try {
-                    const message = await channel.messages.fetch(messageId);
-                    const color = status === '🔴 Offline' ? '#dd2e44' :
-                                  status === '🟠 Starting' ? '#f4900c' :
-                                  status === '🟢 Online' ? '#78b159' :
-                                  '#000000';
-                    // Update the embed
-                    const embed = new EmbedBuilder()
-                        .setTitle(name)
-                        .setDescription(status)
-                        .addFields(
-                            { name: 'IP Address', value: `${ip_alias}:${port}`, inline: true },
-                            { name: 'Version', value: description, inline: true }
-                        )
-                        .setThumbnail(thumbnail)
-                        .setColor(color)
-                        .setFooter({
-                            text: "High Tinker Mekkatorque",
-                            iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
-                        })
-                        .setTimestamp();
+        // Check if server ID has a corresponding message ID
+        if (msgData.hasOwnProperty(identifier)) {
+            const messageId = msgData[identifier];
+            const channel = client.channels.cache.get('1222447003280080977'); // Replace with your channel ID
 
-                    // Edit the message with the updated embed
-                    await message.edit({ embeds: [embed] });
-                } catch (error) {
-                    console.error('Error fetching message:', error);
-                }
+            // Fetch the message
+            try {
+                const message = await channel.messages.fetch(messageId);
+                const color = status === '🔴 Offline' ? '#dd2e44' :
+                              status === '🟠 Starting' ? '#f4900c' :
+                              status === '🟢 Online' ? '#78b159' :
+                              '#000000';
+                // Update the embed
+                const embed = new EmbedBuilder()
+                    .setTitle(name)
+                    .setDescription(status)
+                    .addFields(
+                        { name: 'IP Address', value: `${ip_alias}:${port}`, inline: true },
+                        { name: 'Version', value: description, inline: true }
+                    )
+                    .setThumbnail(thumbnail)
+                    .setColor(color)
+                    .setFooter({
+                        text: "High Tinker Mekkatorque",
+                        iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
+                    })
+                    .setTimestamp();
+
+                // Edit the message with the updated embed
+                await message.edit({ embeds: [embed] });
+                console.log(`Embed message updated for server: ${name}`);
+            } catch (error) {
+                console.error('Error fetching message:', error);
             }
+        } else {
+            console.error('Message ID not found for server:', name);
         }
     } catch (error) {
         console.error('Error updating embed messages:', error);
     }
 }
 
-module.exports = updateServerData;
