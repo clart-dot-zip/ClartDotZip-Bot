@@ -41,6 +41,7 @@ module.exports = {
                             inline: true
                         },
                     )
+                    .setThumbnail("https://clart.zip/resources/" + item.identifier + ".png")
                     .setColor("#6495ed")
                     .setFooter({
                         text: "High Tinker Mekkatorque",
