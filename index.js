@@ -105,8 +105,8 @@ cron.schedule('*/5 * * * * *', async () => {
         if (typeof serverResponse === 'object' && serverResponse !== null) {
             // Array to store server data with status
             const serverDataWithStatus = [];
-			console.log(serverResponse);
-			//console.log(serverResponse.data);
+			//console.log(serverResponse);
+			console.log(serverResponse.data);
 
             // Iterate through each server
             for (const serverId in serverResponse) {
