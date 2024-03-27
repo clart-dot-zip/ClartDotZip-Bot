@@ -155,7 +155,7 @@ cron.schedule('*/5 * * * * *', async () => {
                     });
 
                     // Read the server messages file
-                    const serverMessagesData = await fs.readFile(serverMsgs, 'utf8');
+                    const serverMessagesData = await fs.readFile(serverMsgs, { encoding: 'utf8', flag: 'a+' });
                     const serverMessages = JSON.parse(serverMessagesData);
 
                     // Update or add the message ID for this server
