@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fs = require('fs').promises;
-const cron = require('node-cron');
 
 const serverMsgs = './data/server_messages.json';
 const serverData = './data/servers.json';
@@ -62,3 +61,43 @@ module.exports = {
         }
     },
 };
+
+// Function to update embed messages
+async function updateEmbedMessages() {
+    try {
+        // Read server data and message IDs
+        const serverData = JSON.parse(await fs.readFile(serverData, 'utf8'));
+        const serverMessages = JSON.parse(await fs.readFile(serverMsgs, 'utf8'));
+
+        // Iterate through server data
+        for (const server of serverData) {
+            const { identifier, name, description, status, ip_alias, port } = server;
+
+            // Check if server ID has a corresponding message ID
+            if (serverMessages.hasOwnProperty(identifier)) {
+                const messageId = serverMessages[identifier];
+                const channel = client.channels.cache.get('1206726874886311987'); // Replace with your channel ID
+
+                // Fetch the message
+                const message = await channel.messages.fetch(messageId);
+
+                // Update the embed
+                const embed = new EmbedBuilder()
+                    .setTitle(name)
+                    .setDescription(status)
+                    .addFields(
+                        { name: 'IP', value: `${ip_alias}:${port}`, inline: true },
+                        { name: 'Description', value: description, inline: true }
+                    )
+                    .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00');
+
+                // Edit the message with the updated embed
+                await message.edit({ embeds: [embed] });
+            }
+        }
+    } catch (error) {
+        console.error('Error updating embed messages:', error);
+    }
+}
+
+module.exports = updateEmbedMessages;
