@@ -11,7 +11,7 @@ module.exports = {
     async execute(interaction) {
         try {
             // Read data from the file
-            const data = await fs.readFile(serverData, 'utf8', function(err) { if (err) console.error('Error reading file:', err); });
+            const data = await fs.readFile(serverData, 'utf8');
             // Parse JSON data
             const jsonData = JSON.parse(data);
 
