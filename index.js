@@ -106,7 +106,7 @@ cron.schedule('*/5 * * * * *', () => {
 					indentifier: server.identifier,
 					status: tempStatus
 				};
-				console.log(tempData.status);
+				console.log(tempData);
 				allServers.servers.push(tempData);
 			}).catch((error) => {
 				console.error(error);
