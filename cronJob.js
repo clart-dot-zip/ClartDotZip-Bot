@@ -10,7 +10,7 @@ const getAllServers = () => serverApp.getAllServers();
 const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
-function isImgUrl(url) {
+async function isImgUrl(url) {
     return fetch(url, {method: 'HEAD'}).then(res => {
       return res.headers.get('Content-Type').startsWith('image')
     })
