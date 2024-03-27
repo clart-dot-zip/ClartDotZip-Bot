@@ -102,7 +102,7 @@ cron.schedule('*/5 * * * * *', () => {
 			var tempData = {
 				indentifier: server.identifier
 			};
-			allServers.servers.push(tempData.indentifier);
+			allServers.servers.push(tempData);
 			//console.log(util.inspect(server, {depth: null}));
 			//serverApp.getServerDetails(server.id).then((details) => {
 			//	console.log(details);
@@ -110,7 +110,7 @@ cron.schedule('*/5 * * * * *', () => {
 			//	console.error(error);
 			//});
 		}
-		console.log(allServers)
+		console.log(allServers.servers)
 		fs.writeFile('./data/servers.json', JSON.stringify(allServers), function (err) {
 			if (err) throw err;
 			console.log('Queried servers written to file.');
