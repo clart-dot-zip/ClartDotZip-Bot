@@ -1,5 +1,9 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fs = require('fs').promises;
+const cron = require('node-cron');
+
+const serverMsgs = './data/server_messages.json';
+const serverData = './data/servers.json';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,24 +12,21 @@ module.exports = {
     async execute(interaction) {
         try {
             // Read data from the file
-            const data = await fs.readFile('data/servers.json', 'utf8');
+            const data = await fs.readFile(serverData, 'utf8');
             // Parse JSON data
             const jsonData = JSON.parse(data);
 
             // Limit the loop to output the first three results for debugging
             const loopLimit = Math.min(jsonData.length, 3);
-            
+
+            // Store the identifiers and message IDs in an object
+            const serverMessages = {};
+
             // Iterate over the parsed JSON array
             for (let i = 0; i < loopLimit; i++) {
                 const item = jsonData[i];
-                var status = item.status;
-                if (status === "offline") {
-                    status = "🔴 Offline";
-                } else if (status == "running") {
-                    status = "🟢 Online";
-                } else {
-                    status = "🟠 Starting";
-                }
+                const status = item.status;
+                
                 const embed = new EmbedBuilder()
                     .setTitle(item.name)
                     .setDescription(status)
@@ -49,10 +50,43 @@ module.exports = {
                     })
                     .setTimestamp();
 
-                await interaction.channel.send({ embeds: [embed] });
+                // Send a new message and update the object with identifier and message ID
+                const newMessage = await interaction.channel.send({ embeds: [embed] });
+                serverMessages[item.identifier] = newMessage.id;
             }
+
+            // Write the server messages to a file
+            await fs.writeFile(serversFile, JSON.stringify(serverMessages));
         } catch (error) {
             console.error('Error reading or parsing file:', error);
         }
     },
 };
+
+// Schedule editing of messages using node-cron
+cron.schedule('*/5 * * * * *', async () => {
+    try {
+        // Read server messages from the file
+        const serverMessagesData = await fs.readFile(serversFile, 'utf8');
+        const serverData = await fs.readFile('data/servers.json', 'utf8');
+        const serverMessages = JSON.parse(serverMessagesData);
+
+        // Iterate over the server messages and edit them
+        for (const identifier in serverMessages) {
+            const messageId = serverMessages[identifier];
+            const existingMessage = await interaction.channel.messages.fetch(messageId);
+
+            // Edit the existing message
+            if (existingMessage) {
+                // Fetch server details based on the identifier and update the embed
+                // Note: Implement the logic to fetch server details and update the embed accordingly
+                const updatedEmbed = EmbedBuilder.from(await msg.embeds[0]).setDescription(serverData.find(status => serverData.identifier == serverMessages));
+                await existingMessage.edit({ embeds: [updatedEmbed] });
+            } else {
+                console.error('Message not found for identifier:', identifier);
+            }
+        }
+    } catch (error) {
+        console.error('Error editing messages:', error);
+    }
+});

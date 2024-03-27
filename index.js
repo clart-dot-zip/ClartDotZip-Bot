@@ -115,8 +115,16 @@ cron.schedule('*/5 * * * * *', async () => {
 			var description = serverData.description;
 
 			// Fetch server status asynchronously
-			const status = await getServerStatus(identifier);
+			var status = await getServerStatus(identifier);
 			const details = await getServerDetails(identifier);
+
+			if (status === "offline") {
+				status = "🔴 Offline";
+			} else if (status == "running") {
+				status = "🟢 Online";
+			} else {
+				status = "🟠 Starting";
+			}
 
 			// Find the allocation with is_default equal to true
 			const defaultAllocation = details.relationships.allocations.data.find(allocation => allocation.attributes.is_default);
