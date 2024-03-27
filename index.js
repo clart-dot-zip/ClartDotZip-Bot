@@ -95,6 +95,7 @@ client.on(Events.InteractionCreate, async interaction => {
 // Assuming these functions return Promises
 const getAllServers = () => serverApp.getAllServers();
 const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
+const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 cron.schedule('*/5 * * * * *', async () => {
     try {
@@ -114,6 +115,9 @@ cron.schedule('*/5 * * * * *', async () => {
 
                 // Fetch server status asynchronously
                 const status = await getServerStatus(identifier);
+				const details = await getServerDetails(identifier);
+
+				console.log(details);
 
                 // Push server data with status to array
                 serverDataWithStatus.push({
