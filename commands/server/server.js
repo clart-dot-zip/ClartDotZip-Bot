@@ -31,8 +31,8 @@ module.exports = {
                     .setDescription(status)
                     .addFields(
                         {
-                            name: item.ip_alias + ":" + item.port,
-                            value: "yes", // Assuming identifier holds IP address
+                            name: "IP Address",
+                            value: item.ip_alias + ":" + item.port, // Assuming identifier holds IP address
                             inline: true
                         },
                         {
@@ -41,8 +41,8 @@ module.exports = {
                             inline: true
                         },
                     )
-                    .setThumbnail("https://clart.zip/resources/" + item.identifier + ".png")
-                    .setColor("#6495ed")
+                    .setThumbnail(item.thumbnail)
+                    .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00')
                     .setFooter({
                         text: "High Tinker Mekkatorque",
                         iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",

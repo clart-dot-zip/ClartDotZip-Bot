@@ -62,7 +62,8 @@ async function updateServerData(client) {
                         description: description,
                         status: status,
                         ip_alias: ip_alias,
-                        port: port
+                        port: port,
+                        thumbnail : "https://clart.zip/resources/" + identifier + ".png" || "https://clart.zip/resources/default.png"
                     });
 
                 } else {
@@ -104,10 +105,15 @@ async function updateEmbedMessages(client, msgData, serverData) {
                     .setTitle(name)
                     .setDescription(status)
                     .addFields(
-                        { name: 'IP', value: `${ip_alias}:${port}`, inline: true },
+                        { name: 'IP Address', value: `${ip_alias}:${port}`, inline: true },
                         { name: 'Description', value: description, inline: true }
                     )
-                    .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00');
+                    .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00')
+                    .setFooter({
+                        text: "High Tinker Mekkatorque",
+                        iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
+                    })
+                    .setTimestamp();
 
                 // Edit the message with the updated embed
                 await message.edit({ embeds: [embed] });
