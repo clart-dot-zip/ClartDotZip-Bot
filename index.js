@@ -8,7 +8,6 @@ const Nodeactyl = require('nodeactyl');
 const serverApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi);
 const clientApp = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi);
 const util = require('util');
-const serverMsgs = './data/server_messages.json';
 const serverData = './data/servers.json';
 
 // Create a new client instance
@@ -109,7 +108,7 @@ cron.schedule('*/5 * * * * *', async () => {
             // Array to store server data with status
             const serverDataWithStatus = [];
 
-            const data = fs.readFile(serverMsgs, 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
+            const data = fs.readFile('./data/server_messages.json', 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
             console.log(data);
 			const msgData = JSON.parse(data);
 
