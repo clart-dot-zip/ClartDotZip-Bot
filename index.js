@@ -1,7 +1,7 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
 const Nodeactyl = require('nodeactyl');
@@ -97,6 +97,9 @@ const getAllServers = () => serverApp.getAllServers();
 const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
+const serverMsgs = './data/server_messages.json';
+const serverData = './data/servers.json';
+
 cron.schedule('*/5 * * * * *', async () => {
     try {
         // Fetch all servers
@@ -108,58 +111,82 @@ cron.schedule('*/5 * * * * *', async () => {
             const serverDataWithStatus = [];
 
             // Iterate through each server
-		for (const server of serverResponse.data) {
-			const serverData = server.attributes;
-			const identifier = serverData.identifier;
-			const name = serverData.name; // Extract name attribute
-			var description = serverData.description;
+            for (const server of serverResponse.data) {
+                const serverData = server.attributes;
+                const identifier = serverData.identifier;
+                const name = serverData.name; // Extract name attribute
+                var description = serverData.description;
 
-			// Fetch server status asynchronously
-			var status = await getServerStatus(identifier);
-			const details = await getServerDetails(identifier);
+                // Fetch server status asynchronously
+                var status = await getServerStatus(identifier);
+                const details = await getServerDetails(identifier);
 
-			if (status === "offline") {
-				status = "🔴 Offline";
-			} else if (status == "running") {
-				status = "🟢 Online";
-			} else {
-				status = "🟠 Starting";
-			}
+                if (status === "offline") {
+                    status = "🔴 Offline";
+                } else if (status == "running") {
+                    status = "🟢 Online";
+                } else {
+                    status = "🟠 Starting";
+                }
 
-			// Find the allocation with is_default equal to true
-			const defaultAllocation = details.relationships.allocations.data.find(allocation => allocation.attributes.is_default);
+                // Find the allocation with is_default equal to true
+                const defaultAllocation = details.relationships.allocations.data.find(allocation => allocation.attributes.is_default);
 
-			if (defaultAllocation) {
-				const { ip_alias, port } = defaultAllocation.attributes;
-				
-				console.log('IP Alias:', ip_alias);
-				console.log('Port:', port);
+                if (defaultAllocation) {
+                    const { ip_alias, port } = defaultAllocation.attributes;
 
-				if (description != "") {
-					description = description;
-				} else {
-					description = "N/A";
-				}
-				
-				// Push server data with status and details to array
-				serverDataWithStatus.push({
-					identifier: identifier,
-					name: name, // Add name attribute
-					description: description,
-					status: status,
-					ip_alias: ip_alias,
-					port: port
-				});
-			} else {
-				console.error('No default allocation found for server:', name);
-			}
-		}
+                    console.log('IP Alias:', ip_alias);
+                    console.log('Port:', port);
+
+                    if (description != "") {
+                        description = description;
+                    } else {
+                        description = "N/A";
+                    }
+
+                    // Push server data with status and details to array
+                    serverDataWithStatus.push({
+                        identifier: identifier,
+                        name: name, // Add name attribute
+                        description: description,
+                        status: status,
+                        ip_alias: ip_alias,
+                        port: port
+                    });
+
+                    // Read the server messages file
+                    const serverMessagesData = await fs.readFile(serverMsgs, 'utf8');
+                    const serverMessages = JSON.parse(serverMessagesData);
+
+                    // Update or add the message ID for this server
+                    serverMessages[identifier] = serverMessages[identifier] || {};
+                    serverMessages[identifier].messageId = serverMessages[identifier].messageId || null;
+
+                    // If the message ID is already stored, update the message
+                    if (serverMessages[identifier].messageId) {
+                        const channel = client.channels.cache.get('1206726874886311987');
+
+                        if (!channel || channel.type !== 'text') {
+                            console.error('Text channel not found.');
+                            continue;
+                        }
+
+                        const existingMessage = await channel.messages.fetch(serverMessages[identifier].messageId);
+                        if (existingMessage) {
+                            const updatedEmbed = EmbedBuilder.from(existingMessage.embeds[0]).setDescription(description);
+                            await existingMessage.edit({ embeds: [updatedEmbed] });
+                        } else {
+                            console.error('Message not found for identifier:', identifier);
+                        }
+                    }
+                } else {
+                    console.error('No default allocation found for server:', name);
+                }
+            }
 
             // Write data to disk
-            fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), function (err) {
-                if (err) throw err;
-                console.log('Queried servers written to file.');
-            });
+            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus));
+            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages));
         } else {
             console.error('Invalid server response format.');
         }
@@ -167,3 +194,4 @@ cron.schedule('*/5 * * * * *', async () => {
         console.error(error);
     }
 });
+

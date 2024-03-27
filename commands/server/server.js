@@ -62,31 +62,3 @@ module.exports = {
         }
     },
 };
-
-// Schedule editing of messages using node-cron
-cron.schedule('*/5 * * * * *', async () => {
-    try {
-        // Read server messages from the file
-        const serverMessagesData = await fs.readFile(serverMsgs, 'utf8');
-        const updatedData = await fs.readFile(serverData, 'utf8');
-        const serverMessages = JSON.parse(serverMessagesData);
-
-        // Iterate over the server messages and edit them
-        for (const identifier in serverMessages) {
-            const messageId = serverMessages[identifier];
-            const existingMessage = await interaction.channel.messages.fetch(messageId);
-
-            // Edit the existing message
-            if (existingMessage) {
-                // Fetch server details based on the identifier and update the embed
-                // Note: Implement the logic to fetch server details and update the embed accordingly
-                const updatedEmbed = EmbedBuilder.from(await msg.embeds[0]).setDescription(updatedData.find(status => updatedData.identifier == serverMessages));
-                await existingMessage.edit({ embeds: [updatedEmbed] });
-            } else {
-                console.error('Message not found for identifier:', identifier);
-            }
-        }
-    } catch (error) {
-        console.error('Error editing messages:', error);
-    }
-});
