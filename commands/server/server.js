@@ -16,7 +16,7 @@ module.exports = {
             for (const item of jsonData) {
                 const embed = new EmbedBuilder()
                     .setAuthor({
-                        name: "" + jsonData.name,
+                        name: item.name,
                     })
                     .setTitle("🟢 Online")
                     .addFields(
