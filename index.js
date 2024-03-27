@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const { token } = require('./config/config.json');
-const queries = require('query.js');
+const queries = require('./query.js');
 
 // Create a new client instance
 const client = new Client({ 
