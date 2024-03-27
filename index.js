@@ -6,7 +6,7 @@ const config = require('./config/config.json');
 const cron = require('node-cron');
 const Nodeactyl = require('nodeactyl');
 const serverApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi);
-const clientApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.clientApi);
+const clientApp = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi);
 const util = require('util');
 
 // Create a new client instance
