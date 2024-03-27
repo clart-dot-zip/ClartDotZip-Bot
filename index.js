@@ -92,37 +92,38 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-cron.schedule('*/5 * * * * *', () => {
-	var allServers = {
-		servers: []
-	};
-	serverApp.getAllServers().then((serverResponse) => {
-		for (var i = 0; i < serverResponse.meta.pagination.count; i++) {
-			var server = serverResponse.data[i].attributes;
-			var tempStatus = '';
-			(async () => {
-				tempStatus = await clientApp.getServerStatus(server.identifier)
-			})();
+async function queryData(serverResponse) {
+	try {
+		var allServers = {
+			servers: []
+		};
+		for (const server in serverResponse) {
+			var serverData = serverResponse.data[i].attributes;
+			var	tempStatus = await clientApp.getServerStatus(serverData.identifier)
 			var tempData = {
 				indentifier: server.identifier,
 				status: tempStatus
 			};
 			console.log(tempData);
 			allServers.servers.push(tempData);
-
-			//console.log(util.inspect(server, {depth: null}));
-			//serverApp.getServerDetails(server.id).then((details) => {
-			//	console.log(details);
-			//}).catch((error) => {
-			//	console.error(error);
-			//});
 		}
-		//console.log(allServers.servers)
-		fs.writeFile('./data/servers.json', JSON.stringify(allServers), function (err) {
-			if (err) throw err;
-			console.log('Queried servers written to file.');
-		});
+	} catch (error) {
+		console.error(error);
+	}
+
+	return allServers;
+}
+
+cron.schedule('*/5 * * * * *', () => {
+	var data;
+	serverApp.getAllServers().then((serverResponse) => {
+		data = queryData(serverResponse)
 	}).catch((error) => {  
 		console.error(error);
+	});
+	//console.log(allServers.servers)
+	fs.writeFile('./data/servers.json', JSON.stringify(data), function (err) {
+		if (err) throw err;
+		console.log('Queried servers written to file.');
 	});
 })
