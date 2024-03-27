@@ -158,7 +158,7 @@ cron.schedule('*/5 * * * * *', async () => {
 
             }
 
-			const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8', function(err, data) {	if (err) console.error('Error reading server messages file:', err); });
+			const serverMessagesData = fs.readFile('./data/server_messages.json', 'utf8', function(err, data) {	if (err) console.error('Error reading server messages file:', err); });
 			console.log(serverMessagesData);
 
             // Write data to disk
