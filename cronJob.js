@@ -91,7 +91,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
 
         // Iterate through server data
         for (const server of serverData) {
-            const { identifier, name, description, status, ip_alias, port } = server;
+            const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
 
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
