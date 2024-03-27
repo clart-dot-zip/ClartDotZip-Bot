@@ -109,15 +109,9 @@ cron.schedule('*/5 * * * * *', async () => {
             // Array to store server data with status
             const serverDataWithStatus = [];
 
-            // Read the server messages file if it exists
-            let serverMessages = {};
+            const serverMessagesData = await fs.readFile(serverMsgs, 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
+            const serverMessages = JSON.parse(serverMessagesData);
 
-            try {
-                const serverMessagesData = await fs.readFile(serverMsgs, 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
-                serverMessages = JSON.parse(serverMessagesData);
-            } catch (readError) {
-                console.error('Error reading server messages file:', readError);
-            }
 
             // Iterate through each server
             for (const server of serverResponse.data) {
@@ -166,6 +160,7 @@ cron.schedule('*/5 * * * * *', async () => {
                 } else {
                     console.error('No default allocation found for server:', name);
                 }
+				
             }
 
             // Write data to disk
