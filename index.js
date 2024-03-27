@@ -113,7 +113,7 @@ async function queryData(serverResponse) {
 		for (const serverId in serverResponse) { // Iterate over properties of serverResponse
 			if (serverResponse.hasOwnProperty(serverId)) { // Ensure it's a direct property
 				const serverData = serverResponse[serverId].attributes; // Assuming 'server.attributes' holds the data you need
-				console.log(serverData);
+				console.log(serverResponse[serverId]);
 				const tempStatus = await clientApp.getServerStatus(serverData.identifier);
 				var tempData = {
 					identifier: serverData.identifier, // Corrected typo: 'indentifier' -> 'identifier'
