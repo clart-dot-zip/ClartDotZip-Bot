@@ -112,7 +112,7 @@ cron.schedule('*/5 * * * * *', async () => {
             // Read the server messages file if it exists
             let serverMessages = {};
             try {
-                const serverMessagesData = await fs.readFile(serverMsgs, { encoding: 'utf8' });
+                const serverMessagesData = await fs.readFile(serverMsgs, 'utf8');
                 serverMessages = JSON.parse(serverMessagesData);
             } catch (readError) {
                 console.error('Error reading server messages file:', readError);
@@ -171,8 +171,8 @@ cron.schedule('*/5 * * * * *', async () => {
             }
 
             // Write data to disk
-            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), { encoding: 'utf8', flag: 'w' });
-            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), { encoding: 'utf8', flag: 'w' });
+            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), 'utf8', function(err) { if (err) console.error('Error writing server data file:', err); });
+            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), 'utf8', function(err) { if (err) console.error('Error writing server messages file:', err); });
         } else {
             console.error('Invalid server response format.');
         }
