@@ -101,29 +101,36 @@ cron.schedule('*/5 * * * * *', async () => {
         // Fetch all servers
         const serverResponse = await getAllServers();
 
-        // Array to store server data with status
-        const serverDataWithStatus = [];
+        // Check if serverResponse is an object
+        if (typeof serverResponse === 'object' && serverResponse !== null) {
+            // Array to store server data with status
+            const serverDataWithStatus = [];
 
-        // Iterate through each server
-        for (const server of serverResponse) {
-            const serverData = server.attributes;
-            const identifier = serverData.identifier;
+            // Iterate through each server
+            for (const serverId in serverResponse) {
+                if (serverResponse.hasOwnProperty(serverId)) {
+                    const serverData = serverResponse[serverId].attributes;
+                    const identifier = serverData.identifier;
 
-            // Fetch server status asynchronously
-            const status = await getServerStatus(identifier);
+                    // Fetch server status asynchronously
+                    const status = await getServerStatus(identifier);
 
-            // Push server data with status to array
-            serverDataWithStatus.push({
-                identifier: identifier,
-                status: status
+                    // Push server data with status to array
+                    serverDataWithStatus.push({
+                        identifier: identifier,
+                        status: status
+                    });
+                }
+            }
+
+            // Write data to disk
+            fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), function (err) {
+                if (err) throw err;
+                console.log('Queried servers written to file.');
             });
+        } else {
+            console.error('Server response is not an object or is null.');
         }
-
-        // Write data to disk
-        fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), function (err) {
-            if (err) throw err;
-            console.log('Queried servers written to file.');
-        });
     } catch (error) {
         console.error(error);
     }
