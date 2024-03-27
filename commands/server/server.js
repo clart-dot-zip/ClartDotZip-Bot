@@ -59,6 +59,5 @@ module.exports = {
         } catch (error) {
             console.error('Error reading or parsing file:', error);
         }
-        await interaction.reply('Server messages have been posted.');
     },
 };
