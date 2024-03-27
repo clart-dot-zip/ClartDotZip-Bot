@@ -108,7 +108,7 @@ cron.schedule('*/5 * * * * *', async () => {
             // Array to store server data with status
             const serverDataWithStatus = [];
 
-            const data = fs.readFile('./data/server_messages.json', 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
+            const data = fs.readFile('./data/server_messages.json', function(err) { if (err) console.error('Error reading server messages file:', err); });
             console.log(data);
 			const msgData = JSON.parse(data);
 
