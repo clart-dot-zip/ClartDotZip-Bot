@@ -112,7 +112,7 @@ cron.schedule('*/5 * * * * *', async () => {
 			const serverData = server.attributes;
 			const identifier = serverData.identifier;
 			const name = serverData.name; // Extract name attribute
-			const description = serverData.description;
+			var description = serverData.description;
 
 			// Fetch server status asynchronously
 			const status = await getServerStatus(identifier);
