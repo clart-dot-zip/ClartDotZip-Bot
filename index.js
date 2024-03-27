@@ -104,12 +104,12 @@ cron.schedule('*/5 * * * * *', () => {
 			//}).catch((error) => {
 			//	console.error(error);
 			//});
-			console.log(allServers)
 		}
 	}).catch((error) => {  
 		console.error(error);
 	});
-	fs.writeFile('./data/servers.json', allServers, function (err) {
+	console.log(allServers)
+	fs.writeFile('./data/servers.json', JSON.stringify(allServers), function (err) {
 		if (err) throw err;
 		console.log('Queried servers written to file.');
 	});
