@@ -112,7 +112,7 @@ cron.schedule('*/5 * * * * *', async () => {
             // Read the server messages file if it exists
             let serverMessages = {};
             try {
-                const serverMessagesData = await fs.readFile(serverMsgs, 'utf8');
+                const serverMessagesData = await fs.readFile(serverMsgs, 'utf8', function(err) { if (err) console.error('Error reading server messages file:', err); });
                 serverMessages = JSON.parse(serverMessagesData);
             } catch (readError) {
                 console.error('Error reading server messages file:', readError);

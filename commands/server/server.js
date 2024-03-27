@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) {
         try {
             // Read data from the file
-            const data = await fs.readFile(serverData, 'utf8');
+            const data = await fs.readFile(serverData, 'utf8', function(err) { if (err) console.error('Error reading file:', err); });
             // Parse JSON data
             const jsonData = JSON.parse(data);
 
@@ -56,7 +56,7 @@ module.exports = {
             }
 
             // Write the server messages to a file
-            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages));
+            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), 'utf8', function(err) { if (err) console.error('Error writing server messages file:', err); });
         } catch (error) {
             console.error('Error reading or parsing file:', error);
         }
