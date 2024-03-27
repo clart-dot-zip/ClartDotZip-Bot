@@ -110,16 +110,18 @@ async function queryData(serverResponse) {
 		var allServers = {
 			servers: []
 		};
-		for (const server of serverResponse) { // Note: Use 'of' instead of 'in' for arrays
-			var serverData = server.attributes; // Assuming 'server.attributes' holds the data you need
-			console.log(server);
-			const tempStatus = await clientApp.getServerStatus(serverData.identifier);
-			var tempData = {
-				identifier: serverData.identifier, // Corrected typo: 'indentifier' -> 'identifier'
-				status: tempStatus
-			};
-			console.log(tempData);
-			allServers.servers.push(tempData);
+		for (const serverId in serverResponse) { // Iterate over properties of serverResponse
+			if (serverResponse.hasOwnProperty(serverId)) { // Ensure it's a direct property
+				const serverData = serverResponse[serverId].attributes; // Assuming 'server.attributes' holds the data you need
+				console.log(serverData);
+				const tempStatus = await clientApp.getServerStatus(serverData.identifier);
+				var tempData = {
+					identifier: serverData.identifier, // Corrected typo: 'indentifier' -> 'identifier'
+					status: tempStatus
+				};
+				console.log(tempData);
+				allServers.servers.push(tempData);
+			}
 		}
 	} catch (error) {
 		console.error(error);
