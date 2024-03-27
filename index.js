@@ -99,12 +99,17 @@ cron.schedule('*/5 * * * * *', () => {
 	serverApp.getAllServers().then((serverResponse) => {
 		for (var i = 0; i < serverResponse.meta.pagination.count; i++) {
 			var server = serverResponse.data[i].attributes;
+			var tempStatus = '';
+			(async () => {
+				tempStatus = await clientApp.getServerStatus(server.identifier)
+			})();
 			var tempData = {
 				indentifier: server.identifier,
-				status: clientApp.getServerStatus(server.identifier)
+				status: tempStatus
 			};
 			console.log(tempData);
 			allServers.servers.push(tempData);
+
 			//console.log(util.inspect(server, {depth: null}));
 			//serverApp.getServerDetails(server.id).then((details) => {
 			//	console.log(details);
