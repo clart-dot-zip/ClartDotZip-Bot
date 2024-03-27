@@ -100,7 +100,7 @@ cron.schedule('*/5 * * * * *', () => {
 		for (var i = 0; i < response.meta.pagination.count; i++) {
 			var server = response.data[i].attributes;
 			var tempData = [
-				indentifier = server.identifier
+				indentifier => server.identifier
 			];
 			allServers.servers.push(tempData);
 			//console.log(util.inspect(server, {depth: null}));
