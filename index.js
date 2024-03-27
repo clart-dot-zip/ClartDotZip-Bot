@@ -103,7 +103,6 @@ cron.schedule('*/5 * * * * *', () => {
 			clientApp.getServerStatus(server.identifier).then((status) => {
 				console.log(status);
 				tempStatus = status;
-			}).then(() => {
 				var tempData = {
 					indentifier: server.identifier,
 					status: tempStatus
