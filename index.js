@@ -97,7 +97,7 @@ const asyncOperation = async (item) => {
 	return new Promise((resolve) => {
 	  setTimeout(() => {
 		// Replace this with your actual async operation code
-		console.log(item)
+		console.log(JSON.stringify(item))
 		// For example, you might have an API call or database query here
 		console.log(`Async operation for ${item} completed.`);
 		resolve(`Result for ${item}`);
