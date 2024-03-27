@@ -1,28 +1,49 @@
 const { SlashCommandBuilder } = require('discord.js');
-const Nodeactyl = require('nodeactyl');
-const config = require('../../config/config.json');
-const application = new Nodeactyl.NodeactylApplication(config.panelAddress, config.pteroApi);
-const util = require('util');
+const fs = require('fs').promises; // Use fs.promises for async file reading
+const EmbedBuilder = require('discord.js').MessageEmbed; // Assuming you have EmbedBuilder defined somewhere
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('server')
 		.setDescription('list server'),
 	async execute(interaction) {
-        application.getAllServers().then((response) => {
-            for (var i = 0; i < 1 /*response.meta.pagination.count*/; i++) {
-                server = response.data[i].attributes;
-                console.log(util.inspect(server, {depth: null}));
-                application.getServerDetails(server.id).then((details) => {
-                    console.log(details);
-                }).catch((error) => {
-                    console.error(error);
-                });
+        try {
+            // Read data from the file
+            const data = await fs.readFile('data/servers.json', 'utf8');
+            // Parse JSON data
+            const jsonData = JSON.parse(data);
+
+            // Iterate over the parsed JSON array
+            for (const item of jsonData) {
+                const embed = new EmbedBuilder()
+                    .setAuthor({
+                        name: jsonData.name,
+                    })
+                    .setTitle("🟢 Online")
+                    .addFields(
+                        {
+                            name: "IP Address",
+                            value: item.identifier, // Assuming identifier holds IP address
+                            inline: true
+                        },
+                        {
+                            name: "Version",
+                            value: item.status, // Assuming status holds server version
+                            inline: true
+                        },
+                    )
+                    .setThumbnail("imagehere")
+                    .setColor("#00b0f4")
+                    .setFooter({
+                        text: "Example Footer",
+                        iconURL: "https://slate.dan.onl/slate.png",
+                    })
+                    .setTimestamp();
+
+                await interaction.reply({ embeds: [embed] });
             }
-            interaction.reply('Server list: ' + response);
-        }).catch((error) => {  
-            console.error(error);
-            interaction.reply('Error fetching server list.');
-        });
+        } catch (error) {
+            console.error('Error reading or parsing file:', error);
+        }
 	},
 };
