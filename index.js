@@ -99,7 +99,7 @@ async function queryData(serverResponse) {
 		};
 		for (const server in serverResponse) {
 			var serverData = server.attributes;
-			console.log(serverData);
+			console.log(server);
 			var	tempStatus = await clientApp.getServerStatus(serverData.identifier)
 			var tempData = {
 				indentifier: server.identifier,
