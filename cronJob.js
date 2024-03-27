@@ -10,20 +10,11 @@ const getAllServers = () => serverApp.getAllServers();
 const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
-function checkImage(url) {
-    var request = new XMLHttpRequest();
-    request.open("GET", url, true);
-    request.send();
-    request.onload = function() {
-      status = request.status;
-      if (request.status == 200) //if(statusText == OK)
-      {
-        return url;
-      } else {
-        return "https://clart.zip/resources/default.png";
-      }
-    }
-}
+function isImgUrl(url) {
+    return fetch(url, {method: 'HEAD'}).then(res => {
+      return res.headers.get('Content-Type').startsWith('image')
+    })
+  }
 
 async function updateServerData(client) {
     try {
@@ -41,7 +32,8 @@ async function updateServerData(client) {
                 const identifier = serverData.identifier;
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
-                var thumbnail =  checkImage("https://clart.zip/resources/" + identifier + ".png")
+                var thumbnail =  isImgUrl("https://clart.zip/resources/" + identifier + ".png")
+                console.log(thumbnail)
 
                 // Fetch server status asynchronously
                 var status = await getServerStatus(identifier);
