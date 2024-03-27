@@ -93,7 +93,11 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 cron.schedule('*/5 * * * * *', () => {
-	let allServers = {};
+	let allServers = {
+		indentifier: '',
+		name: '',
+		status: '',
+	};
 	serverApp.getAllServers().then((response) => {
 		for (var i = 0; i < response.meta.pagination.count; i++) {
 			server = response.data[i].attributes;
