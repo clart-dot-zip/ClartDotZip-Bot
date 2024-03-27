@@ -31,7 +31,7 @@ module.exports = {
                     .setDescription(status)
                     .addFields(
                         {
-                            name: "IP Address",
+                            name: item.ip_alias + ":" + item.port,
                             value: "yes", // Assuming identifier holds IP address
                             inline: true
                         },
