@@ -106,8 +106,9 @@ async function updateEmbedMessages(client, msgData, serverData) {
                     .setDescription(status)
                     .addFields(
                         { name: 'IP Address', value: `${ip_alias}:${port}`, inline: true },
-                        { name: 'Description', value: description, inline: true }
+                        { name: 'Version', value: description, inline: true }
                     )
+                    .setThumbnail(thumbnail)
                     .setColor(status === '🔴 Offline' ? '#FF0000' : '#00FF00')
                     .setFooter({
                         text: "High Tinker Mekkatorque",
