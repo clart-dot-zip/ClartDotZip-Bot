@@ -1,14 +1,10 @@
 // Require the necessary discord.js classes
-const fs = require('node:fs').promises;
+const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
-const Nodeactyl = require('nodeactyl');
-const serverApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi);
-const clientApp = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi);
-const util = require('util');
-const serverData = './data/servers.json';
+const updateServerData = require('./cronJob');
 
 // Create a new client instance
 const client = new Client({ 
@@ -40,11 +36,11 @@ const client = new Client({
 client.commands = new Collection();
 
 const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = await fs.readdirSync(foldersPath);
+const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = await fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
@@ -93,82 +89,6 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-// Assuming these functions return Promises
-const getAllServers = () => serverApp.getAllServers();
-const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
-const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
-
-cron.schedule('*/5 * * * * *', async () => {
-    try {
-        // Fetch all servers
-        const serverResponse = await getAllServers();
-
-        // Check if serverResponse has data
-        if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
-            // Array to store server data with status
-            const serverDataWithStatus = [];
-
-            // Iterate through each server
-            for (const server of serverResponse.data) {
-                const serverData = server.attributes;
-                const identifier = serverData.identifier;
-                const name = serverData.name; // Extract name attribute
-                var description = serverData.description;
-
-                // Fetch server status asynchronously
-                var status = await getServerStatus(identifier);
-                const details = await getServerDetails(identifier);
-
-                if (status === "offline") {
-                    status = "🔴 Offline";
-                } else if (status == "running") {
-                    status = "🟢 Online";
-                } else {
-                    status = "🟠 Starting";
-                }
-
-                // Find the allocation with is_default equal to true
-                const defaultAllocation = details.relationships.allocations.data.find(allocation => allocation.attributes.is_default);
-
-                if (defaultAllocation) {
-                    const { ip_alias, port } = defaultAllocation.attributes;
-
-                    console.log('IP Alias:', ip_alias);
-                    console.log('Port:', port);
-
-                    if (description != "") {
-                        description = description;
-                    } else {
-                        description = "N/A";
-                    }
-
-                    // Push server data with status and details to array
-                    serverDataWithStatus.push({
-                        identifier: identifier,
-                        name: name, // Add name attribute
-                        description: description,
-                        status: status,
-                        ip_alias: ip_alias,
-                        port: port
-                    });
-
-                } else {
-                    console.error('No default allocation found for server:', name);
-                }
-
-            }
-
-			const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
-			console.log(serverMessagesData);
-
-            // Write data to disk
-            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), 'utf8');
-        } else {
-            console.error('Invalid server response format.');
-        }
-    } catch (error) {
-        console.error('Error in cron job:', error);
-    }
-});
+cron.schedule('*/5 * * * * *', updateServerData);
 
 
