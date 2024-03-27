@@ -101,7 +101,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
                 const messageId = msgData[identifier];
-                const channel = client.channels.cache.get('1206726874886311987'); // Replace with your channel ID
+                const channel = client.channels.cache.get('1222447003280080977'); // Replace with your channel ID
 
                 // Fetch the message
                 try {
