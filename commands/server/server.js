@@ -63,11 +63,13 @@ module.exports = {
 };
 
 // Function to update embed messages
-async function updateEmbedMessages() {
+async function updateEmbedMessages(client) {
     try {
         // Read server data and message IDs
-        const serverData = JSON.parse(await fs.readFile(serverData, 'utf8'));
-        const serverMessages = JSON.parse(await fs.readFile(serverMsgs, 'utf8'));
+        const serverDataContent = await fs.readFile(serverData, 'utf8');
+        const serverData = JSON.parse(serverDataContent);
+        const serverMessagesContent = await fs.readFile(serverMsgs, 'utf8');
+        const serverMessages = JSON.parse(serverMessagesContent);
 
         // Iterate through server data
         for (const server of serverData) {
