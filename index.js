@@ -173,8 +173,8 @@ cron.schedule('*/5 * * * * *', async () => {
             }
 
             // Write data to disk
-            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), { encoding: 'utf8', flag: 'w' });
-            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), { encoding: 'utf8', flag: 'w' });
+            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus));
+            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages));
         } else {
             console.error('Invalid server response format.');
         }
