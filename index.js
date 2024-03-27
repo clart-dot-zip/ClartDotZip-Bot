@@ -101,8 +101,8 @@ cron.schedule('*/5 * * * * *', () => {
 			var server = serverResponse.data[i].attributes;
 			var tempStatus = "";
 			clientApp.getServerStatus(server.identifier).then((status) => {
-				console.log(status);
 				tempStatus = status;
+				console.log(tempStatus);
 				var tempData = {
 					indentifier: server.identifier,
 					status: tempStatus
