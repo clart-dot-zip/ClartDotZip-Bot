@@ -102,6 +102,16 @@ const serverData = './data/servers.json';
 
 cron.schedule('*/5 * * * * *', async () => {
     try {
+        // Check if server messages file exists
+        let serverMessages = {};
+        try {
+            await fs.access(serverMsgs);
+            const serverMessagesData = await fs.readFile(serverMsgs, { encoding: 'utf8' });
+            serverMessages = JSON.parse(serverMessagesData);
+        } catch (error) {
+            console.log('Server messages file does not exist or cannot be accessed.');
+        }
+
         // Fetch all servers
         const serverResponse = await getAllServers();
 
@@ -154,39 +164,17 @@ cron.schedule('*/5 * * * * *', async () => {
                         port: port
                     });
 
-                    // Read the server messages file
-                    const serverMessagesData = await fs.readFile(serverMsgs);
-                    const serverMessages = JSON.parse(serverMessagesData);
-
                     // Update or add the message ID for this server
                     serverMessages[identifier] = serverMessages[identifier] || {};
                     serverMessages[identifier].messageId = serverMessages[identifier].messageId || null;
-
-                    // If the message ID is already stored, update the message
-                    if (serverMessages[identifier].messageId) {
-                        const channel = client.channels.cache.get('1206726874886311987');
-
-                        if (!channel || channel.type !== 'text') {
-                            console.error('Text channel not found.');
-                            continue;
-                        }
-
-                        const existingMessage = await channel.messages.fetch(serverMessages[identifier].messageId);
-                        if (existingMessage) {
-                            const updatedEmbed = EmbedBuilder.from(existingMessage.embeds[0]).setDescription(description);
-                            await existingMessage.edit({ embeds: [updatedEmbed] });
-                        } else {
-                            console.error('Message not found for identifier:', identifier);
-                        }
-                    }
                 } else {
                     console.error('No default allocation found for server:', name);
                 }
             }
 
             // Write data to disk
-            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus));
-            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages));
+            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), { encoding: 'utf8', flag: 'w' });
+            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), { encoding: 'utf8', flag: 'w' });
         } else {
             console.error('Invalid server response format.');
         }
