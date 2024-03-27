@@ -8,6 +8,8 @@ const Nodeactyl = require('nodeactyl');
 const serverApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi);
 const clientApp = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi);
 const util = require('util');
+const serverMsgs = './data/server_messages.json';
+const serverData = './data/servers.json';
 
 // Create a new client instance
 const client = new Client({ 
@@ -97,21 +99,8 @@ const getAllServers = () => serverApp.getAllServers();
 const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
-const serverMsgs = './data/server_messages.json';
-const serverData = './data/servers.json';
-
 cron.schedule('*/5 * * * * *', async () => {
     try {
-        // Check if server messages file exists
-        let serverMessages = {};
-        try {
-            await fs.access(serverMsgs);
-            const serverMessagesData = await fs.readFile(serverMsgs, { encoding: 'utf8' });
-            serverMessages = JSON.parse(serverMessagesData);
-        } catch (error) {
-            console.log('Server messages file does not exist or cannot be accessed.');
-        }
-
         // Fetch all servers
         const serverResponse = await getAllServers();
 
@@ -119,6 +108,15 @@ cron.schedule('*/5 * * * * *', async () => {
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
             const serverDataWithStatus = [];
+
+            // Read the server messages file if it exists
+            let serverMessages = {};
+            try {
+                const serverMessagesData = await fs.readFile(serverMsgs, { encoding: 'utf8' });
+                serverMessages = JSON.parse(serverMessagesData);
+            } catch (readError) {
+                console.error('Error reading server messages file:', readError);
+            }
 
             // Iterate through each server
             for (const server of serverResponse.data) {
@@ -173,13 +171,14 @@ cron.schedule('*/5 * * * * *', async () => {
             }
 
             // Write data to disk
-            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), 'utf-8');
-            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), 'utf-8');
+            await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), { encoding: 'utf8', flag: 'w' });
+            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), { encoding: 'utf8', flag: 'w' });
         } else {
             console.error('Invalid server response format.');
         }
     } catch (error) {
-        console.error(error);
+        console.error('Error in cron job:', error);
     }
 });
+
 
