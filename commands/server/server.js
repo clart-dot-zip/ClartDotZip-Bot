@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fs = require('fs').promises;
 
 module.exports = {
@@ -12,23 +12,20 @@ module.exports = {
             // Parse JSON data
             const jsonData = JSON.parse(data);
 
-            // Array to store embeds
-            const embeds = [];
-
             // Iterate over the parsed JSON array
             for (const item of jsonData) {
-                const embed = new discord.MessageEmbed() // Use discord.MessageEmbed directly
-                    .setTitle(item.name)
+                const embed = new EmbedBuilder()
+                    .setTitle(item.attributes.name)
                     .setDescription("🟢 Online")
                     .addFields(
                         {
                             name: "IP Address",
-                            value: "yes", // Assuming identifier holds IP address
+                            value: item.attributes.identifier, // Assuming identifier holds IP address
                             inline: true
                         },
                         {
                             name: "Version",
-                            value: "yes", // Assuming status holds server version
+                            value: item.attributes.version, // Assuming version holds server version
                             inline: true
                         },
                     )
@@ -39,11 +36,8 @@ module.exports = {
                     })
                     .setTimestamp();
 
-                embeds.push(embed);
+                await interaction.channel.send({ embeds: [embed] });
             }
-
-            // Send all embeds in a single reply
-            await interaction.reply({ embeds: embeds });
         } catch (error) {
             console.error('Error reading or parsing file:', error);
         }
