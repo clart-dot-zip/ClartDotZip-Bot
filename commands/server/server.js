@@ -15,17 +15,17 @@ module.exports = {
             // Iterate over the parsed JSON array
             for (const item of jsonData) {
                 const embed = new EmbedBuilder()
-                    .setTitle(item.attributes.name)
+                    .setTitle(item.name)
                     .setDescription("🟢 Online")
                     .addFields(
                         {
                             name: "IP Address",
-                            value: item.attributes.identifier, // Assuming identifier holds IP address
+                            value: "yes", // Assuming identifier holds IP address
                             inline: true
                         },
                         {
                             name: "Version",
-                            value: item.attributes.version, // Assuming version holds server version
+                            value: "item.attributes.version", // Assuming version holds server version
                             inline: true
                         },
                     )
