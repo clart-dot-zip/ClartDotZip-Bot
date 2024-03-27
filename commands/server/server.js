@@ -16,7 +16,7 @@ module.exports = {
             const jsonData = JSON.parse(data);
 
             // Limit the loop to output the first three results for debugging
-            const loopLimit = Math.min(jsonData.length, 3);
+            const loopLimit = jsonData.length;
 
             // Store the identifiers and message IDs in an object
             const serverMessages = {};
