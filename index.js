@@ -112,6 +112,7 @@ async function queryData(serverResponse) {
 		};
 		for (const server of serverResponse) { // Note: Use 'of' instead of 'in' for arrays
 			var serverData = server.attributes; // Assuming 'server.attributes' holds the data you need
+			console.log(serverData);
 			const tempStatus = await clientApp.getServerStatus(serverData.identifier);
 			var tempData = {
 				identifier: serverData.identifier, // Corrected typo: 'indentifier' -> 'identifier'
@@ -130,7 +131,6 @@ async function queryData(serverResponse) {
 cron.schedule('*/5 * * * * *', async () => { // Making the function async to use 'await'
 	try {
 		const serverResponse = await serverApp.getAllServers(); // Await the server response
-		console.log(serverResponse);
 		var serverResponseArray = Object.keys(serverResponse).map((key) => [key, serverResponse[key]]);
 		const data = await queryData(serverResponseArray); // Await the queryData function
 		fs.writeFile('./data/servers.json', JSON.stringify(data), function (err) {
