@@ -93,5 +93,17 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 cron.schedule('*/5 * * * * *', () => {
-	console.log('running a task every five minutes');
+	serverApp.getAllServers().then((response) => {
+		for (var i = 0; i < 1 /*response.meta.pagination.count*/; i++) {
+			server = response.data[i].attributes;
+			console.log(util.inspect(server, {depth: null}));
+			serverApp.getServerDetails(server.id).then((details) => {
+				console.log(details);
+			}).catch((error) => {
+				console.error(error);
+			});
+		}
+	}).catch((error) => {  
+		console.error(error);
+	});
 })
