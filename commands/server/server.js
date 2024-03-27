@@ -37,7 +37,7 @@ module.exports = {
                         },
                         {
                             name: "Version",
-                            value: "item.attributes.version", // Assuming version holds server version
+                            value: item.description, // Assuming version holds server version
                             inline: true
                         },
                     )
