@@ -103,9 +103,6 @@ cron.schedule('*/5 * * * * *', async () => {
         // Fetch all servers
         const serverResponse = await getAllServers();
 
-		const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8', function(err, data) {	if (err) console.error('Error reading server messages file:', err); });
-		console.log(serverMessagesData);
-
         // Check if serverResponse has data
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
@@ -160,6 +157,9 @@ cron.schedule('*/5 * * * * *', async () => {
                 }
 
             }
+
+			const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8', function(err, data) {	if (err) console.error('Error reading server messages file:', err); });
+			console.log(serverMessagesData);
 
             // Write data to disk
             await fs.writeFile(serverData, JSON.stringify(serverDataWithStatus), 'utf8', function(err) { if (err) console.error('Error writing server data file:', err); });
