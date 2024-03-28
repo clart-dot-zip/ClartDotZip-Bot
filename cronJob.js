@@ -80,7 +80,6 @@ async function updateServerData(client) {
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
             // Write data to disk
-            currentCache = serverDataWithStatus.slice();
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             const dateDone = new Date();
             console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
@@ -147,6 +146,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
                 }
             }
         }
+        currentCache = serverDataWithStatus.slice();
         const dateDone = new Date();
         console.log(`Embeds updated, done in (${(dateDone - dateNow) / 1000}) seconds.`);
     } catch (error) {
