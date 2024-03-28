@@ -11,7 +11,7 @@ const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 const serverDataWithStatus = [];
-const currentCache = [];
+let currentCache = [];
 
 async function isImgUrl(url) {
     return fetch(url, {method: 'HEAD'}).then(res => {
