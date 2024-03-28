@@ -78,7 +78,6 @@ async function updateServerData(client) {
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
             // Write data to disk
-            console.log(currentCache);
             if (currentCache.length == 0) {currentCache = serverDataWithStatus;}
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             
@@ -99,8 +98,11 @@ async function updateEmbedMessages(client, msgData, serverData) {
         const dateNow = new Date();
         console.log('Beginning embed update...')
         // Iterate through server data
-        for (const server of serverData) {
+        for (let i = 0; i < serverData.length; i++) {
+            const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
+
+            if (currentCache[i] == server) {continue;}
 
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
