@@ -80,7 +80,7 @@ async function updateServerData(client) {
             // Write data to disk
             if (currentCache.length == 0) {currentCache = serverDataWithStatus;}
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
-            
+            console.log(serverDataWithStatus.length)
             const dateDone = new Date();
             console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
             // Update embed messages after writing server data
