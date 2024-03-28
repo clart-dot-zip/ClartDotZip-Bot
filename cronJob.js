@@ -102,7 +102,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
             const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
 
-            console.log(JSON.stringify(currentCache[i]) + " " + JSON.stringify(server))
+            console.log(JSON.stringify(currentCache[i]) == JSON.stringify(server))
 
             if (JSON.stringify(currentCache[i]) == JSON.stringify(server) && currentCache.length != 0) {continue;}
 
@@ -143,6 +143,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
                 }
             }
         }
+        currentCache = serverData;
         const dateDone = new Date();
         console.log(`Embeds updated, done in (${(dateDone - dateNow) / 1000}) seconds.`);
     } catch (error) {
