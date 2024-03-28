@@ -11,6 +11,7 @@ const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 const serverDataWithStatus = [];
+const currentCache = [];
 
 async function isImgUrl(url) {
     return fetch(url, {method: 'HEAD'}).then(res => {
@@ -25,8 +26,6 @@ async function updateServerData(client) {
         console.log('Fetching all servers...')
         const serverResponse = await getAllServers();
 
-        const currentServerData = await fs.readFile('./data/servers.json', 'utf8');
-
         // Check if serverResponse has data
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
@@ -34,11 +33,6 @@ async function updateServerData(client) {
             for (const server of serverResponse.data) {
                 const serverData = server.attributes;
                 const identifier = serverData.identifier;
-
-                console.log(server);
-
-                if (currentServerData[identifier] == serverData[identifier]) { continue; }
-
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
                 var thumbnail =  (await isImgUrl("https://clart.zip/resources/" + identifier + ".png")) ? "https://clart.zip/resources/" + identifier + ".png" : "https://clart.zip/resources/default.png";
@@ -84,6 +78,8 @@ async function updateServerData(client) {
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
             // Write data to disk
+            console.log(currentCache);
+            if (currentCache.length == 0) {currentCache = serverDataWithStatus;}
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             
             const dateDone = new Date();
