@@ -35,7 +35,7 @@ async function updateServerData(client) {
                 const serverData = server.attributes;
                 const identifier = serverData.identifier;
 
-                if (currentServerData.includes(server.attributes.identifier)) { continue; }
+                if (currentServerData[identifier] == serverData[identifier]) { continue; }
 
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
