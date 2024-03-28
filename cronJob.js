@@ -84,7 +84,7 @@ async function updateServerData(client) {
             const dateDone = new Date();
             console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
             // Update embed messages after writing server data
-            await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
+            //await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
         } else {
             console.error('Invalid server response format.');
         }
