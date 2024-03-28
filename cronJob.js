@@ -13,12 +13,6 @@ const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 const serverDataWithStatus = [];
 let currentCache = [];
 
-async function isImgUrl(url) {
-    return fetch(url, {method: 'HEAD'}).then(res => {
-      return res.headers.get('Content-Type').startsWith('image')
-    })
-  }
-
 async function updateServerData(client) {
     try {
         // Fetch all servers
@@ -37,7 +31,7 @@ async function updateServerData(client) {
                 const identifier = serverData.identifier;
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
-                var thumbnail = "https://clart.zip/resources/default.png" //(await isImgUrl("https://clart.zip/resources/" + identifier + ".png")) ? "https://clart.zip/resources/" + identifier + ".png" : "https://clart.zip/resources/default.png";
+                var thumbnail = "https://clart.zip/resources/" + identifier + ".png";
 
                 // Fetch server status asynchronously
                 var status = await getServerStatus(identifier);
