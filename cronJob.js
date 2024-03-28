@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const Nodeactyl = require('nodeactyl');
 const config = require('./config/config.json');
 const { EmbedBuilder } = require('discord.js');
+const server = require('./commands/server/server');
 
 const serverApp = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi);
 const clientApp = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi);
@@ -30,7 +31,6 @@ async function updateServerData(client) {
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
             serverDataWithStatus.length = 0;
-            currentCache.length = 0;
             // Iterate through each server
             for (const server of serverResponse.data) {
                 const serverData = server.attributes;
@@ -80,6 +80,7 @@ async function updateServerData(client) {
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
             // Write data to disk
+            currentCache = serverDataWithStatus.slice();
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             const dateDone = new Date();
             console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
@@ -110,16 +111,6 @@ async function updateEmbedMessages(client, msgData, serverData) {
             if (JSON.stringify(currentCache[i]) == JSON.stringify(server) && currentCache.length != 0) {continue;}
 
             console.log(`Updating embed for server: ${name}`)
-
-            currentCache.push({
-                identifier: identifier,
-                name: name, // Add name attribute
-                description: description,
-                status: status,
-                ip_alias: ip_alias,
-                port: port,
-                thumbnail : thumbnail
-            });
 
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
