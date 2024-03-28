@@ -11,7 +11,7 @@ const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 const serverDataWithStatus = [];
-let currentCache = [];
+const currentCache = [];
 
 async function isImgUrl(url) {
     return fetch(url, {method: 'HEAD'}).then(res => {
@@ -30,6 +30,7 @@ async function updateServerData(client) {
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
             serverDataWithStatus.length = 0;
+            currentCache.length = 0;
             // Iterate through each server
             for (const server of serverResponse.data) {
                 const serverData = server.attributes;
@@ -100,6 +101,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
         for (let i = 0; i < serverData.length; i++) {
             const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
+            
 
             console.log(JSON.stringify(currentCache[i]) == JSON.stringify(server))
 
@@ -108,6 +110,16 @@ async function updateEmbedMessages(client, msgData, serverData) {
             if (JSON.stringify(currentCache[i]) == JSON.stringify(server) && currentCache.length != 0) {continue;}
 
             console.log(`Updating embed for server: ${name}`)
+
+            currentCache.push({
+                identifier: identifier,
+                name: name, // Add name attribute
+                description: description,
+                status: status,
+                ip_alias: ip_alias,
+                port: port,
+                thumbnail : thumbnail
+            });
 
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
@@ -144,7 +156,6 @@ async function updateEmbedMessages(client, msgData, serverData) {
                 }
             }
         }
-        currentCache = serverData;
         const dateDone = new Date();
         console.log(`Embeds updated, done in (${(dateDone - dateNow) / 1000}) seconds.`);
     } catch (error) {
