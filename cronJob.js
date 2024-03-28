@@ -25,13 +25,14 @@ async function updateServerData(client) {
         console.log('Fetching all servers...')
         const serverResponse = await getAllServers();
 
+        const currentServerData = await fs.readFile('./data/servers.json', 'utf8');
+
         // Check if serverResponse has data
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
-
             // Iterate through each server
             for (const server of serverResponse.data) {
-                if (serverDataWithStatus.includes(server)){ break; }
+                if (currentServerData.includes(server.attributes.identifier)) { continue; }
                 const serverData = server.attributes;
                 const identifier = serverData.identifier;
                 const name = serverData.name; // Extract name attribute
@@ -78,7 +79,6 @@ async function updateServerData(client) {
                 }
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
-            console.log(serverMessagesData);
             // Write data to disk
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             
