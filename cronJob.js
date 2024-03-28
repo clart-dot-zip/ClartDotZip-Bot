@@ -79,7 +79,6 @@ async function updateServerData(client) {
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
             // Write data to disk
-            if (currentCache.length == 0) {currentCache = serverDataWithStatus;}
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             const dateDone = new Date();
             console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
