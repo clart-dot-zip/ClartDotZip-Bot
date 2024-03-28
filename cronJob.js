@@ -97,13 +97,12 @@ async function updateEmbedMessages(client, msgData, serverData) {
     try {
         const dateNow = new Date();
         console.log('Beginning embed update...')
-        console.log(JSON.stringify(currentCache[2]) + " " + JSON.stringify(serverData[2]))
         // Iterate through server data
         for (let i = 0; i < serverData.length; i++) {
             const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
 
-            if (currentCache[i] == server && currentCache.length != 0) {continue;}
+            if (JSON.stringify(currentCache[i]) == JSON.stringify(server) && currentCache.length != 0) {continue;}
 
             console.log(`Updating embed for server: ${name}`)
 
