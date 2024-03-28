@@ -103,11 +103,6 @@ async function updateEmbedMessages(client, msgData, serverData) {
         for (let i = 0; i < serverData.length; i++) {
             const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
-            
-
-            console.log(JSON.stringify(currentCache[i]) == JSON.stringify(server))
-
-            if (i == 2) {console.log(JSON.stringify(currentCache[i]) + " " + JSON.stringify(server))}
 
             if (JSON.stringify(currentCache[i]) == JSON.stringify(server) && currentCache.length != 0) {continue;}
 
@@ -142,7 +137,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
                         .setTimestamp();
 
                     // Edit the message with the updated embed
-                    //await message.edit({ embeds: [embed] });
+                    await message.edit({ embeds: [embed] });
                 } catch (error) {
                     console.error('Error fetching message:', error);
                 }
