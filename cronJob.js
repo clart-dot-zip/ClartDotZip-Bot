@@ -21,6 +21,8 @@ async function isImgUrl(url) {
 async function updateServerData(client) {
     try {
         // Fetch all servers
+        const dateNow = new Date();
+        console.log('Fetching all servers...')
         const serverResponse = await getAllServers();
 
         // Check if serverResponse has data
@@ -54,9 +56,6 @@ async function updateServerData(client) {
                 if (defaultAllocation) {
                     const { ip_alias, port } = defaultAllocation.attributes;
 
-                    console.log('IP Alias:', ip_alias);
-                    console.log('Port:', port);
-
                     if (description != "") {
                         description = description;
                     } else {
@@ -83,6 +82,8 @@ async function updateServerData(client) {
             // Write data to disk
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             
+            const dateDone = new Date();
+            console.log(`Server data updated successfully ${dateDone - dateNow}.`);
             // Update embed messages after writing server data
             await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
         } else {
