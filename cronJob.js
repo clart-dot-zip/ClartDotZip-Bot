@@ -102,7 +102,9 @@ async function updateEmbedMessages(client, msgData, serverData) {
             const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
 
-            if (currentCache[i] == server) {continue;}
+            if (currentCache[i] == server && currentCache.length != 0) {continue;}
+
+            console.log(`Updating embed for server: ${name}`)
 
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
