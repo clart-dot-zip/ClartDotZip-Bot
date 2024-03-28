@@ -83,7 +83,7 @@ async function updateServerData(client) {
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             
             const dateDone = new Date();
-            console.log(`Server data updated successfully ${dateDone - dateNow}.`);
+            console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
             // Update embed messages after writing server data
             await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
         } else {
@@ -96,7 +96,8 @@ async function updateServerData(client) {
 
 async function updateEmbedMessages(client, msgData, serverData) {
     try {
-
+        const dateNow = new Date();
+        console.log('Beginning embed update...')
         // Iterate through server data
         for (const server of serverData) {
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
@@ -136,6 +137,8 @@ async function updateEmbedMessages(client, msgData, serverData) {
                 }
             }
         }
+        const dateDone = new Date();
+        console.log(`Embeds updated, done in (${(dateDone - dateNow) / 1000}) seconds.`);
     } catch (error) {
         console.error('Error updating embed messages:', error);
     }
