@@ -29,6 +29,7 @@ async function updateServerData(client) {
         // Check if serverResponse has data
         if (serverResponse && serverResponse.data && Array.isArray(serverResponse.data)) {
             // Array to store server data with status
+            serverDataWithStatus.length = 0;
             // Iterate through each server
             for (const server of serverResponse.data) {
                 const serverData = server.attributes;
@@ -80,7 +81,6 @@ async function updateServerData(client) {
             // Write data to disk
             if (currentCache.length == 0) {currentCache = serverDataWithStatus;}
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
-            console.log(serverDataWithStatus.length)
             const dateDone = new Date();
             console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
             // Update embed messages after writing server data
