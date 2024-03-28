@@ -37,6 +37,7 @@ async function updateServerData(client) {
 
                 if (currentServerData[identifier] == serverData[identifier]) { continue; }
 
+                console.log('Fetching server data for:', identifier)
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
                 var thumbnail =  (await isImgUrl("https://clart.zip/resources/" + identifier + ".png")) ? "https://clart.zip/resources/" + identifier + ".png" : "https://clart.zip/resources/default.png";
