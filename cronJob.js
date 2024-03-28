@@ -37,7 +37,7 @@ async function updateServerData(client) {
                 const identifier = serverData.identifier;
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
-                var thumbnail =  (await isImgUrl("https://clart.zip/resources/" + identifier + ".png")) ? "https://clart.zip/resources/" + identifier + ".png" : "https://clart.zip/resources/default.png";
+                var thumbnail = "https://clart.zip/resources/default.png" //(await isImgUrl("https://clart.zip/resources/" + identifier + ".png")) ? "https://clart.zip/resources/" + identifier + ".png" : "https://clart.zip/resources/default.png";
 
                 // Fetch server status asynchronously
                 var status = await getServerStatus(identifier);
