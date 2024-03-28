@@ -23,7 +23,7 @@ async function updateServerData(client) {
     try {
         // Fetch all servers
         const dateNow = new Date();
-        console.log('Fetching all servers...')
+        console.log('[TASK] Fetching all servers...')
         const serverResponse = await getAllServers();
 
         // Check if serverResponse has data
