@@ -84,7 +84,7 @@ async function updateServerData(client) {
             const dateDone = new Date();
             console.log(`Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`);
             // Update embed messages after writing server data
-            //await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
+            await updateEmbedMessages(client, JSON.parse(serverMessagesData), serverDataWithStatus);
         } else {
             console.error('Invalid server response format.');
         }
@@ -140,7 +140,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
                         .setTimestamp();
 
                     // Edit the message with the updated embed
-                    await message.edit({ embeds: [embed] });
+                    //await message.edit({ embeds: [embed] });
                 } catch (error) {
                     console.error('Error fetching message:', error);
                 }
