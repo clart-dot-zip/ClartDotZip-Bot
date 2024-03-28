@@ -32,9 +32,11 @@ async function updateServerData(client) {
             // Array to store server data with status
             // Iterate through each server
             for (const server of serverResponse.data) {
-                if (currentServerData.includes(server.attributes.identifier)) { continue; }
                 const serverData = server.attributes;
                 const identifier = serverData.identifier;
+
+                if (currentServerData.includes(server.attributes.identifier)) { continue; }
+
                 const name = serverData.name; // Extract name attribute
                 var description = serverData.description;
                 var thumbnail =  (await isImgUrl("https://clart.zip/resources/" + identifier + ".png")) ? "https://clart.zip/resources/" + identifier + ".png" : "https://clart.zip/resources/default.png";
