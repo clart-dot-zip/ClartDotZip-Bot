@@ -79,6 +79,8 @@ async function updateServerData(client) {
                 }
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
+
+            if (currentCache.length < 1) {currentCache = serverDataWithStatus.slice();}
             // Write data to disk
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             const dateDone = new Date();
