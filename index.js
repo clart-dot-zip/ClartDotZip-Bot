@@ -4,8 +4,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
-
-import { startCron, currentCache } from './cronJob';
+const cronJob = require('./cronJob');
 
 // Create a new client instance
 const client = new Client({ 
@@ -65,7 +64,7 @@ client.once(Events.ClientReady, readyClient => {
 client.login(config.token);
 
 client.on('ready', async () => {
-	await startCron(client);
+	await cronJob.start(client);
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 })
 
@@ -97,8 +96,8 @@ const handleExit = () => {
 	console.log('[EXIT HANDLER] Exiting process...')
     try {
         // Synchronously write currentCache to a file
-		console.log(currentCache);
-        fs.writeFileSync('./data/current_cache.json', JSON.stringify(currentCache), 'utf8');
+		console.log(cronJob.cache);
+        fs.writeFileSync('./data/current_cache.json', JSON.stringify(cronJob.cache), 'utf8');
         console.log('[EXIT HANDLER] Current cache saved to file.');
     } catch (error) {
         console.error('[EXIT HANDLER] Error saving current cache:', error);

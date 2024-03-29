@@ -11,9 +11,9 @@ const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 const serverDataWithStatus = [];
-export let currentCache = [{}];
+let currentCache = [{}];
 
-export async function startCron(client) {
+async function startCron(client) {
     if (currentCache.length < 3) {
         const cacheData = await fs.readFile('./data/current_cache.json', 'utf8');
         currentCache = JSON.parse(cacheData);
@@ -169,3 +169,5 @@ async function updateEmbedMessages(client, msgData, serverData) {
     }
 }
 
+
+module.exports = {start: startCron, cache: currentCache};
