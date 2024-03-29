@@ -170,4 +170,5 @@ async function updateEmbedMessages(client, msgData, serverData) {
 }
 
 
-module.exports = {start: startCron, cache: () => {return currentCache;}};
+module.exports.start = startCron;
+module.exports.cache = currentCache;
