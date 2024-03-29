@@ -4,7 +4,8 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
-const { startCron, currentCache } = require('./cronJob');
+
+import { startCron, currentCache } from './cronJob';
 
 // Create a new client instance
 const client = new Client({ 
