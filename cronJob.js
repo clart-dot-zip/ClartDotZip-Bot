@@ -14,7 +14,7 @@ const serverDataWithStatus = [];
 let currentCache = [];
 
 async function startCron(client) {
-    if (currentCache.length < 1) {currentCache = await JSON.stringify(fs.readFile('./data/current_cache.json', 'utf8'));}
+    if (currentCache.length < 1) {currentCache = await JSON.parse(fs.readFile('./data/current_cache.json', 'utf8'));}
     updateServerData(client);
 }
 
