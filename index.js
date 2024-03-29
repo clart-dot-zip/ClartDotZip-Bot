@@ -1,7 +1,7 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder} = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
 const { startCron, currentCache } = require('./cronJob');
@@ -64,6 +64,7 @@ client.once(Events.ClientReady, readyClient => {
 client.login(config.token);
 
 client.on('ready', async () => {
+	startCron(client);
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 })
 
