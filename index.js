@@ -64,7 +64,7 @@ client.once(Events.ClientReady, readyClient => {
 client.login(config.token);
 
 client.on('ready', async () => {
-	startCron(client);
+	await startCron(client);
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 })
 
@@ -91,8 +91,6 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 cron.schedule('*/10 * * * * *', () => startCron(client));
-
-cron.schedule('*/20 * * * * *', () => {console.log(currentCache)});
 
 const handleExit = () => {
 	console.log('[EXIT HANDLER] Exiting process...')

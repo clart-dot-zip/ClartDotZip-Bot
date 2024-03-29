@@ -18,7 +18,8 @@ async function startCron(client) {
         const cacheData = await fs.readFile('./data/current_cache.json', 'utf8');
         currentCache = JSON.parse(cacheData);
     }
-    updateServerData(client);
+    await updateServerData(client); // Wait for updateServerData to complete
+    return Promise.resolve(); // Resolve the promise
 }
 
 async function updateServerData(client) {
