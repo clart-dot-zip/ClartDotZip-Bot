@@ -108,12 +108,14 @@ const handleExit = () => {
 process.on('exit', handleExit);
 
 // Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
+// Handle SIGINT signal (Ctrl+C)
 process.on('SIGINT', handleExit);
+
+// Handle SIGTERM signal
+process.on('SIGTERM', handleExit);
 
 // Listen for uncaught exceptions and call handleExit synchronously
 process.on('uncaughtException', (err) => {
     console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
     handleExit();
 });
-
-setTimeout(function () {}, 5000)
