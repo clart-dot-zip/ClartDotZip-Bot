@@ -11,10 +11,13 @@ const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 const serverDataWithStatus = [];
-let currentCache = [];
+let currentCache = [{}];
 
 async function startCron(client) {
-    if (currentCache.length < 1) {currentCache = await JSON.parse(fs.readFile('./data/current_cache.json', 'utf8'));}
+    if (currentCache.length < 1) {
+        const cacheData = await fs.readFile('./data/current_cache.json', 'utf8');
+        currentCache = JSON.parse(cacheData);
+    }
     updateServerData(client);
 }
 
