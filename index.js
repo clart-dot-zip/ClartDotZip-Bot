@@ -93,6 +93,7 @@ client.on(Events.InteractionCreate, async interaction => {
 cron.schedule('*/10 * * * * *', () => startCron(client));
 
 const handleExit = () => {
+	console.log('[EXIT HANDLER] Exiting process...')
     try {
         // Synchronously write currentCache to a file
         fs.writeFileSync('./data/current_cache.json', JSON.stringify(currentCache), 'utf8');
