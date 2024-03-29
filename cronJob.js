@@ -100,9 +100,10 @@ async function updateEmbedMessages(client, msgData, serverData) {
         console.log('[TASK] Beginning embed update...')
         // Iterate through server data
         for (let i = 0; i < serverData.length; i++) {
-            if (new Date() - dateNow >= 10000) {console.log("[TIMEOUT] Embed took more than 10 seconds, terminating check."); break;}
             const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
+
+            if (new Date() - dateNow >= 10000) {console.log(`[TIMEOUT] Embed for ${name} took more than 10 seconds, terminating check.`); break;}
 
             currentCache[i] = server;
 
@@ -146,7 +147,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
             }
         }
         const dateDone = new Date();
-        console.log(`[TASK] Embeds updated, done in (${(dateDone - dateNow) / 1000}) seconds.`);
+        console.log(`[TASK] Embeds attempted to update, done in (${(dateDone - dateNow) / 1000}) seconds.`);
     } catch (error) {
         console.error('[ERROR] Error updating embed messages:', error);
     }
