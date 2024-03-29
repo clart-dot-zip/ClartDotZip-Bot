@@ -98,18 +98,29 @@ async function updateEmbedMessages(client, msgData, serverData) {
     try {
         const dateNow = new Date();
         console.log('[TASK] Beginning embed update...')
+        // Record the start time
+        const startTime = dateNow.getTime();
+
         // Iterate through server data
         for (let i = 0; i < serverData.length; i++) {
             const server = serverData[i];
             const { identifier, name, description, status, ip_alias, port, thumbnail } = server;
 
-            if (new Date() - dateNow >= 10000) {console.log(`[TIMEOUT] Embed for ${name} took more than 10 seconds, terminating check.`); break;}
+            // Check if the elapsed time exceeds the timeout threshold
+            if (new Date() - dateNow >= 10000) {
+                console.log(`[TIMEOUT] Embed for ${name} took more than 10 seconds, terminating check.`);
+                break;
+            }
 
+            // Check if the server data has changed
+            if (JSON.stringify(currentCache[i]) === JSON.stringify(server) && currentCache.length !== 0) {
+                continue; // Skip this iteration if the data hasn't changed
+            }
+
+            console.log(`[TASK] Updating embed for server: ${name}`);
+
+            // Set currentCache for this server
             currentCache[i] = server;
-
-            if (JSON.stringify(currentCache[i]) == JSON.stringify(server) && currentCache.length != 0) {continue;}
-
-            console.log(`[TASK] Updating embed for server: ${name}`)
 
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
@@ -146,6 +157,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
                 }
             }
         }
+
         const dateDone = new Date();
         console.log(`[TASK] Embeds attempted to update, done in (${(dateDone - dateNow) / 1000}) seconds.`);
         console.log(currentCache);
@@ -153,5 +165,6 @@ async function updateEmbedMessages(client, msgData, serverData) {
         console.error('[ERROR] Error updating embed messages:', error);
     }
 }
+
 
 module.exports = {startCron, currentCache};
