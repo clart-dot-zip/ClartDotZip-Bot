@@ -5,7 +5,6 @@ const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
 const { startCron, currentCache } = require('./cronJob');
-let exitHandlerFinished = false;
 
 // Create a new client instance
 const client = new Client({ 
@@ -94,21 +93,15 @@ client.on(Events.InteractionCreate, async interaction => {
 cron.schedule('*/10 * * * * *', () => startCron(client));
 
 const handleExit = () => {
+	console.log('[EXIT HANDLER] Exiting process...')
     try {
-        // Perform cleanup tasks here
-        console.log('Exiting...');
-		fs.writeFileSync('./data/current_cache.json', JSON.stringify(currentCache), 'utf8');
-        // Simulate asynchronous cleanup
-        setTimeout(() => {
-            console.log('Cleanup complete.');
-            // Set the flag to indicate that the exit handler has finished
-            exitHandlerFinished = true;
-        }, 2000); // Adjust the timeout as needed
+        // Synchronously write currentCache to a file
+        fs.writeFileSync('./data/current_cache.json', JSON.stringify(currentCache), 'utf8');
+        console.log('[EXIT HANDLER] Current cache saved to file.');
     } catch (error) {
-        console.error('Error in exit handler:', error);
-        // Ensure that the flag is set even if an error occurs
-        exitHandlerFinished = true;
+        console.error('[EXIT HANDLER] Error saving current cache:', error);
     }
+	process.exit(0);
 };
 
 // Listen for the process exit event and call handleExit synchronously
@@ -126,18 +119,3 @@ process.on('uncaughtException', (err) => {
     console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
     handleExit();
 });
-
-(async () => {
-    // Perform any initialization tasks here
-    console.log('Process started.');
-
-    // Wait until the exit handler has finished before allowing the process to exit
-    while (!exitHandlerFinished) {
-        // Sleep for a short interval to avoid busy waiting
-        await new Promise(resolve => setTimeout(resolve, 1000));
-    }
-
-    // Once the exit handler has finished, allow the process to exit
-    console.log('Exiting process.');
-    process.exit(0);
-})();
