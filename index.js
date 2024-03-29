@@ -96,6 +96,7 @@ const handleExit = () => {
 	console.log('[EXIT HANDLER] Exiting process...')
     try {
         // Synchronously write currentCache to a file
+		console.log(currentCache);
         fs.writeFileSync('./data/current_cache.json', JSON.stringify(currentCache), 'utf8');
         console.log('[EXIT HANDLER] Current cache saved to file.');
     } catch (error) {
