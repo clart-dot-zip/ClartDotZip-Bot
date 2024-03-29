@@ -151,4 +151,4 @@ async function updateEmbedMessages(client, msgData, serverData) {
     }
 }
 
-module.exports = startCron, currentCache;
+module.exports = {startCron, currentCache};
