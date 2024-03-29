@@ -90,7 +90,8 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-cron.schedule('*/10 * * * * *', () => startCron(client));
+cron.schedule('*/10 * * * * *', () => cronJob.start(client));
+cron.schedule('*/20 * * * * *', () => console.log(cronJob.cache));
 
 const handleExit = () => {
 	console.log('[EXIT HANDLER] Exiting process...')
