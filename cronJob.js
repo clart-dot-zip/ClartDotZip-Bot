@@ -13,6 +13,11 @@ const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 const serverDataWithStatus = [];
 let currentCache = [];
 
+void function startCron(client) {
+    currentCache = fs.readFile('./data/current_cache.json', 'utf8', function(err){console.log(err);});
+    updateServerData(client);
+}
+
 async function updateServerData(client) {
     try {
         // Fetch all servers
@@ -146,4 +151,4 @@ async function updateEmbedMessages(client, msgData, serverData) {
     }
 }
 
-module.exports = updateServerData;
+module.exports = updateServerData, currentCache;

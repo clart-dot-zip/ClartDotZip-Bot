@@ -4,7 +4,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
-const updateServerData = require('./cronJob');
+const { startCron, currentCache } = require('./cronJob');
 
 // Create a new client instance
 const client = new Client({ 
@@ -89,6 +89,26 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-cron.schedule('*/10 * * * * *', () => updateServerData(client));
+cron.schedule('*/10 * * * * *', () => startCron(client));
 
+const handleExit = () => {
+    try {
+        // Synchronously write currentCache to a file
+        fs.writeFileSync('./data/current_cache.json', JSON.stringify(currentCache), 'utf8');
+        console.log('[EXIT HANDLER] Current cache saved to file.');
+    } catch (error) {
+        console.error('[EXIT HANDLER] Error saving current cache:', error);
+    }
+};
 
+// Listen for the process exit event and call handleExit synchronously
+process.on('exit', handleExit);
+
+// Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
+process.on('SIGINT', handleExit);
+
+// Listen for uncaught exceptions and call handleExit synchronously
+process.on('uncaughtException', (err) => {
+    console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
+    handleExit();
+});
