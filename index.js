@@ -109,7 +109,11 @@ process.on('exit', handleExit);
 
 // Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
 // Handle SIGINT signal (Ctrl+C)
-process.on('SIGINT', handleExit);
+process.on('SIGINT', () => {
+    console.log('Received SIGINT signal. Exiting gracefully...');
+    // Run cleanup logic here
+    process.exit(0);
+});
 
 // Handle SIGTERM signal
 process.on('SIGTERM', handleExit);
