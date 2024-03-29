@@ -101,6 +101,7 @@ const handleExit = () => {
     } catch (error) {
         console.error('[EXIT HANDLER] Error saving current cache:', error);
     }
+	process.exit(0);
 };
 
 // Listen for the process exit event and call handleExit synchronously
@@ -114,3 +115,5 @@ process.on('uncaughtException', (err) => {
     console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
     handleExit();
 });
+
+setTimeout(function () {}, 5000)
