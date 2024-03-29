@@ -148,6 +148,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
         }
         const dateDone = new Date();
         console.log(`[TASK] Embeds attempted to update, done in (${(dateDone - dateNow) / 1000}) seconds.`);
+        console.log(currentCache);
     } catch (error) {
         console.error('[ERROR] Error updating embed messages:', error);
     }
