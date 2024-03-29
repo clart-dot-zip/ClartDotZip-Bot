@@ -131,3 +131,4 @@ dist
 
 # Extra
 config/config.json
+*.json
