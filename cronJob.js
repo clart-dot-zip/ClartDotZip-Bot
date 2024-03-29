@@ -11,10 +11,10 @@ const getServerStatus = (identifier) => clientApp.getServerStatus(identifier);
 const getServerDetails = (identifier) => clientApp.getServerDetails(identifier);
 
 const serverDataWithStatus = [];
-let currentCache = { cache: [] };
+let currentCache = [{}];
 
 async function startCron(client) {
-    if (currentCache.cache.length < 3) {
+    if (currentCache.length < 3) {
         const cacheData = await fs.readFile('./data/current_cache.json', 'utf8');
         currentCache = JSON.parse(cacheData);
     }
@@ -83,7 +83,7 @@ async function updateServerData(client) {
             }
             const serverMessagesData = await fs.readFile('./data/server_messages.json', 'utf8');
 
-            if (currentCache.cache.length < 3) {currentCache.cache = serverDataWithStatus.slice();}
+            if (currentCache.length < 3) {currentCache = serverDataWithStatus.slice();}
             // Write data to disk
             await fs.writeFile('./data/servers.json', JSON.stringify(serverDataWithStatus), 'utf8');
             const dateDone = new Date();
@@ -117,7 +117,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
             }
 
             // Check if the server data has changed
-            if (JSON.stringify(currentCache.cache[i]) === JSON.stringify(server) && currentCache.cache.length !== 0) {
+            if (JSON.stringify(currentCache[i]) === JSON.stringify(server) && currentCache.length !== 0) {
                 continue; // Skip this iteration if the data hasn't changed
             }
 
@@ -161,7 +161,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
                 }
             }
         }
-
+        await fs.writeFile('./data/current_cache.json', JSON.stringify(currentCache), 'utf8');
         const dateDone = new Date();
         console.log(`[TASK] Embeds attempted to update, done in (${(dateDone - dateNow) / 1000}) seconds.`);
     } catch (error) {
@@ -169,4 +169,4 @@ async function updateEmbedMessages(client, msgData, serverData) {
     }
 }
 
-module.exports = { startCron, currentCache: { cache: [] } };
+module.exports = { startCron };
