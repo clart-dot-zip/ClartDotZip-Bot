@@ -120,15 +120,7 @@ async function updateEmbedMessages(client, msgData, serverData) {
             console.log(`[TASK] Updating embed for server: ${name}`);
 
             // Set currentCache for this server
-            currentCache[i] = ({
-                identifier: identifier,
-                name: name, 
-                description: description,
-                status: status,
-                ip_alias: ip_alias,
-                port: port,
-                thumbnail : thumbnail
-            });
+            currentCache.splice(i, 1, server);
 
             // Check if server ID has a corresponding message ID
             if (msgData.hasOwnProperty(identifier)) {
