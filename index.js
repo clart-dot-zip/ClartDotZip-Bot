@@ -109,10 +109,10 @@ process.on('exit', handleExit);
 
 // Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
 // Handle SIGINT signal (Ctrl+C)
-process.on('SIGINT', handleExit);
+//process.on('SIGINT', handleExit);
 
 // Handle SIGTERM signal
-process.on('SIGTERM', handleExit);
+//process.on('SIGTERM', handleExit);
 
 // Listen for uncaught exceptions and call handleExit synchronously
 process.on('uncaughtException', (err) => {
