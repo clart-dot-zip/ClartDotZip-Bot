@@ -76,7 +76,6 @@ async function update_servers(){
 
     if (response.meta.pagination.total_pages === 1){
         servers = response.data
-        console.log(servers)
     } else {
         servers = []
         for (let page = 2; page < reponse.meta.pagination.total_pages; page++){
@@ -110,6 +109,7 @@ async function update_servers(){
             'description': wait[1].description === "" ? "N/A" : wait[1].description,
             'thumbnail': `https://clart.zip/resources/${id}.png`,
         })
+        console.log(out)
         return res(out)
     })))
 
