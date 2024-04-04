@@ -5,14 +5,17 @@ const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
 const { startCron } = require('./cronJob');
+const {cron: doCron, init: initCaches} = require("./cron")
+
+// doCron()
 
 // Create a new client instance
-const client = new Client({ 
+const client = new Client({
 	intents: [GatewayIntentBits.Guilds],
 	presence: {
 		status: 'dnd',
 		activities: [{
-			application_id: '1206385637603938314',
+			application_id: config.clientId,
 			type: 0,
 			name: 'Gnomeregan',
 			details: 'Located in Dun Morogh, the technological wonder known as Gnomeregan has been the gnomes capital city for generations.',
@@ -61,10 +64,12 @@ client.once(Events.ClientReady, readyClient => {
 });
 
 // Log in to Discord with your client's token
-client.login(config.token);
+initCaches().then(() => {client.login(config.token)})
+
 
 client.on('ready', async () => {
-	await startCron(client);
+	await doCron(client)
+	cron.schedule('*/10 * * * * *', () => doCron(client));
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 })
 
@@ -80,7 +85,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 	try {
 		await command.execute(interaction);
-	} catch (error) {
+	} catch (error){
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -89,26 +94,26 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
-
-cron.schedule('*/10 * * * * *', () => startCron(client));
-
-const handleExit = () => {
-	console.log('[EXIT HANDLER] Exiting process...')
-	process.exit(0);
-};
-
-// Listen for the process exit event and call handleExit synchronously
-process.on('exit', handleExit);
-
-// Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
-// Handle SIGINT signal (Ctrl+C)
-process.on('SIGINT', handleExit);
-
-// Handle SIGTERM signal
-//process.on('SIGTERM', handleExit);
-
-// Listen for uncaught exceptions and call handleExit synchronously
-process.on('uncaughtException', (err) => {
-    console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
-    handleExit();
-});
+//
+//
+//
+// const handleExit = () => {
+// 	console.log('[EXIT HANDLER] Exiting process...')
+// 	process.exit(0);
+// };
+//
+// // Listen for the process exit event and call handleExit synchronously
+// process.on('exit', handleExit);
+//
+// // Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
+// // Handle SIGINT signal (Ctrl+C)
+// process.on('SIGINT', handleExit);
+//
+// // Handle SIGTERM signal
+// //process.on('SIGTERM', handleExit);
+//
+// // Listen for uncaught exceptions and call handleExit synchronously
+// process.on('uncaughtException', (err) => {
+//     console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
+//     handleExit();
+// });

@@ -1,63 +1,38 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fs = require('fs').promises;
-
-const serverMsgs = './data/server_messages.json';
-const serverData = './data/servers.json';
+const {cache, messages} = require("../../cron")
+const {buildEmbed} = require("../../api/builder")
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('servers')
         .setDescription('Lists all current pterodactyl servers.'),
+
     async execute(interaction) {
         try {
-            // Read data from the file
-            const data = await fs.readFile(serverData, 'utf8');
-            // Parse JSON data
-            const jsonData = JSON.parse(data);
+            await interaction.reply({ephemeral: true, content: "Posted / Updated Embed Messages"})
 
-            // Store the identifiers and message IDs in an object
-            const serverMessages = {};
+            for (const [key, item] of cache.entries()){
+                let message_id = null
+                if (messages.has(key)){
+                    message_id = messages.get(key).message_id
+                }
 
-            // Iterate over the parsed JSON array
-            for (const item of jsonData) {
-                const status = item.status;
-                const color = status === '🔴 Offline' ? '#dd2e44' :
-                              status === '🟠 Starting' ? '#f4900c' :
-                              status === '🟢 Online' ? '#78b159' :
-                              '#000000';
-                
-                const embed = new EmbedBuilder()
-                    .setTitle(item.name)
-                    .setDescription(status)
-                    .addFields(
-                        {
-                            name: "IP Address",
-                            value: item.ip_alias + ":" + item.port, // Assuming identifier holds IP address
-                            inline: true
-                        },
-                        {
-                            name: "Version",
-                            value: item.description, // Assuming version holds server version
-                            inline: true
-                        },
-                    )
-                    .setThumbnail(item.thumbnail)
-                    .setColor(color)
-                    .setFooter({
-                        text: "High Tinker Mekkatorque",
-                        iconURL: "https://cdn.discordapp.com/app-assets/1206385637603938314/1208468226166489209.png",
-                    })
-                    .setTimestamp();
+                const embed = buildEmbed(item)
 
-                // Send a new message and update the object with identifier and message ID
-                const newMessage = await interaction.channel.send({ embeds: [embed] });
-                serverMessages[item.identifier] = newMessage.id;
+                if (message_id !== null){
+                    // Edit the pre-existing message.
+                    let message = await interaction.channel.messages.fetch(message_id)
+                    await message.edit({ embeds: [embed] })
+                } else {
+                    // Send a new message and update the object with identifier and message ID
+                    const newMessage = await interaction.channel.send({embeds: [embed]})
+                    messages.set(key, {...item, "message_id": newMessage.id, "channel_id": newMessage.channel.id, "guild_id": newMessage.channel.guild.id})
+                }
             }
-
-            // Write the server messages to a file
-            await fs.writeFile(serverMsgs, JSON.stringify(serverMessages), 'utf8', function(err) { if (err) console.error('Error writing server messages file:', err); });
-        } catch (error) {
-            console.error('Error reading or parsing file:', error);
+            await messages.save()
+        } catch (e){
+            console.error('Error reading or parsing file:', e)
         }
     },
 };
