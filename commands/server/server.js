@@ -17,7 +17,7 @@ module.exports = {
                 newCache.push(item)
             }
 
-            newCache.sort((a, b) => a.id > b.id)
+            newCache.sort((a, b) => a.id - b.id)
 
             console.log(newCache)
 
