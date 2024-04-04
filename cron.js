@@ -23,11 +23,11 @@ let locked = false
 
 async function init(){
 
-    try{
-        if (!(await fs.readdir('./data'))){
-            await fs.mkdir('./data')
-        }
-    } catch (e){ console.error(e) }
+    try {
+        await fs.access('./data');
+    } catch (error) {
+        await fs.mkdir('./data')
+    }
 
     inited = true
 
