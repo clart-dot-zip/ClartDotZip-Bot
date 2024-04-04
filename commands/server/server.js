@@ -19,8 +19,6 @@ module.exports = {
 
             newCache.sort((a, b) => a.id - b.id)
 
-            console.log(newCache)
-
             for (const item of newCache){
                 let key = item.identifier
                 let message_id = null
