@@ -22,6 +22,13 @@ let inited = false
 let locked = false
 
 async function init(){
+
+    try{
+        if (!(await fs.readdir('./data'))){
+            await fs.mkdir('./data')
+        }
+    } catch (e){ console.error(e) }
+
     inited = true
 
     await Promise.all([
@@ -46,7 +53,6 @@ async function cron(discord){
         let dateNow = new Date()
         console.log('[TASK] Fetching all servers...')
         await update_servers()
-        console.log(cache)
         await cache.save()
         let dateDone = new Date()
         console.log(`[TASK] Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`)
