@@ -12,7 +12,15 @@ module.exports = {
         try {
             await interaction.reply({ephemeral: true, content: "Posted / Updated Embed Messages"})
 
+            let newCache = []
             for (const [key, item] of cache.entries()){
+                newCache.push(item)
+            }
+
+            newCache.sort((a, b) => a.id > b.id)
+
+            for (const item of newCache){
+                let key = item.identifier
                 let message_id = null
                 if (messages.has(key)){
                     message_id = messages.get(key).message_id

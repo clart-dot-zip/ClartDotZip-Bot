@@ -102,6 +102,7 @@ async function update_servers(){
         }
 
         out.push({
+            'id': wait[1].id,
             'online_status': wait[0],
             'address': ip,
             'identifier': id,
@@ -109,7 +110,6 @@ async function update_servers(){
             'description': wait[1].description === "" ? "N/A" : wait[1].description,
             'thumbnail': `https://clart.zip/resources/${id}.png`,
         })
-        console.log(out)
         return res(out)
     })))
 
