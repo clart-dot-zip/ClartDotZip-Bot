@@ -4,7 +4,6 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
-const { startCron } = require('./cronJob');
 const {cron: doCron, init: initCaches} = require("./cron")
 
 // doCron()
