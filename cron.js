@@ -101,10 +101,8 @@ async function update_servers(){
             ip = `${allocation.attributes.ip_alias}:${allocation.attributes.port}`
         }
 
-        console.log(wait[1])
-
         out.push({
-            'id': wait[1].id,
+            'id': wait[1].internal_id,
             'online_status': wait[0],
             'address': ip,
             'identifier': id,
