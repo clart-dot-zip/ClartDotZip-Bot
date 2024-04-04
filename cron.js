@@ -87,6 +87,7 @@ async function update_servers(){
         servers.splice(1, 0, Promise.resolve(response.data))
         servers = await Promise.all(servers)
         servers = servers.flat(1)
+        console.log(servers)
     }
 
     const details = await Promise.all(servers.map((server) => new Promise(async function (res, rej){
