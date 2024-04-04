@@ -76,6 +76,7 @@ async function update_servers(){
 
     if (response.meta.pagination.total_pages === 1){
         servers = response.data
+        console.log(servers)
     } else {
         servers = []
         for (let page = 2; page < reponse.meta.pagination.total_pages; page++){
@@ -87,7 +88,6 @@ async function update_servers(){
         servers.splice(1, 0, Promise.resolve(response.data))
         servers = await Promise.all(servers)
         servers = servers.flat(1)
-        console.log(servers)
     }
 
     const details = await Promise.all(servers.map((server) => new Promise(async function (res, rej){
