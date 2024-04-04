@@ -15,8 +15,7 @@ module.exports = class JsonServerCache extends ServerCache {
             for (const [key, value] of Object.entries(cache)){
                 this.set(key, value)
             }
-        } catch (e){
-            console.error(e)
+        } catch (e){   
         }
     }
     async save(){
