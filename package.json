@@ -12,7 +12,7 @@
   "author": "saftey1122@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "blizzard.js": "^4.5.0",
+    "blizzapi": "^2.6.2",
     "discord.js": "^14.14.1",
     "nodeactyl": "^3.3.0",
     "node-cron": "^3.0.3"
