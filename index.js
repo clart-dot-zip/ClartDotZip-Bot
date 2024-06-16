@@ -5,6 +5,7 @@ const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
 const {cron: doCron, init: initCaches} = require("./cron")
+const { WebSocket } = require('ws');
 
 // doCron()
 
@@ -93,26 +94,32 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
-//
-//
-//
-// const handleExit = () => {
-// 	console.log('[EXIT HANDLER] Exiting process...')
-// 	process.exit(0);
-// };
-//
-// // Listen for the process exit event and call handleExit synchronously
-// process.on('exit', handleExit);
-//
-// // Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
-// // Handle SIGINT signal (Ctrl+C)
-// process.on('SIGINT', handleExit);
-//
-// // Handle SIGTERM signal
-// //process.on('SIGTERM', handleExit);
-//
-// // Listen for uncaught exceptions and call handleExit synchronously
-// process.on('uncaughtException', (err) => {
-//     console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
-//     handleExit();
-// });
+
+const ws = new WebSocket('wss://panel.clart.zip:8080/api/client/servers/f9c0f12f/ws', { origin: 'https://panel.clart.zip'});
+
+ws.on('open', () => {
+	ws.send(JSON.stringify({
+		"event": "auth",
+		"args": [ config.clientApi ] }));
+});
+
+const handleExit = () => {
+ 	console.log('[EXIT HANDLER] Exiting process...')
+ 	process.exit(0);
+};
+
+// Listen for the process exit event and call handleExit synchronously
+process.on('exit', handleExit);
+
+// Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
+// Handle SIGINT signal (Ctrl+C)
+process.on('SIGINT', handleExit);
+
+// Handle SIGTERM signal
+//process.on('SIGTERM', handleExit);
+
+// Listen for uncaught exceptions and call handleExit synchronously
+process.on('uncaughtException', (err) => {
+    console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
+    handleExit();
+});
