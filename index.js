@@ -128,7 +128,7 @@ socket.on('console_output', (output)=>{
 
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
-	let directory = './consoleLog ' + dateSaved + '.txt';
+	let directory = './logs/consoleLog ' + dateSaved + '.txt';
 	fs.writeFileSync(directory, consoleLog, 'utf8');
  	process.exit();
 };

@@ -154,7 +154,7 @@ async function update_messages(discord){
             messageData.thumbnail = serverData.thumbnail
             messages.set(key, messageData)
             changed = true
-            console.log(`[<|({TASK})|>] Updated ${serverData.name}`)
+            console.log(`[TASK] Updated ${serverData.name}`)
         }
     }
 
