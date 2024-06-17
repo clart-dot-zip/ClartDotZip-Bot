@@ -96,7 +96,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-fetch("https://pterodactyl.file.properties/api/client/servers/f9c0f12f/websocket", {
+fetch("https://panel.clart.zip:8080/api/client/servers/f9c0f12f/websocket", {
 	method: 'GET',
 	headers: {
 		'Accept': 'application/json',
