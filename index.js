@@ -111,7 +111,6 @@ socket.once("error", (data) => {
 
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
-	pterosocket.close();
  	process.exit();
 };
 
