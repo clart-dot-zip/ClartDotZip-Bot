@@ -95,7 +95,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-const ws = new WebSocket('wss://panel.clart.zip:8080/api/client/servers/f9c0f12f/ws', { origin: 'https://panel.clart.zip'});
+const ws = new WebSocket('wss://panel.clart.zip:8080/api/servers/f9c0f12f-4cc1-497b-ad90-d11739cd1ee7/ws', { origin: 'https://panel.clart.zip'});
 
 ws.on('open', () => {
 	ws.send(JSON.stringify({
