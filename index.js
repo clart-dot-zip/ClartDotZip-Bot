@@ -7,11 +7,15 @@ const cron = require('node-cron');
 const {cron: doCron, init: initCaches} = require("./cron")
 const { pterosocket } = require('pterosocket');
 
-const logEnum = { 0: 'LOG', 1: 'TASK', 2: 'ERROR', 3: 'SOCKET', 4: 'WARNING', 5: 'DEBUG' };
+const logEnum = { 0: 'LOG', 1: 'TASK', 2: 'ERROR', 3: 'SOCKET', 4: 'WARNING', 5: 'DEBUG', 6: 'EXIT HANDLER' };
 
-const newConsoleLog = (type, string) => {
+const newConsoleLog = (type, string, err) => {
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    console.log(`[${timestamp}] [${logEnum[type]}] ${string}`);
+	if (type === 2) {
+		console.error(`[${timestamp}] [${logEnum[type]}] ${string}`, err);
+	} else {
+		console.log(`[${timestamp}] [${logEnum[type]}] ${string}`);
+	}
 };
 
 // Create a new client instance
@@ -103,19 +107,19 @@ client.on(Events.InteractionCreate, async interaction => {
 const socket = new pterosocket(config.panelAddress, config.clientApi, "f9c0f12f-4cc1-497b-ad90-d11739cd1ee7");
 
 socket.once("start", () => {
-	console.log(`[${Date.now().getHours()}:${Date.now().getMinutes()}][SOCKET] Pterodactyl console socket connection established.`);
+	newConsoleLog(3, "Pterodactyl console socket connection established.");
 });
 
 socket.on("auth_success", () => {
-	console.log("[SOCKET] Pterodactyl console socket authenticated successfully.");
+	newConsoleLog(3, "Pterodactyl console socket authenticated successfully.");
 });
 
 socket.once("close", (data) => {
-	console.log("[SOCKET] Pterodactyl console socket disconnected: ", data);
+	newConsoleLog(3, "Pterodactyl console socket disconnected: " + data);
 });
 
 socket.once("error", (data) => {
-	console.log("[SOCKET] Pterodactyl console socket ERROR: ", data);
+	newConsoleLog(3, "Pterodactyl console socket ERROR: " + data);
 });
 
 let consoleLog;
@@ -132,7 +136,7 @@ socket.on('console_output', (output)=>{
 })
 
 const handleExit = () => {
- 	console.log('[EXIT HANDLER] Exiting process...')
+	newConsoleLog(6, "EXIT HANDLER] Exiting process...")
 	let directory = './logs/consoleLog ' + dateSaved + '.txt';
 	fs.writeFileSync(directory, consoleLog, 'utf8');
  	process.exit();
@@ -147,6 +151,8 @@ process.on('SIGINT', handleExit);
 
 // Listen for uncaught exceptions and call handleExit synchronously
 process.on('uncaughtException', (err) => {
-    console.error('[UNCAUGHT EXCEPTION] An uncaught exception occurred:', err);
+    newConsoleLog(2, "An uncaught exception occurred: ", err);
     handleExit();
 });
+
+module.exports = {newConsoleLog};
