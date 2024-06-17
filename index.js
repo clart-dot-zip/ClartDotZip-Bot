@@ -105,11 +105,11 @@ socket.on("auth_success", () => {
 });
 
 socket.once("close", (data) => {
-	consoleLog(3, "Pterodactyl console socket disconnected: " + data);
+	consoleLog(3, `Pterodactyl console socket disconnected: ${data}`);
 });
 
 socket.once("error", (data) => {
-	consoleLog(3, "Pterodactyl console socket ERROR: " + data);
+	consoleLog(3, `Pterodactyl console socket ERROR: ${data}`);
 });
 
 let consoleOutput;
