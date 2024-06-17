@@ -98,7 +98,7 @@ client.on(Events.InteractionCreate, async interaction => {
 const socket = new pterosocket(config.panelAddress, config.clientApi, "f9c0f12f-4cc1-497b-ad90-d11739cd1ee7");
 
 socket.once("start", () => {
-	console.log(`[${Date.now()}][SOCKET] Pterodactyl console socket connection established.`);
+	console.log(`[${Date.now().getHours()}:${Date.now().getMinutes()}][SOCKET] Pterodactyl console socket connection established.`);
 });
 
 socket.on("auth_success", () => {
