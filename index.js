@@ -101,9 +101,9 @@ ws.on('open', () => {
 	ws.send(JSON.stringify({
 		"event": "auth",
 		"args": [ 'ptlc_VWhqrsqcRwg' ] }));
-	console.log(ws.send(JSON.stringify({
+	console.log(JSON.parse(ws.send(JSON.stringify({
 		"event": "send logs",
-	})));
+	}))));
 });
 
 const handleExit = () => {
