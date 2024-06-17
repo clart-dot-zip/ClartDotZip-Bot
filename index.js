@@ -112,7 +112,7 @@ socket.once("error", (data) => {
 	consoleLog(3, `Pterodactyl console socket ERROR: ${data}`);
 });
 
-let consoleOutput;
+let consoleOutput = "----------------------------------------------------------------------------------------------";
 let dateSaved = null;
 const maxLines = 100;
 
