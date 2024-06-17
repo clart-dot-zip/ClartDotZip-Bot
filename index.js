@@ -113,7 +113,6 @@ socket.once("error", (data) => {
 });
 
 let consoleOutput = "----------------------------------------------------------------------------------------------";
-let dateSaved = null;
 const maxLines = 100;
 
 socket.on('console_output', (output)=>{
@@ -122,11 +121,11 @@ socket.on('console_output', (output)=>{
 	if (lines.length > maxLines) {
 		consoleOutput = lines.slice(lines.length - maxLines).join('\n');
 	}
-	dateSaved = new Date().toLocaleString('en-GB', { timeZone: "Europe/London" });
 })
 
 const handleExit = () => {
 	consoleLog(6, "Exiting process...")
+	let dateSaved = new Date().toLocaleString('en-GB', { timeZone: "Europe/London" });
 	let directory = './logs/Console Output ' + dateSaved + '.txt';
 	fs.writeFileSync(directory, consoleOutput, 'utf8');
  	process.exit();
