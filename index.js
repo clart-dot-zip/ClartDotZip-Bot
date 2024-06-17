@@ -102,8 +102,7 @@ ws.on('open', () => {
 		"event": "auth",
 		"args": [ 'ptlc_VWhqrsqcRwg' ] }));
 	ws.send(JSON.stringify({
-		"event": "send command",
-		"args": [ "say Hello World!" ]
+		"event": "send logs",
 	}));
 	console.log(ws);
 });
