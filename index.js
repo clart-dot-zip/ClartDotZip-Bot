@@ -105,6 +105,7 @@ fetch("https://panel.clart.zip:8080/api/client/servers/f9c0f12f/websocket", {
 	}
 }).then(response => response.json()).then(data => {
 		const sessionToken = data.token; // Extract the session token from the response
+		console.log(sessionToken);
 		connectWebSocket(sessionToken); // Call function to connect WebSocket with the obtained session token
 	})
 .catch(error => {
