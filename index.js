@@ -115,7 +115,7 @@ socket.once("error", (data) => {
 
 let consoleLog;
 let dateSaved = null;
-const maxLines = 5;
+const maxLines = 100;
 
 socket.on('console_output', (output)=>{
     consoleLog += '\n' + output;
