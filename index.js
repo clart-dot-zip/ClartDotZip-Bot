@@ -6,6 +6,7 @@ const config = require('./config/config.json');
 const cron = require('node-cron');
 const {cron: doCron, init: initCaches} = require("./cron")
 const { WebSocket } = require('ws');
+const { connect } = require('node:http2');
 
 // doCron()
 
@@ -95,34 +96,52 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-const ws = new WebSocket('wss://panel.clart.zip:8080/api/servers/f9c0f12f-4cc1-497b-ad90-d11739cd1ee7/ws', { origin: 'https://panel.clart.zip'});
-
-ws.on('open', () => {
-	console.log('[WebSocket] Connection opened.');
-	ws.send(JSON.stringify({
-		"event": "auth",
-		"args": [config.clientApi]
-	}));
+fetch("https://pterodactyl.file.properties/api/client/servers/f9c0f12f/websocket", {
+	method: 'GET',
+	headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+		'Authorization': `Bearer ${config.clientApi}`
+	}
+}).then(response => response.json()).then(data => {
+		const sessionToken = data.token; // Extract the session token from the response
+		connectWebSocket(sessionToken); // Call function to connect WebSocket with the obtained session token
+	})
+.catch(error => {
+	console.error('Error fetching session token:', error);
 });
 
-ws.on('message', data => {
-	const consoleLogs = data.toString('utf-8');
-	console.log(`[WebSocket] Received message: ${consoleLogs}`);
-});
+connectWebSocket = (sessionToken) => {
 
-ws.on('error', error => {
-	console.error(`[WebSocket] Error: ${error.message}`);
-});
+	const ws = new WebSocket('wss://panel.clart.zip:8080/api/servers/f9c0f12f-4cc1-497b-ad90-d11739cd1ee7/ws', { origin: 'https://panel.clart.zip'});
 
-ws.on('close', (code, reason) => {
-	console.log(`[WebSocket] Connection closed: ${code} - ${reason}`);
-});
+	ws.on('open', () => {
+		console.log('[WebSocket] Connection opened.');
+		ws.send(JSON.stringify({
+			"event": "auth",
+			"args": [sessionToken]
+		}));
+	});
 
-cron.schedule('*/10 * * * * *', () => {
-	ws.send(JSON.stringify({
-		"event": "send logs"
-	}));
-});
+	ws.on('message', data => {
+		const consoleLogs = data.toString('utf-8');
+		console.log(`[WebSocket] Received message: ${consoleLogs}`);
+	});
+
+	ws.on('error', error => {
+		console.error(`[WebSocket] Error: ${error.message}`);
+	});
+
+	ws.on('close', (code, reason) => {
+		console.log(`[WebSocket] Connection closed: ${code} - ${reason}`);
+	});
+
+	cron.schedule('*/10 * * * * *', () => {
+		ws.send(JSON.stringify({
+			"event": "send logs"
+		}));
+	});
+};
 
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
