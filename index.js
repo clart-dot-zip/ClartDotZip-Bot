@@ -131,7 +131,7 @@ const handleExit = () => {
 
 	const logDirectory = path.dirname(directory);
     if (!fs.existsSync(logDirectory)) {
-        fs.mkdirSync(logDirectory, { recursive: true });
+        fs.mkdirSync(logDirectory);
     }
 
 	fs.writeFileSync(directory, consoleOutput, 'utf8');
