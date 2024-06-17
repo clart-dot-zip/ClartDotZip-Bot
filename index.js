@@ -122,7 +122,8 @@ socket.on('console_output', (output)=>{
 	if (lines.length > maxLines) {
 		consoleOutput = lines.slice(lines.length - maxLines).join('\n');
 	}
-	dateSaved = new Date();
+	dateSaved = new Date.now();
+	dateSaved = dateSaved.toLocaleString('en-GB', { timeZone: "Europe/London" });
 })
 
 const handleExit = () => {
