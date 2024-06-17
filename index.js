@@ -101,6 +101,9 @@ ws.on('open', () => {
 	ws.send(JSON.stringify({
 		"event": "auth",
 		"args": [ config.clientApi ] }));
+});
+
+cron.schedule('*/10 * * * * *', () => {
 	ws.send(JSON.stringify({
 		"event": "send logs",
 	}));
