@@ -100,12 +100,12 @@ const ws = new WebSocket('wss://panel.clart.zip:8080/api/client/servers/f9c0f12f
 ws.on('open', () => {
 	ws.send(JSON.stringify({
 		"event": "auth",
-		"args": [ config.clientApi ] }));
+		"args": [ config.serverApi ] }));
 });
 
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
- 	process.exit(0);
+ 	process.exit();
 };
 
 // Listen for the process exit event and call handleExit synchronously
