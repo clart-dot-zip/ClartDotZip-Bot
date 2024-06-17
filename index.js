@@ -6,17 +6,7 @@ const config = require('./config/config.json');
 const cron = require('node-cron');
 const {cron: doCron, init: initCaches} = require("./cron")
 const { pterosocket } = require('pterosocket');
-
-const logEnum = { 0: 'LOG', 1: 'TASK', 2: 'ERROR', 3: 'SOCKET', 4: 'WARNING', 5: 'DEBUG', 6: 'EXIT HANDLER' };
-
-const newConsoleLog = (type, string, err) => {
-    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-	if (type === 2) {
-		console.error(`[${timestamp}] [${logEnum[type]}] ${string}`, err);
-	} else {
-		console.log(`[${timestamp}] [${logEnum[type]}] ${string}`);
-	}
-};
+const {consoleLog} = require("./api/builder")
 
 // Create a new client instance
 const client = new Client({
@@ -58,9 +48,9 @@ for (const folder of commandFolders) {
 		const command = require(filePath);
 		if('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
-			newConsoleLog(0, `The command ${command.data.name} has been registered.`);
+			consoleLog(0, `The command ${command.data.name} has been registered.`);
 		} else {
-			newConsoleLog(4, `The command at ${filePath} is missing a required "data" or "execute" property.`);
+			consoleLog(4, `The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
 }
@@ -69,7 +59,7 @@ for (const folder of commandFolders) {
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
-	newConsoleLog(0, `Ready! Logged in as ${readyClient.user.tag}`);
+	consoleLog(0, `Ready! Logged in as ${readyClient.user.tag}`);
 });
 
 // Log in to Discord with your client's token
@@ -88,7 +78,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	const command = interaction.client.commands.get(interaction.commandName);
 
 	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
+		consoleLog(0, `No command matching ${interaction.commandName} was found.`);
 		return;
 	}
 
@@ -107,37 +97,37 @@ client.on(Events.InteractionCreate, async interaction => {
 const socket = new pterosocket(config.panelAddress, config.clientApi, "f9c0f12f-4cc1-497b-ad90-d11739cd1ee7");
 
 socket.once("start", () => {
-	newConsoleLog(3, "Pterodactyl console socket connection established.");
+	consoleLog(3, "Pterodactyl console socket connection established.");
 });
 
 socket.on("auth_success", () => {
-	newConsoleLog(3, "Pterodactyl console socket authenticated successfully.");
+	consoleLog(3, "Pterodactyl console socket authenticated successfully.");
 });
 
 socket.once("close", (data) => {
-	newConsoleLog(3, "Pterodactyl console socket disconnected: " + data);
+	consoleLog(3, "Pterodactyl console socket disconnected: " + data);
 });
 
 socket.once("error", (data) => {
-	newConsoleLog(3, "Pterodactyl console socket ERROR: " + data);
+	consoleLog(3, "Pterodactyl console socket ERROR: " + data);
 });
 
-let consoleLog;
+let consoleOutput;
 let dateSaved = null;
 const maxLines = 100;
 
 socket.on('console_output', (output)=>{
-    consoleLog += '\n' + output;
-	const lines = consoleLog.trim().split('\n');
+    consoleOutput += '\n' + output;
+	const lines = consoleOutput.trim().split('\n');
 	if (lines.length > maxLines) {
-		consoleLog = lines.slice(lines.length - maxLines).join('\n');
+		consoleOutput = lines.slice(lines.length - maxLines).join('\n');
 	}
 	dateSaved = new Date();
 })
 
 const handleExit = () => {
-	newConsoleLog(6, "EXIT HANDLER] Exiting process...")
-	let directory = './logs/consoleLog ' + dateSaved + '.txt';
+	consoleLog(6, "EXIT HANDLER] Exiting process...")
+	let directory = './logs/Console Output ' + dateSaved + '.txt';
 	fs.writeFileSync(directory, consoleLog, 'utf8');
  	process.exit();
 };
@@ -151,8 +141,7 @@ process.on('SIGINT', handleExit);
 
 // Listen for uncaught exceptions and call handleExit synchronously
 process.on('uncaughtException', (err) => {
-    newConsoleLog(2, "An uncaught exception occurred: ", err);
+    consoleLog(2, "An uncaught exception occurred: ", err);
     handleExit();
 });
 
-module.exports = {newConsoleLog};

@@ -4,8 +4,7 @@ const Nodeactyl = require('nodeactyl')
 
 const config = require('./config/config.json')
 const Cache = require('./class/json_cache')
-const {buildEmbed} = require("./api/builder")
-const index = require("./index")
+const {buildEmbed, consoleLog} = require("./api/builder")
 
 const server = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi)
 const client = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi)
@@ -52,19 +51,19 @@ async function cron(discord){
 
     try {
         let dateNow = new Date()
-        index.newConsoleLog(1, "Fetching all servers...")
+        consoleLog(1, "Fetching all servers...")
         await update_servers()
         await cache.save()
         let dateDone = new Date()
-        index.newConsoleLog(1, `Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`)
+        consoleLog(1, `Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`)
 
         dateNow = new Date()
-        index.newConsoleLog(1, "Updating messages...")
+        consoleLog(1, "Updating messages...")
         await update_messages(discord)
         dateDone = new Date()
-        index.newConsoleLog(1, `Message data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`)
+        consoleLog(1, `Message data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`)
     } catch (e){
-        index.newConsoleLog(2, "An error occurred in during the cron job:", e)
+        consoleLog(2, "An error occurred in during the cron job:", e)
     } finally {
         locked = false
     }
@@ -154,7 +153,7 @@ async function update_messages(discord){
             messageData.thumbnail = serverData.thumbnail
             messages.set(key, messageData)
             changed = true
-            index.newConsoleLog(1, ` Updated ${serverData.name}`)
+            consoleLog(1, ` Updated ${serverData.name}`)
         }
     }
 

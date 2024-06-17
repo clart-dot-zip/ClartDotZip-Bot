@@ -37,6 +37,18 @@ function buildEmbed(server){
     return embed
 }
 
+const logEnum = { 0: 'LOG', 1: 'TASK', 2: 'ERROR', 3: 'SOCKET', 4: 'WARNING', 5: 'DEBUG', 6: 'EXIT HANDLER' };
+
+const consoleLog = (type, string, err) => {
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+	if (type === 2) {
+		console.error(`[${timestamp}] [${logEnum[type]}] ${string}`, err);
+	} else {
+		console.log(`[${timestamp}] [${logEnum[type]}] ${string}`);
+	}
+};
+
 module.exports = {
-    buildEmbed
+    buildEmbed,
+    consoleLog
 }
