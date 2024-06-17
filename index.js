@@ -96,7 +96,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-fetch("https://panel.clart.zip:8080/api/client/servers/f9c0f12f/websocket", {
+fetch("https://panel.clart.zip:8080/api/client/servers/f9c0f12f-4cc1-497b-ad90-d11739cd1ee7/websocket", {
 	method: 'GET',
 	headers: {
 		'Accept': 'application/json',
