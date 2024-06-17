@@ -98,20 +98,24 @@ client.on(Events.InteractionCreate, async interaction => {
 const ws = new WebSocket('wss://panel.clart.zip:8080/api/servers/f9c0f12f-4cc1-497b-ad90-d11739cd1ee7/ws', { origin: 'https://panel.clart.zip'});
 
 ws.on('open', () => {
+	console.log('[WebSocket] Connection opened.');
 	ws.send(JSON.stringify({
 		"event": "auth",
-		"args": [ "Bearer ptlc_VWhqrsqcRwg" ] }));
-});
-
-cron.schedule('*/10 * * * * *', () => {
-	ws.send(JSON.stringify({
-		"event": "send logs",
+		"args": [config.clientApi]
 	}));
 });
 
 ws.on('message', data => {
 	const consoleLogs = data.toString('utf-8');
-	console.log(consoleLogs);
+	console.log(`[WebSocket] Received message: ${consoleLogs}`);
+});
+
+ws.on('error', error => {
+	console.error(`[WebSocket] Error: ${error.message}`);
+});
+
+ws.on('close', (code, reason) => {
+	console.log(`[WebSocket] Connection closed: ${code} - ${reason}`);
 });
 
 const handleExit = () => {
