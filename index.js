@@ -118,6 +118,12 @@ ws.on('close', (code, reason) => {
 	console.log(`[WebSocket] Connection closed: ${code} - ${reason}`);
 });
 
+cron.schedule('*/10 * * * * *', () => {
+	ws.send(JSON.stringify({
+		"event": "send logs"
+	}));
+});
+
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
  	process.exit();
