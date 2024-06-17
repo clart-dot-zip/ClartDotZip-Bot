@@ -5,7 +5,7 @@ const Nodeactyl = require('nodeactyl')
 const config = require('./config/config.json')
 const Cache = require('./class/json_cache')
 const {buildEmbed} = require("./api/builder")
-const {newConsoleLog} = require("index")
+const {newConsoleLog} = require("./index")
 
 const server = new Nodeactyl.NodeactylApplication(config.panelAddress, config.serverApi)
 const client = new Nodeactyl.NodeactylClient(config.panelAddress, config.clientApi)
