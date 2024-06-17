@@ -100,10 +100,14 @@ const ws = new WebSocket('wss://panel.clart.zip:8080/api/servers/f9c0f12f-4cc1-4
 ws.on('open', () => {
 	ws.send(JSON.stringify({
 		"event": "auth",
-		"args": [ 'ptlc_VWhqrsqcRwg' ] }));
-	console.log(JSON.parse(ws.send(JSON.stringify({
+		"args": [ config.clientApi ] }));
+	ws.send(JSON.stringify({
 		"event": "send logs",
-	}))));
+	}));
+});
+
+ws.on('message', data => {
+	console.log(data);
 });
 
 const handleExit = () => {
