@@ -101,6 +101,10 @@ socket.once("start", () => {
 	console.log("[WebSocket] Socket connection established.");
 });
 
+socket.on("auth_success", () => {
+	console.log("[WebSocket] Authenticated successfully.");
+});
+
 socket.once("close", (data) => {
 	console.log("[WebSocket] Socket disconnected: ", data);
 });
@@ -109,17 +113,20 @@ socket.once("error", (data) => {
 	console.log("[WebSocket] Error: ", data);
 });
 
+let consoleLog = null;
+let dateSaved = null;
+
 socket.on('console_output', (output)=>{
-    console.log(output)
+    consoleLog = output;
+	dateSaved = new Date();
 })
 
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
+	let directory = './consoleLog ' + dateSaved + '.txt';
+	fs.writeFileSync(directory, consoleLog + '\n', 'utf8');
  	process.exit();
 };
-
-// Listen for the process exit event and call handleExit synchronously
-process.on('exit', handleExit);
 
 // Listen for the SIGINT signal (Ctrl+C) and call handleExit synchronously
 // Handle SIGINT signal (Ctrl+C)
