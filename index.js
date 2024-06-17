@@ -97,12 +97,23 @@ client.on(Events.InteractionCreate, async interaction => {
 
 const socket = new pterosocket(config.panelAddress, config.clientApi, "f9c0f12f-4cc1-497b-ad90-d11739cd1ee7");
 
-socket.on("start", () => {
+socket.once("start", () => {
 	console.log("[WebSocket] Socket connection established.");
 });
 
+socket.once("close", (data) => {
+	console.log("[WebSocket] Socket disconnected: ", data);
+});
+
+socket.once("error", (data) => {
+	console.log("[WebSocket] Error: ", data);
+});
+
+socket.on("")
+
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
+	pterosocket.close();
  	process.exit();
 };
 
