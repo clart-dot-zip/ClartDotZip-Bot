@@ -113,11 +113,16 @@ socket.once("error", (data) => {
 	console.log("[WebSocket] Error: ", data);
 });
 
-let consoleLog = null;
+let consoleLog;
 let dateSaved = null;
+const maxLines = 5;
 
 socket.on('console_output', (output)=>{
-    consoleLog = consoleLog + '\n' + output;
+    consoleLog += '\n' + output;
+	const lines = consoleLog.trim().split('\n');
+	if (lines.length > maxLines) {
+		consoleLog = lines.slice(lines.length - maxLines).join('\n');
+	}
 	dateSaved = new Date();
 })
 
