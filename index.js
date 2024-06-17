@@ -109,6 +109,10 @@ socket.once("error", (data) => {
 	console.log("[WebSocket] Error: ", data);
 });
 
+socket.on('console_output', (output)=>{
+    console.log(output)
+})
+
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
  	process.exit();
