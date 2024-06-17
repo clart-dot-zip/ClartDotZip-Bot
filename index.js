@@ -109,8 +109,6 @@ socket.once("error", (data) => {
 	console.log("[WebSocket] Error: ", data);
 });
 
-socket.on("")
-
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
 	pterosocket.close();
