@@ -117,14 +117,14 @@ let consoleLog = null;
 let dateSaved = null;
 
 socket.on('console_output', (output)=>{
-    consoleLog = output;
+    consoleLog = consoleLog + '\n' + output;
 	dateSaved = new Date();
 })
 
 const handleExit = () => {
  	console.log('[EXIT HANDLER] Exiting process...')
 	let directory = './consoleLog ' + dateSaved + '.txt';
-	fs.writeFileSync(directory, consoleLog + '\n', 'utf8');
+	fs.writeFileSync(directory, consoleLog, 'utf8');
  	process.exit();
 };
 
