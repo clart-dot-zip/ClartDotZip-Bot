@@ -60,7 +60,7 @@ for (const folder of commandFolders) {
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+	console.log(`[LOG] Ready! Logged in as ${readyClient.user.tag}`);
 });
 
 // Log in to Discord with your client's token
@@ -98,19 +98,19 @@ client.on(Events.InteractionCreate, async interaction => {
 const socket = new pterosocket(config.panelAddress, config.clientApi, "f9c0f12f-4cc1-497b-ad90-d11739cd1ee7");
 
 socket.once("start", () => {
-	console.log("[WebSocket] Socket connection established.");
+	console.log("[SOCKET] Pterodactyl console socket connection established.");
 });
 
 socket.on("auth_success", () => {
-	console.log("[WebSocket] Authenticated successfully.");
+	console.log("[SOCKET] Pterodactyl console socket authenticated successfully.");
 });
 
 socket.once("close", (data) => {
-	console.log("[WebSocket] Socket disconnected: ", data);
+	console.log("[SOCKET] Pterodactyl console socket disconnected: ", data);
 });
 
 socket.once("error", (data) => {
-	console.log("[WebSocket] Error: ", data);
+	console.log("[SOCKET] Pterodactyl console socket ERROR: ", data);
 });
 
 let consoleLog;
