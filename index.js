@@ -126,7 +126,7 @@ socket.on('console_output', (output)=>{
 const handleExit = () => {
 	consoleLog(6, "Exiting process...")
 
-	let dateSaved = new Date().toLocaleString('en-GB', { timeZone: "Europe/London" }).replace(/[/:]/g, '-');
+	let dateSaved = new Date().toLocaleString('en-GB', { timeZone: "Europe/London" }).replace(/[/]/g, '-');
 	let directory = `./logs/Console ${dateSaved} Output.txt`;
 
 	const logDirectory = path.dirname(directory);
