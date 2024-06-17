@@ -7,7 +7,12 @@ const cron = require('node-cron');
 const {cron: doCron, init: initCaches} = require("./cron")
 const { pterosocket } = require('pterosocket');
 
-// doCron()
+const logEnum = { 0: 'LOG', 1: 'TASK', 2: 'ERROR', 3: 'SOCKET', 4: 'WARNING', 5: 'DEBUG' };
+
+const newConsoleLog = (type, string) => {
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    console.log(`[${timestamp}] [${logEnum[type]}] ${string}`);
+};
 
 // Create a new client instance
 const client = new Client({
@@ -49,9 +54,9 @@ for (const folder of commandFolders) {
 		const command = require(filePath);
 		if('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
-			console.log(`[LOG] The command ${command.data.name} has been registered.`);
+			newConsoleLog(0, `The command ${command.data.name} has been registered.`);
 		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			newConsoleLog(4, `The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
 }
@@ -60,7 +65,7 @@ for (const folder of commandFolders) {
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
-	console.log(`[LOG] Ready! Logged in as ${readyClient.user.tag}`);
+	newConsoleLog(0, `Ready! Logged in as ${readyClient.user.tag}`);
 });
 
 // Log in to Discord with your client's token
