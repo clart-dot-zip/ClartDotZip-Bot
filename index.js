@@ -107,7 +107,8 @@ ws.on('open', () => {
 });
 
 ws.on('message', data => {
-	console.log(data);
+	const consoleLogs = data.toString('utf-8');
+	console.log(consoleLogs);
 });
 
 const handleExit = () => {
