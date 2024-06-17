@@ -125,8 +125,15 @@ socket.on('console_output', (output)=>{
 
 const handleExit = () => {
 	consoleLog(6, "Exiting process...")
+
 	let dateSaved = new Date().toLocaleString('en-GB', { timeZone: "Europe/London" });
-	let directory = './logs/Console Output ' + dateSaved + '.txt';
+	let directory = `./logs/Console ${dateSaved} Output.txt`;
+
+	const logDirectory = path.dirname(directory);
+    if (!fs.existsSync(logDirectory)) {
+        fs.mkdirSync(logDirectory, { recursive: true });
+    }
+
 	fs.writeFileSync(directory, consoleOutput, 'utf8');
  	process.exit();
 };
