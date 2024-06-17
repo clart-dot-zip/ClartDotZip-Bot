@@ -105,6 +105,7 @@ ws.on('open', () => {
 		"event": "send command",
 		"args": [ "say Hello World!" ]
 	}));
+	console.log(ws);
 });
 
 const handleExit = () => {
