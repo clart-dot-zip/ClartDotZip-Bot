@@ -8,6 +8,10 @@ const {cron: doCron, init: initCaches} = require("./cron")
 const { pterosocket } = require('pterosocket');
 const {consoleLog} = require("./api/builder")
 
+const writeStream = fs.createWriteStream('./logs/test.txt', {flags: 'a'})
+
+process.stdout.write = process.stderr.write = writeStream.write.bind(writeStream)
+
 // Create a new client instance
 const client = new Client({
 	intents: [GatewayIntentBits.Guilds],
