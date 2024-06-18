@@ -9,8 +9,18 @@ const { pterosocket } = require('pterosocket');
 const {consoleLog} = require("./api/builder")
 
 const writeStream = fs.createWriteStream('./logs/test.txt', {flags: 'a'})
+const stdoutWrite = process.stdout.write.bind(process.stdout)
+const stderrWrite = process.stderr.write.bind(process.stderr)
 
-process.stdout.write = process.stderr.write = writeStream.write.bind(writeStream)
+process.stdout.write = function (...){
+	writeStream.write(...)
+	return stdoutWrite(...)
+}
+
+process.stdout.write = function (...){
+	writeStream.write(...)
+	return stderrWrite(...)
+}
 
 // Create a new client instance
 const client = new Client({
