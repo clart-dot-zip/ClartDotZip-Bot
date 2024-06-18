@@ -137,6 +137,8 @@ async function update_messages(discord){
             let channel = await guild.channels.fetch(messageData.channel_id)
             let message = await channel.messages.fetch(messageData.message_id)
             await message.delete()
+            messages.delete(key)
+            changed = true
             consoleLog(1, ` Deleted ${messageData.name} server message, server no longer exists.`)
         } else if (
             messageData.online_status !== serverData.online_status ||
