@@ -165,3 +165,7 @@ process.on('uncaughtException', (err) => {
     handleExit();
 });
 
+process.on('unhandledRejection', (reason, promise) => {
+	consoleLog(2, `An unhandled promise rejection occurred with promise ${promise}: `, reason);
+	handleExit();
+});
