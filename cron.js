@@ -131,12 +131,14 @@ async function update_messages(discord){
 
     for (const [key, messageData] of messages.entries()){
         const serverData = cache.get(key)
-        console.log("----")
-        console.log("key", key)
-        console.log("serverData", serverData)
-        console.log("messageData", messageData)
 
-        if (
+        if (serverData === undefined){
+            let guild = await discord.guilds.fetch(messageData.guild_id)
+            let channel = await guild.channels.fetch(messageData.channel_id)
+            let message = await channel.messages.fetch(messageData.message_id)
+            await message.delete()
+            console.log(1, ` Deleted ${messageData.name}`)
+        } else if (
             messageData.online_status !== serverData.online_status ||
             messageData.address !== serverData.address ||
             messageData.identifier !== serverData.identifier ||
