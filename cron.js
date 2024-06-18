@@ -131,6 +131,8 @@ async function update_messages(discord){
 
     for (const [key, messageData] of messages.entries()){
         const serverData = cache.get(key)
+        console.log("serverData", serverData)
+        console.log("messageData", messageData)
 
         if (
             messageData.online_status !== serverData.online_status ||
