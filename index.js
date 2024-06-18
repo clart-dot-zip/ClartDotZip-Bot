@@ -17,7 +17,7 @@ process.stdout.write = function (...args){
 	return stdoutWrite(...args)
 }
 
-process.stdout.write = function (...args){
+process.stderr.write = function (...args){
 	writeStream.write(...args)
 	return stderrWrite(...args)
 }
