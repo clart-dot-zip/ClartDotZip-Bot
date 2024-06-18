@@ -12,14 +12,14 @@ const writeStream = fs.createWriteStream('./logs/test.txt', {flags: 'a'})
 const stdoutWrite = process.stdout.write.bind(process.stdout)
 const stderrWrite = process.stderr.write.bind(process.stderr)
 
-process.stdout.write = function (...){
-	writeStream.write(...)
-	return stdoutWrite(...)
+process.stdout.write = function (...args){
+	writeStream.write(...args)
+	return stdoutWrite(...args)
 }
 
-process.stdout.write = function (...){
-	writeStream.write(...)
-	return stderrWrite(...)
+process.stdout.write = function (...args){
+	writeStream.write(...args)
+	return stderrWrite(...args)
 }
 
 // Create a new client instance
