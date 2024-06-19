@@ -5,7 +5,7 @@ const { Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config/config.json');
 const cron = require('node-cron');
 const {cron: doCron, init: initCaches} = require("./cron")
-const { pterosocket } = require('pterosocket');
+// const { pterosocket } = require('pterosocket');
 const {consoleLog} = require("./api/builder")
 
 const writeStream = fs.createWriteStream('./logs/test.txt', {flags: 'a'})
@@ -108,7 +108,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-const socket = new pterosocket(config.panelAddress, config.clientApi, "f9c0f12f-4cc1-497b-ad90-d11739cd1ee7");
+/* const socket = new pterosocket(config.panelAddress, config.clientApi, "f9c0f12f-4cc1-497b-ad90-d11739cd1ee7");
 
 socket.once("start", () => {
 	consoleLog(3, "Pterodactyl console socket connection established.");
@@ -124,9 +124,9 @@ socket.once("close", (data) => {
 
 socket.once("error", (data) => {
 	consoleLog(3, `Pterodactyl console socket ERROR: ${data}`);
-});
+}); */
 
-let consoleOutput = "----------------------------------------------------------------------------------------------";
+/* let consoleOutput = "----------------------------------------------------------------------------------------------";
 const maxLines = 100;
 
 socket.on('console_output', (output)=>{
@@ -135,12 +135,12 @@ socket.on('console_output', (output)=>{
 	if (lines.length > maxLines) {
 		consoleOutput = lines.slice(lines.length - maxLines).join('\n');
 	}
-})
+}) */
 
 const handleExit = () => {
 	consoleLog(6, "Exiting process...")
 
-	let dateSaved = new Date().toLocaleString('en-GB', { timeZone: "Europe/London" }).replace(/[/]/g, '-');
+/* 	let dateSaved = new Date().toLocaleString('en-GB', { timeZone: "Europe/London" }).replace(/[/]/g, '-');
 	let directory = `./logs/Console ${dateSaved} Output.txt`;
 
 	const logDirectory = path.dirname(directory);
@@ -148,7 +148,7 @@ const handleExit = () => {
         fs.mkdirSync(logDirectory);
     }
 
-	fs.writeFileSync(directory, consoleOutput, 'utf8');
+	fs.writeFileSync(directory, consoleOutput, 'utf8'); */
  	process.exit();
 };
 
@@ -166,6 +166,7 @@ process.on('uncaughtException', (err) => {
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-	consoleLog(2, `An unhandled promise rejection occurred with promise ${promise}: `, reason);
-	handleExit();
+    let reasonString = typeof reason === 'object' ? JSON.stringify(reason, Object.getOwnPropertyNames(reason)) : String(reason);
+    consoleLog(2, `An unhandled promise rejection occurred:\nReason: ${reasonString}\nPromise: ${JSON.stringify(promise, Object.getOwnPropertyNames(promise))}`);
+    handleExit();
 });
