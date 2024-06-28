@@ -81,7 +81,7 @@ initCaches().then(() => {client.login(config.token)})
 
 
 client.on('ready', async () => {
-	await doCron(client)
+	await doCron(client).catch( e => consoleLog(e))
 	cron.schedule('*/10 * * * * *', () => doCron(client));
 	//console.log(`Activity ${JSON.stringify(client.user.presence)}`)
 })
@@ -99,11 +99,11 @@ client.on(Events.InteractionCreate, async interaction => {
 	try {
 		await command.execute(interaction);
 	} catch (error){
-		console.error(error);
+		consoleLog(2, 'Error within interaction:', error);
 		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true }).catch( e => consoleLog(e));
 		} else {
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch( e => consoleLog(e));
 		}
 	}
 });

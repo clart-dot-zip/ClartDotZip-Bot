@@ -1,7 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs').promises;
 const {cache, messages} = require("../../cron")
-const {buildEmbed} = require("../../api/builder")
+const {buildEmbed, consoleLog} = require("../../api/builder");
+const { error } = require('console');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,16 +32,16 @@ module.exports = {
                 if (message_id !== null){
                     // Edit the pre-existing message.
                     let message = await interaction.channel.messages.fetch(message_id)
-                    await message.edit({ embeds: [embed] })
+                    await message.edit({ embeds: [embed] }).catch( e => consoleLog(e))
                 } else {
                     // Send a new message and update the object with identifier and message ID
-                    const newMessage = await interaction.channel.send({embeds: [embed]})
+                    const newMessage = await interaction.channel.send({embeds: [embed]}).catch( e => consoleLog(e))
                     messages.set(key, {...item, "message_id": newMessage.id, "channel_id": newMessage.channel.id, "guild_id": newMessage.channel.guild.id})
                 }
             }
             await messages.save()
         } catch (e){
-            console.error('Error reading or parsing file:', e)
+            consoleLog(2,'Error reading or parsing file:', e)
         }
     },
 };

@@ -24,9 +24,9 @@ let locked = false
 async function init(){
 
     try {
-        await fs.access('./data');
+        await fs.access('./data').catch( e => consoleLog(e));
     } catch (error) {
-        await fs.mkdir('./data')
+        await fs.mkdir('./data').catch( e => consoleLog(e))
     }
 
     inited = true
@@ -34,7 +34,7 @@ async function init(){
     await Promise.all([
         cache.load(),
         messages.load()
-    ])
+    ]).catch( e => consoleLog(e))
 
     return null
 }
@@ -52,14 +52,14 @@ async function cron(discord){
     try {
         let dateNow = new Date()
         consoleLog(1, "Fetching all servers...")
-        await update_servers()
-        await cache.save()
+        await update_servers().catch( e => consoleLog(e))
+        await cache.save().catch( e => consoleLog(e))
         let dateDone = new Date()
         consoleLog(1, `Server data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`)
 
         dateNow = new Date()
         consoleLog(1, "Updating messages...")
-        await update_messages(discord)
+        await update_messages(discord).catch( e => consoleLog(e))
         dateDone = new Date()
         consoleLog(1, `Message data updated successfully, done in (${(dateDone - dateNow) / 1000}) seconds.`)
     } catch (e){
@@ -71,7 +71,7 @@ async function cron(discord){
 
 async function update_servers(){
     try {
-        const response = await getAllServers()
+        const response = await getAllServers().catch( e => consoleLog(e))
         let servers
 
         if (response.meta.pagination.total_pages === 1){
@@ -85,7 +85,7 @@ async function update_servers(){
                 )
             }
             servers.splice(1, 0, Promise.resolve(response.data))
-            servers = await Promise.all(servers)
+            servers = await Promise.all(servers).catch( e => consoleLog(e))
             servers = servers.flat(1)
         }
 
@@ -111,7 +111,7 @@ async function update_servers(){
                 'thumbnail': `https://clart.zip/resources/${id}.png`,
             })
             return res(out)
-        })))
+        }))).catch( e => consoleLog(e))
 
         let ink = cache.keys()
         let outk = new Set(details.map(([id, _]) => id))
@@ -141,7 +141,7 @@ async function update_messages(discord){
                 let guild = await discord.guilds.fetch(messageData.guild_id)
                 let channel = await guild.channels.fetch(messageData.channel_id)
                 let message = await channel.messages.fetch(messageData.message_id)
-                await message.delete()
+                await message.delete().catch( e => consoleLog(e))
                 messages.delete(key)
                 changed = true
                 consoleLog(1, ` Deleted ${messageData.name} server message, server no longer exists.`)
@@ -156,7 +156,7 @@ async function update_messages(discord){
                 let guild = await discord.guilds.fetch(messageData.guild_id)
                 let channel = await guild.channels.fetch(messageData.channel_id)
                 let message = await channel.messages.fetch(messageData.message_id)
-                await message.edit({embeds: [buildEmbed(serverData)]})
+                await message.edit({embeds: [buildEmbed(serverData)]}).catch( e => consoleLog(e))
 
                 messageData.online_status = serverData.online_status
                 messageData.address = serverData.address
@@ -171,7 +171,7 @@ async function update_messages(discord){
         }
 
         if (changed){
-            await messages.save()
+            await messages.save().catch( e => consoleLog(e))
         }
     } catch (e){
         consoleLog(2, "An error occurred in update_messages:", e)
